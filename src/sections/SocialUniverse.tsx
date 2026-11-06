@@ -4,15 +4,15 @@ import { socials } from '../data/socials';
 
 export default function SocialUniverse() {
   const platformMeta: Record<string, { color: string; desc: string; handle: string }> = {
-    spotify: { color: '#1db954', desc: '1.9M+ Monthly Listeners', handle: 'Narvent' },
-    youtube: { color: '#ff0000', desc: '579K+ Subscribers • 4K Visuals', handle: '@NarventMusic' },
-    soundcloud: { color: '#ff5500', desc: 'Official Cuts & Atmospheric Edits', handle: 'musicofnarvent' },
-    instagram: { color: '#e1306c', desc: 'Aesthetic Imagery & Studio Drops', handle: '@narventof' },
-    tiktok: { color: '#00f2fe', desc: 'Viral Edits & Sound Transmissions', handle: '@narvent.music' },
-    telegram: { color: '#229ed9', desc: 'Direct Fan Community & News', handle: 't.me/narventof' },
-    vk: { color: '#0077ff', desc: 'Discography & Russian Fan Community', handle: 'vk.com/narventmusic' },
-    'apple-music': { color: '#fc3c44', desc: 'Lossless & Spatial Audio Discography', handle: 'Narvent on Apple Music' },
-    linktree: { color: '#43e660', desc: 'All Official Release Links Hub', handle: 'linktr.ee/narvent' },
+    spotify: { color: '#1db954', desc: '1.9M+ слушателей в месяц • Главный каталог', handle: 'Narvent на Spotify' },
+    youtube: { color: '#ff0000', desc: '579K+ подписчиков • 4K клипы и визуалайзеры', handle: '@NarventMusic' },
+    soundcloud: { color: '#ff5500', desc: 'Официальные треки, эдиты и эксклюзивы', handle: 'musicofnarvent' },
+    instagram: { color: '#e1306c', desc: 'Атмосферные кадры, анонсы и студия', handle: '@narventof' },
+    tiktok: { color: '#00f2fe', desc: 'Миллионы видео под звуки артиста', handle: '@narvent.music' },
+    telegram: { color: '#229ed9', desc: 'Официальный канал и прямое общение', handle: 't.me/narventof' },
+    vk: { color: '#0077ff', desc: 'Полная дискография и сообщество', handle: 'vk.com/narventmusic' },
+    'apple-music': { color: '#fc3c44', desc: 'Lossless & Spatial Audio качество', handle: 'Narvent на Apple Music' },
+    linktree: { color: '#43e660', desc: 'Официальный хаб всех релизов', handle: 'linktr.ee/narvent' },
   };
 
   return (
@@ -25,19 +25,25 @@ export default function SocialUniverse() {
       }}
     >
       <div className="container">
-        {/* Header Block */}
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        {/* Заголовок секции */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center', marginBottom: '4rem' }}
+        >
           <span className="editorial-badge">
             <Sparkles size={11} color="var(--electric-blue)" />
-            VERIFIED NETWORK CHANNELS
+            ОФИЦИАЛЬНЫЕ ПЛОЩАДКИ // ВЕРИФИЦИРОВАННЫЕ КАНАЛЫ
           </span>
-          <h2 className="editorial-title">The Social Universe</h2>
+          <h2 className="editorial-title">Социальные сети и стриминг</h2>
           <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>
-            Direct portals to all verified Narvent channels and streaming profiles across the web.
+            Прямой доступ ко всем официальным профилям, стриминговым сервисам и фан-сообществам артиста.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Portals Grid */}
+        {/* Сетка порталов */}
         <div
           style={{
             display: 'grid',
@@ -50,7 +56,7 @@ export default function SocialUniverse() {
           {socials.map((social, index) => {
             const meta = platformMeta[social.platform] || {
               color: 'var(--electric-blue)',
-              desc: 'Official Profile',
+              desc: 'Официальный профиль',
               handle: social.label,
             };
 
@@ -71,8 +77,9 @@ export default function SocialUniverse() {
                   gap: '1.25rem',
                   background: 'var(--bg-glass)',
                   backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
                   border: '1px solid var(--border-line)',
-                  borderRadius: '16px',
+                  borderRadius: '18px',
                   padding: '1.25rem 1.4rem',
                   textDecoration: 'none',
                   color: 'inherit',
@@ -82,7 +89,7 @@ export default function SocialUniverse() {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
                   e.currentTarget.style.borderColor = `${meta.color}66`;
-                  e.currentTarget.style.boxShadow = `0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px ${meta.color}25`;
+                  e.currentTarget.style.boxShadow = `0 15px 35px rgba(0, 0, 0, 0.65), 0 0 25px ${meta.color}25`;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0) scale(1)';
@@ -90,7 +97,7 @@ export default function SocialUniverse() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                {/* Brand Glyph Orb */}
+                {/* Иконка */}
                 <div
                   style={{
                     width: '46px',
@@ -108,7 +115,7 @@ export default function SocialUniverse() {
                   <Globe size={20} />
                 </div>
 
-                {/* Details */}
+                {/* Информация */}
                 <div style={{ flexGrow: 1, minWidth: 0 }}>
                   <div
                     style={{

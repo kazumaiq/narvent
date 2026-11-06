@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Box, Grid3X3, Disc, Sparkles } from 'lucide-react';
+import { Search, Box, Grid3X3, Sparkles } from 'lucide-react';
 import { releases, Release } from '../data/releases';
 import Archive3DScene from '../scenes/Archive3DScene';
 import ReleaseCover from '../components/ReleaseCover';
@@ -13,11 +13,11 @@ export default function MusicArchive() {
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
   const filters = [
-    { id: 'all', label: 'ALL', count: releases.length },
-    { id: 'albums', label: 'ALBUMS', count: releases.filter((r) => r.type === 'album').length },
-    { id: 'eps', label: 'EPS', count: releases.filter((r) => r.type === 'ep').length },
-    { id: 'singles', label: 'SINGLES', count: releases.filter((r) => r.type === 'single').length },
-    { id: 'collaborations', label: 'COLLABS', count: releases.filter((r) => r.featuring && r.featuring.length > 0).length },
+    { id: 'all', label: 'ВСЕ', count: releases.length },
+    { id: 'albums', label: 'АЛЬБОМЫ', count: releases.filter((r) => r.type === 'album').length },
+    { id: 'eps', label: 'EP', count: releases.filter((r) => r.type === 'ep').length },
+    { id: 'singles', label: 'СИНГЛЫ', count: releases.filter((r) => r.type === 'single').length },
+    { id: 'collaborations', label: 'КОЛЛАБЫ', count: releases.filter((r) => r.featuring && r.featuring.length > 0).length },
   ] as const;
 
   const filteredReleases = useMemo(() => {
@@ -53,24 +53,32 @@ export default function MusicArchive() {
       }}
     >
       <div className="container-wide">
-        {/* Header Block */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+        {/* Заголовок секции */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center', marginBottom: '2.5rem' }}
+        >
           <span className="editorial-badge magenta" style={{ margin: '0 auto 1.25rem' }}>
-            <span>SPATIAL GALLERY // THREE.JS ENGINE</span>
+            <Sparkles size={11} color="var(--neon-magenta)" />
+            <span>ПРОСТРАНСТВЕННАЯ ДИСКОГРАФИЯ // THREE.JS</span>
           </span>
-          <h2 className="editorial-title">The Complete Archive</h2>
+          <h2 className="editorial-title">3D Архив дискографии</h2>
           <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>
-            Every studio album, conceptual EP, and nocturnal single suspended in an interactive 3D spatial field.
+            Все номерные альбомы, концептуальные мини-альбомы и ночные синглы артиста в интерактивном трехмерном пространстве.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Toolbar: Filters, Search & Mode Toggle */}
+        {/* Панель управления: Фильтры, Поиск и Переключатель вида */}
         <div
           style={{
             maxWidth: '1240px',
             margin: '0 auto 2.5rem',
             background: 'var(--bg-glass)',
             backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
             border: '1px solid var(--border-line)',
             borderRadius: '24px',
             padding: '0.65rem 1rem',
@@ -81,7 +89,7 @@ export default function MusicArchive() {
             gap: '0.85rem',
           }}
         >
-          {/* Category Filter Pills */}
+          {/* Фильтры по категориям */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
             {filters.map((f) => {
               const isActive = activeFilter === f.id;
@@ -93,7 +101,7 @@ export default function MusicArchive() {
                     fontFamily: "'Space Grotesk', sans-serif",
                     fontSize: '0.75rem',
                     fontWeight: 600,
-                    letterSpacing: '0.06em',
+                    letterSpacing: '0.04em',
                     padding: '0.45rem 1rem',
                     borderRadius: '100px',
                     transition: 'all 0.25s ease',
@@ -126,7 +134,7 @@ export default function MusicArchive() {
             })}
           </div>
 
-          {/* Search Input & View Mode Toggle */}
+          {/* Поиск и переключатель 3D / Список */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Search
@@ -140,19 +148,19 @@ export default function MusicArchive() {
               />
               <input
                 type="text"
-                placeholder="Search releases..."
+                placeholder="Поиск релизов..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.04)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid var(--border-line)',
                   borderRadius: '100px',
                   padding: '0.45rem 1rem 0.45rem 2.2rem',
                   fontFamily: "'Manrope', sans-serif",
-                  fontSize: '0.8rem',
+                  fontSize: '0.82rem',
                   color: '#ffffff',
                   outline: 'none',
-                  width: 'clamp(140px, 18vw, 200px)',
+                  width: 'clamp(140px, 18vw, 220px)',
                   transition: 'all 0.2s',
                 }}
                 onFocus={(e) => (e.target.style.borderColor = 'rgba(217, 70, 239, 0.5)')}
@@ -160,7 +168,7 @@ export default function MusicArchive() {
               />
             </div>
 
-            {/* View Mode */}
+            {/* Переключатель вида */}
             <div
               style={{
                 display: 'flex',
@@ -176,7 +184,7 @@ export default function MusicArchive() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  padding: '0.35rem 0.75rem',
+                  padding: '0.35rem 0.8rem',
                   borderRadius: '100px',
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '0.7rem',
@@ -188,7 +196,7 @@ export default function MusicArchive() {
                 }}
               >
                 <Box size={13} />
-                <span className="desktop-only">3D SPACE</span>
+                <span className="desktop-only">3D ВИД</span>
               </button>
 
               <button
@@ -197,7 +205,7 @@ export default function MusicArchive() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  padding: '0.35rem 0.75rem',
+                  padding: '0.35rem 0.8rem',
                   borderRadius: '100px',
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '0.7rem',
@@ -209,13 +217,13 @@ export default function MusicArchive() {
                 }}
               >
                 <Grid3X3 size={13} />
-                <span className="desktop-only">CATALOG</span>
+                <span className="desktop-only">КАТАЛОГ</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* 3D or 2D Presentation */}
+        {/* Интерактивное 3D-пространство или Каталог */}
         {viewMode === '3d' ? (
           <div
             style={{
@@ -258,6 +266,7 @@ export default function MusicArchive() {
                 style={{
                   background: 'var(--bg-glass)',
                   backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
                   border: '1px solid var(--border-line)',
                   borderRadius: '16px',
                   padding: '1rem',
@@ -289,7 +298,7 @@ export default function MusicArchive() {
                       textTransform: 'uppercase',
                     }}
                   >
-                    <span>{release.type}</span>
+                    <span>{release.type === 'album' ? 'АЛЬБОМ' : release.type === 'ep' ? 'EP' : 'СИНГЛ'}</span>
                     <span style={{ color: 'var(--text-dim)' }}>{release.year}</span>
                   </div>
 

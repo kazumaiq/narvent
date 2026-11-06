@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Disc, ExternalLink, Flame } from 'lucide-react';
+import { Trophy, Disc3, ExternalLink, Flame } from 'lucide-react';
 import { releases, Release } from '../data/releases';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
@@ -8,15 +8,15 @@ import ReleaseModal from '../components/ReleaseModal';
 export default function PopularReleases() {
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
-  // Exact verified streaming order and data
+  // Подтверждённый порядок прослушиваний и факты
   const rankingMeta: Record<string, { streams: string; highlight: string; streamOrder: number }> = {
-    'memory-reboot': { streams: '310,000,000+ Streams', highlight: 'RIAA Gold Certified • Billboard Hot Dance #13 Peak', streamOrder: 310 },
-    'insomnia': { streams: '120,000,000+ Streams', highlight: '13-Track Conceptual Studio Album featuring Fainted & Her Eyes', streamOrder: 120 },
-    'fainted': { streams: '85,000,000+ Streams', highlight: 'Darkwave Drift Phonk Phenomenon', streamOrder: 85 },
-    'her-eyes': { streams: '65,000,000+ Streams', highlight: 'Melodic Synthwave Viral Sensation', streamOrder: 65 },
-    'distant-echoes': { streams: '45,000,000+ Streams', highlight: 'Collaborative Single with VXLLAIN & VØJ', streamOrder: 45 },
-    'euphoria': { streams: '35,000,000+ Streams', highlight: 'Collaborative Masterpiece with VØJ & KoruSe', streamOrder: 35 },
-    'fade-into-darkness': { streams: '25,000,000+ Streams', highlight: 'Nocturnal Atmospheric Anthem', streamOrder: 25 },
+    'memory-reboot': { streams: '310,000,000+ стримов', highlight: 'Золотая сертификация RIAA (США) • Пик #13 Billboard Hot Dance', streamOrder: 310 },
+    'insomnia': { streams: '120,000,000+ стримов', highlight: '13-трековый концептуальный студийный альбом, эталон жанра wave phonk', streamOrder: 120 },
+    'fainted': { streams: '85,000,000+ стримов', highlight: 'Культовый феномен ночного дрифт-вейва и вирусных автомобильных эдитов', streamOrder: 85 },
+    'her-eyes': { streams: '65,000,000+ стримов', highlight: 'Мелодичный атмосферный синтвейв, ставший мировым трендом', streamOrder: 65 },
+    'distant-echoes': { streams: '45,000,000+ стримов', highlight: 'Мощный совместный сингл с продюсерами VXLLAIN и VØJ', streamOrder: 45 },
+    'euphoria': { streams: '35,000,000+ стримов', highlight: 'Энергичный коллаборационный хит с VØJ и KoruSe', streamOrder: 35 },
+    'fade-into-darkness': { streams: '25,000,000+ стримов', highlight: 'Глубокий ночной атмосферный сингл в стилистике dark electronic', streamOrder: 25 },
   };
 
   const rankedTracks = useMemo(() => {
@@ -36,11 +36,17 @@ export default function PopularReleases() {
       }}
     >
       <div className="container">
-        {/* Header Block */}
-        <div style={{ marginBottom: '3.5rem' }}>
+        {/* Заголовок секции */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: '3.5rem' }}
+        >
           <span className="editorial-badge">
             <Trophy size={11} color="var(--electric-blue)" />
-            GLOBAL MILESTONES // VERIFIED CATALOG METRICS
+            ГЛОБАЛЬНЫЕ ДОСТИЖЕНИЯ // ВЕРИФИЦИРОВАННЫЕ МЕТРИКИ
           </span>
           <div
             style={{
@@ -52,9 +58,9 @@ export default function PopularReleases() {
             }}
           >
             <div>
-              <h2 className="editorial-title">Most Streamed Frequencies</h2>
+              <h2 className="editorial-title">Главные треки и хиты</h2>
               <p className="editorial-subtitle">
-                Certified records and defining anthems that shaped the modern wave phonk and dark synthwave cultural landscape worldwide.
+                Сертифицированные рекорды и определяющие произведения, сформировавшие современную волну dark synthwave и wave phonk во всем мире.
               </p>
             </div>
 
@@ -63,20 +69,20 @@ export default function PopularReleases() {
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: '0.75rem',
                 color: 'var(--text-dim)',
-                letterSpacing: '0.1em',
+                letterSpacing: '0.08em',
               }}
             >
-              [ORDERED BY VERIFIED GLOBAL STREAM VOLUME]
+              [ОТСОРТИРОВАНО ПО ПОДТВЕРЖДЕННОМУ ОБЪЕМУ СТРИМОВ]
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Kinetic Horizontal Track Rows */}
+        {/* Кинематографичный список треков */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           {rankedTracks.map((release, index) => {
             const meta = rankingMeta[release.id] || {
-              streams: 'Millions of Streams',
-              highlight: 'Official Narvent Catalog Highlight',
+              streams: 'Миллионы прослушиваний',
+              highlight: 'Официальный релиз каталога Narvent',
               streamOrder: 0,
             };
 
@@ -95,17 +101,18 @@ export default function PopularReleases() {
                   gap: 'clamp(0.75rem, 2vw, 2rem)',
                   background: 'var(--bg-glass)',
                   backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
                   border: '1px solid var(--border-line)',
-                  borderRadius: '16px',
+                  borderRadius: '18px',
                   padding: 'clamp(0.85rem, 1.5vw, 1.25rem) clamp(1rem, 2vw, 2rem)',
                   cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.01) translateX(6px)';
-                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
+                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.45)';
                   e.currentTarget.style.background = 'var(--bg-glass-active)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(217, 70, 239, 0.15)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.65), 0 0 25px rgba(217, 70, 239, 0.15)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'scale(1) translateX(0)';
@@ -114,7 +121,7 @@ export default function PopularReleases() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                {/* Index number */}
+                {/* Номер трека */}
                 <div
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
@@ -127,12 +134,12 @@ export default function PopularReleases() {
                   0{index + 1}
                 </div>
 
-                {/* Cover Preview */}
+                {/* Обложка */}
                 <div style={{ width: '100%', maxWidth: '85px' }}>
                   <ReleaseCover release={release} size="100%" showDetails={false} />
                 </div>
 
-                {/* Track Title & Artist */}
+                {/* Название и мета */}
                 <div style={{ minWidth: 0 }}>
                   <div
                     style={{
@@ -174,7 +181,7 @@ export default function PopularReleases() {
                         }}
                       >
                         <Flame size={10} />
-                        VIRAL PHENOMENON
+                        МИРОВОЙ ФЕНОМЕН
                       </span>
                     )}
                   </div>
@@ -193,7 +200,7 @@ export default function PopularReleases() {
                     {release.featuring && (
                       <span style={{ color: 'var(--electric-blue)' }}>
                         {' '}
-                        (with {release.featuring.join(', ')})
+                        (совместно с {release.featuring.join(', ')})
                       </span>
                     )}
                   </div>
@@ -204,21 +211,21 @@ export default function PopularReleases() {
                       fontSize: '0.68rem',
                       color: 'var(--text-dim)',
                       marginTop: '0.35rem',
-                      letterSpacing: '0.06em',
+                      letterSpacing: '0.04em',
                     }}
                   >
                     {meta.highlight}
                   </div>
                 </div>
 
-                {/* Right Column: Verified Streams */}
+                {/* Правая колонка: Прослушивания и кнопка */}
                 <div
                   style={{
                     textAlign: 'right',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-end',
-                    gap: '0.3rem',
+                    gap: '0.35rem',
                   }}
                 >
                   <div
@@ -242,8 +249,8 @@ export default function PopularReleases() {
                       fontFamily: "'JetBrains Mono', monospace",
                     }}
                   >
-                    <Disc size={12} />
-                    <span>INSPECT</span>
+                    <Disc3 size={12} />
+                    <span>СЛУШАТЬ</span>
                     <ExternalLink size={10} />
                   </div>
                 </div>

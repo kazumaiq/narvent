@@ -1,5 +1,4 @@
 import { ArrowUp } from 'lucide-react';
-import { artist } from '../data/artist';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -27,7 +26,7 @@ export default function Footer() {
             marginBottom: '3rem',
           }}
         >
-          {/* Logo & Philosophy */}
+          {/* Логотип и описание */}
           <div>
             <div
               style={{
@@ -46,24 +45,24 @@ export default function Footer() {
                 fontFamily: "'Manrope', sans-serif",
                 fontSize: '0.88rem',
                 color: 'var(--text-muted)',
-                maxWidth: '440px',
+                maxWidth: '460px',
                 lineHeight: 1.6,
               }}
             >
-              Atmospheric soundscapes sculpting late-night journeys across the dark synthwave and wave phonk cosmos.
+              Атмосферные звуковые ландшафты, погружающие в мир ночных автострад, космического синтвейва и вейв-фонка.
             </p>
           </div>
 
-          {/* Back to top button */}
+          {/* Кнопка наверх */}
           <button
             onClick={scrollToTop}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              padding: '0.75rem 1.4rem',
+              padding: '0.8rem 1.5rem',
               borderRadius: '100px',
-              background: 'rgba(255, 255, 255, 0.04)',
+              background: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid var(--border-line)',
               color: '#ffffff',
               fontFamily: "'Space Grotesk', sans-serif",
@@ -80,17 +79,17 @@ export default function Footer() {
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
               e.currentTarget.style.borderColor = 'var(--border-line)';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
             <ArrowUp size={14} />
-            <span>RETURN TO TOP</span>
+            <span>В НАЧАЛО</span>
           </button>
         </div>
 
-        {/* Bottom Credits & Legal Notice */}
+        {/* Копирайт и юридическая информация */}
         <div
           style={{
             paddingTop: '2rem',
@@ -106,11 +105,11 @@ export default function Footer() {
           }}
         >
           <div>
-            © {new Date().getFullYear()} NARVENT (Farkhod Musulmonov). Official Digital Experience V2.
+            © {new Date().getFullYear()} NARVENT (Фарход Мусульмонов). Официальная цифровая платформа V3.
           </div>
 
           <div>
-            Distributed via volume100 / Believe Digital • Utopia Universe
+            Дистрибуция через volume100 / Believe Digital • Utopia Universe
           </div>
         </div>
       </div>

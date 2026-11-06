@@ -24,8 +24,9 @@ export default function AudioBar() {
           display: 'flex',
           alignItems: 'center',
           gap: '0.65rem',
-          background: 'rgba(6, 7, 18, 0.85)',
+          background: 'rgba(6, 7, 18, 0.88)',
           backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           border: '1px solid var(--border-line)',
           padding: '0.45rem 0.75rem',
           borderRadius: '100px',
@@ -51,16 +52,16 @@ export default function AudioBar() {
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.72rem',
             fontWeight: 600,
-            letterSpacing: '0.08em',
+            letterSpacing: '0.06em',
             transition: 'all 0.3s ease',
             cursor: 'pointer',
           }}
-          title={isPlayingAmbient ? 'Mute ambient soundscape' : 'Play ambient soundscape'}
+          title={isPlayingAmbient ? 'Выключить атмосферный звук' : 'Включить атмосферный звук'}
         >
           {isPlayingAmbient ? (
             <>
               <Volume2 size={14} />
-              <span>SOUND ON</span>
+              <span>ЗВУК ВКЛ</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
                 <span
                   style={{
@@ -91,7 +92,7 @@ export default function AudioBar() {
           ) : (
             <>
               <VolumeX size={14} />
-              <span>AMBIENCE</span>
+              <span>ЭМБИЕНТ</span>
             </>
           )}
         </button>
@@ -115,14 +116,14 @@ export default function AudioBar() {
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.72rem',
             fontWeight: 600,
-            letterSpacing: '0.08em',
+            letterSpacing: '0.06em',
             transition: 'all 0.3s ease',
             cursor: 'pointer',
           }}
-          title="Open Official Spotify Player"
+          title="Открыть официальный плеер Spotify"
         >
           <Radio size={13} />
-          <span>PLAYER</span>
+          <span>ПЛЕЕР</span>
         </button>
       </div>
 
@@ -131,12 +132,13 @@ export default function AudioBar() {
         <div
           style={{
             position: 'fixed',
-            bottom: '4.75rem',
+            bottom: 'calc(4.75rem + var(--safe-bottom, 0px))',
             right: '1.5rem',
             zIndex: 45,
             width: 'clamp(290px, 90vw, 360px)',
             background: 'rgba(8, 9, 24, 0.95)',
             backdropFilter: 'blur(30px)',
+            WebkitBackdropFilter: 'blur(30px)',
             border: '1px solid var(--border-line)',
             borderRadius: '20px',
             padding: '1rem',
@@ -163,7 +165,7 @@ export default function AudioBar() {
                   color: '#ffffff',
                 }}
               >
-                Official Spotify Stream
+                Официальный плеер Spotify
               </span>
             </div>
             <button
@@ -173,7 +175,10 @@ export default function AudioBar() {
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
+                background: 'none',
+                border: 'none',
               }}
+              aria-label="Закрыть плеер"
             >
               <X size={15} />
             </button>

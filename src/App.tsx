@@ -10,7 +10,6 @@ import Hero from './sections/Hero';
 import LatestReleases from './sections/LatestReleases';
 import PopularReleases from './sections/PopularReleases';
 import MusicArchive from './sections/MusicArchive';
-import KageSanctuary from './sections/KageSanctuary';
 import About from './sections/About';
 import SocialUniverse from './sections/SocialUniverse';
 import Footer from './sections/Footer';
@@ -23,8 +22,8 @@ function ScrollGradientOverlay() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (maxScroll <= 0) return;
       const scrollFraction = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
-      // Transition from deep blue (240) through violet (275) to magenta (310)
-      const newHue = 240 + scrollFraction * 70;
+      // Плавный переход от космического синего (240) через индиго (265) к мадженте (305)
+      const newHue = 240 + scrollFraction * 65;
       setHue(newHue);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -93,40 +92,51 @@ export default function App() {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: 'var(--bg-void)' }}>
-      {/* Cinematic Loading Screen */}
+      {/* Экран кинематографичной загрузки */}
       <AnimatePresence>
         {loading && <Loader progress={progress} />}
       </AnimatePresence>
 
-      {/* 3D Deep Cosmic Background Engine */}
+      {/* Глубокий 3D-фон космических частиц */}
       <BackgroundScene />
 
-      {/* Dynamic Scroll-reactive Ambient Tint */}
+      {/* Динамический атмосферный градиент скролла */}
       <ScrollGradientOverlay />
 
-      {/* Kinetic Grain Texture Overlay */}
+      {/* Текстура зернистости */}
       <div className="ambient-grain" />
 
-      {/* Navigation & Audio Controls */}
+      {/* Навигация и звуковая панель */}
       <Navigation />
       <AudioBar />
 
-      {/* Smooth Scroll Content Pipeline */}
+      {/* Основной поток разделов Narvent */}
       <SmoothScroll>
         <main style={{ position: 'relative', zIndex: 2 }}>
+          {/* 01. ГЛАВНАЯ */}
           <Hero />
           <SectionDivider />
+
+          {/* 02. НОВЫЕ РЕЛИЗЫ */}
           <LatestReleases />
           <SectionDivider variant="glow" />
+
+          {/* 03. ПОПУЛЯРНОЕ */}
           <PopularReleases />
           <SectionDivider />
+
+          {/* 04. 3D АРХИВ */}
           <MusicArchive />
           <SectionDivider variant="glow" />
-          <KageSanctuary />
-          <SectionDivider />
+
+          {/* 05. ОБ АРТИСТЕ */}
           <About />
-          <SectionDivider variant="glow" />
+          <SectionDivider />
+
+          {/* 06. СОЦИАЛЬНЫЕ СЕТИ */}
           <SocialUniverse />
+
+          {/* ФУТЕР */}
           <Footer />
         </main>
       </SmoothScroll>

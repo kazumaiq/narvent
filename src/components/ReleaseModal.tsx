@@ -24,7 +24,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
           padding: '1.25rem',
         }}
       >
-        {/* Backdrop */}
+        {/* Затемнение фона */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -33,12 +33,13 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'rgba(2, 2, 6, 0.88)',
+            background: 'rgba(2, 2, 6, 0.9)',
             backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
           }}
         />
 
-        {/* Modal Window */}
+        {/* Окно модалки */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 25 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -58,7 +59,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
             zIndex: 101,
           }}
         >
-          {/* Close button */}
+          {/* Кнопка закрытия */}
           <button
             onClick={onClose}
             style={{
@@ -68,57 +69,67 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
               width: '42px',
               height: '42px',
               borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.06)',
+              background: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid var(--border-line)',
+              color: 'var(--text-muted)',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#ffffff',
-              cursor: 'pointer',
               transition: 'all 0.2s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-              e.currentTarget.style.transform = 'scale(1.08)';
+              e.currentTarget.style.background = 'rgba(217, 70, 239, 0.2)';
+              e.currentTarget.style.color = '#ffffff';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
-              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              e.currentTarget.style.color = 'var(--text-muted)';
             }}
+            aria-label="Закрыть окно"
           >
             <X size={18} />
           </button>
 
-          {/* Grid Layout */}
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '2.5rem',
-              alignItems: 'center',
+              gap: 'clamp(1.5rem, 3vw, 2.5rem)',
+              alignItems: 'start',
             }}
           >
-            {/* Artwork presentation */}
-            <div style={{ maxWidth: '340px', margin: '0 auto', width: '100%' }}>
-              <ReleaseCover release={release} size="100%" />
+            {/* Обложка релиза */}
+            <div>
+              <div
+                style={{
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 45px rgba(0,0,0,0.7)',
+                }}
+              >
+                <ReleaseCover release={release} size="100%" showDetails={false} />
+              </div>
             </div>
 
-            {/* Info Column */}
+            {/* Метаданные и ссылки */}
             <div>
+              {/* Бейджи */}
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.65rem',
-                  marginBottom: '0.75rem',
+                  gap: '0.6rem',
+                  flexWrap: 'wrap',
+                  marginBottom: '1rem',
                 }}
               >
                 <span
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.75rem',
+                    fontSize: '0.72rem',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
+                    letterSpacing: '0.12em',
                     color: 'var(--neon-magenta)',
                     background: 'rgba(217, 70, 239, 0.1)',
                     padding: '0.25rem 0.75rem',
@@ -127,7 +138,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                     fontWeight: 600,
                   }}
                 >
-                  {release.type}
+                  {release.type === 'album' ? 'АЛЬБОМ' : release.type === 'ep' ? 'EP' : 'СИНГЛ'}
                 </span>
 
                 <span
@@ -161,12 +172,12 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                     }}
                   >
                     <Sparkles size={11} />
-                    TOP RECORD
+                    ТОП РЕЛИЗ
                   </span>
                 )}
               </div>
 
-              {/* Title */}
+              {/* Название */}
               <h2
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
@@ -181,7 +192,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                 {release.title}
               </h2>
 
-              {/* Artists */}
+              {/* Артисты */}
               <div
                 style={{
                   fontFamily: "'Manrope', sans-serif",
@@ -190,16 +201,16 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                   marginBottom: '1.25rem',
                 }}
               >
-                By <strong style={{ color: '#ffffff' }}>{release.artist}</strong>
+                Исполнитель: <strong style={{ color: '#ffffff' }}>{release.artist}</strong>
                 {release.featuring && release.featuring.length > 0 && (
                   <span style={{ color: 'var(--electric-blue)' }}>
                     {' '}
-                    (with {release.featuring.join(', ')})
+                    (совместно с {release.featuring.join(', ')})
                   </span>
                 )}
               </div>
 
-              {/* Description */}
+              {/* Описание */}
               {release.description && (
                 <p
                   style={{
@@ -214,14 +225,14 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                 </p>
               )}
 
-              {/* Tracklist Preview */}
+              {/* Треклист */}
               {release.tracks && release.tracks.length > 0 && (
                 <div style={{ marginBottom: '1.75rem' }}>
                   <div
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: '0.72rem',
-                      letterSpacing: '0.12em',
+                      letterSpacing: '0.08em',
                       textTransform: 'uppercase',
                       color: 'var(--text-dim)',
                       marginBottom: '0.6rem',
@@ -231,7 +242,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                     }}
                   >
                     <Music size={12} />
-                    Catalog Highlights ({release.tracks.length} tracks)
+                    Избранные композиции ({release.tracks.length} треков)
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {release.tracks.map((track, i) => (
@@ -257,19 +268,19 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                 </div>
               )}
 
-              {/* Streaming Links */}
+              {/* Кнопки стриминга */}
               <div>
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: '0.7rem',
-                    letterSpacing: '0.12em',
+                    letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     color: 'var(--text-dim)',
                     marginBottom: '0.75rem',
                   }}
                 >
-                  Stream on Official Portals
+                  Слушать на официальных площадках
                 </div>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.65rem' }}>
@@ -291,6 +302,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                         fontSize: '0.82rem',
                         fontWeight: 600,
                         transition: 'all 0.2s',
+                        textDecoration: 'none',
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = 'rgba(29, 185, 84, 0.25)';
@@ -324,6 +336,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                         fontSize: '0.82rem',
                         fontWeight: 600,
                         transition: 'all 0.2s',
+                        textDecoration: 'none',
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = 'rgba(255, 0, 0, 0.22)';
@@ -357,6 +370,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                         fontSize: '0.82rem',
                         fontWeight: 600,
                         transition: 'all 0.2s',
+                        textDecoration: 'none',
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = 'rgba(252, 60, 68, 0.22)';
@@ -389,6 +403,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                       fontSize: '0.82rem',
                       fontWeight: 600,
                       transition: 'all 0.2s',
+                      textDecoration: 'none',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'rgba(255, 119, 0, 0.22)';

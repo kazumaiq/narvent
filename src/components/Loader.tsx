@@ -21,7 +21,7 @@ export default function Loader({ progress }: LoaderProps) {
         overflow: 'hidden',
       }}
     >
-      {/* Ambient background glow */}
+      {/* Мягкое фоновое свечение */}
       <div
         style={{
           position: 'absolute',
@@ -34,7 +34,7 @@ export default function Loader({ progress }: LoaderProps) {
         }}
       />
 
-      {/* Monogram & Title */}
+      {/* Монограмма и Имя */}
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -76,7 +76,7 @@ export default function Loader({ progress }: LoaderProps) {
         <div
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: '1.5rem',
+            fontSize: '1.6rem',
             fontWeight: 800,
             letterSpacing: '0.18em',
             color: '#ffffff',
@@ -89,18 +89,18 @@ export default function Loader({ progress }: LoaderProps) {
         <div
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.68rem',
+            fontSize: '0.7rem',
             letterSpacing: '0.15em',
             color: 'var(--text-dim)',
             marginTop: '0.4rem',
             textTransform: 'uppercase',
           }}
         >
-          IMMERSIVE DIGITAL UNIVERSE V2
+          ОФИЦИАЛЬНАЯ ПЛАТФОРМА V3
         </div>
       </motion.div>
 
-      {/* Progress Bar Container */}
+      {/* Контейнер прогресс-бара */}
       <div
         style={{
           width: 'clamp(220px, 35vw, 300px)',
@@ -123,7 +123,7 @@ export default function Loader({ progress }: LoaderProps) {
         />
       </div>
 
-      {/* Status indicator */}
+      {/* Статус загрузки */}
       <div
         style={{
           fontFamily: "'JetBrains Mono', monospace",
@@ -132,7 +132,7 @@ export default function Loader({ progress }: LoaderProps) {
           letterSpacing: '0.12em',
         }}
       >
-        SPATIAL SYNTH & SHADERS // {Math.round(progress)}%
+        ЗАГРУЗКА 3D ПРОСТРАНСТВА // {Math.round(progress)}%
       </div>
     </motion.div>
   );

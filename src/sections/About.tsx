@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Milestone, Disc, Radio, ExternalLink } from 'lucide-react';
+import { Sparkles, Milestone } from 'lucide-react';
 import { artist } from '../data/artist';
 
 export default function About() {
@@ -13,16 +13,22 @@ export default function About() {
       }}
     >
       <div className="container">
-        {/* Header Block */}
-        <div style={{ marginBottom: '4rem' }}>
+        {/* Заголовок секции */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: '4rem' }}
+        >
           <span className="editorial-badge magenta">
             <Sparkles size={11} color="var(--neon-magenta)" />
-            EDITORIAL MONOGRAPH // IDENTITY & GENESIS
+            ОБ АРТИСТЕ // БИОГРАФИЯ И ГЕНЕЗИС ЗВУКА
           </span>
-          <h2 className="editorial-title">The Architect of Nocturnal Sound</h2>
-        </div>
+          <h2 className="editorial-title">Архитектор ночного звучания</h2>
+        </motion.div>
 
-        {/* Editorial Two-Column Feature */}
+        {/* Двухколоночная структура */}
         <div
           style={{
             display: 'grid',
@@ -32,7 +38,7 @@ export default function About() {
             marginBottom: '4.5rem',
           }}
         >
-          {/* Left Column: Biography & Philosophy */}
+          {/* Левая колонка: Биография и Философия */}
           <div>
             <div
               style={{
@@ -45,7 +51,7 @@ export default function About() {
                 marginBottom: '1.75rem',
               }}
             >
-              Farkhod Musulmonov, known globally as Narvent, defines the atmospheric vanguard of wave phonk and dark synthwave.
+              Фарход Мусульмонов (Narvent) определяет атмосферный авангард современного вейв-фонка и ноктюрнального синтвейва.
             </div>
 
             <p
@@ -56,12 +62,13 @@ export default function About() {
                 lineHeight: 1.8,
                 marginBottom: '1.5rem',
                 fontWeight: 400,
+                whiteSpace: 'pre-line',
               }}
             >
               {artist.bio}
             </p>
 
-            {/* Editorial Quote Callout */}
+            {/* Цитата артиста */}
             <div
               style={{
                 position: 'relative',
@@ -92,11 +99,11 @@ export default function About() {
                   letterSpacing: '0.12em',
                 }}
               >
-                — NARVENT (FARKHOD MUSULMONOV)
+                — NARVENT (ФАРХОД МУСУЛЬМОНОВ)
               </div>
             </div>
 
-            {/* Core Blueprint Specs */}
+            {/* Ключевые параметры продакшена */}
             <div
               style={{
                 display: 'grid',
@@ -118,15 +125,15 @@ export default function About() {
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: '0.68rem',
                     color: 'var(--text-dim)',
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     marginBottom: '0.3rem',
                   }}
                 >
-                  DAW & Origins
+                  DAW и начало пути
                 </div>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 600 }}>
-                  FL Studio (since ~2016)
+                  FL Studio (с ~2016 г.)
                 </div>
               </div>
 
@@ -143,12 +150,12 @@ export default function About() {
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: '0.68rem',
                     color: 'var(--text-dim)',
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     marginBottom: '0.3rem',
                   }}
                 >
-                  Distribution & Label
+                  Дистрибуция и Лейбл
                 </div>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 600 }}>
                   volume100 / Believe Digital
@@ -157,7 +164,7 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right Column: Verified Achievements Matrix */}
+          {/* Правая колонка: Матрица верифицированных достижений */}
           <div>
             <div
               style={{
@@ -176,6 +183,7 @@ export default function About() {
                   style={{
                     background: 'var(--bg-glass)',
                     backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
                     border: '1px solid var(--border-line)',
                     borderRadius: '18px',
                     padding: '1.5rem',
@@ -210,7 +218,7 @@ export default function About() {
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: '0.72rem',
                       color: 'var(--electric-blue)',
-                      letterSpacing: '0.1em',
+                      letterSpacing: '0.08em',
                       textTransform: 'uppercase',
                       marginBottom: '0.6rem',
                       fontWeight: 600,
@@ -235,15 +243,15 @@ export default function About() {
           </div>
         </div>
 
-        {/* Chronological Milestones Timeline */}
+        {/* Хронология ключевых этапов эволюции артиста */}
         <div style={{ marginTop: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <span className="editorial-badge" style={{ margin: '0 auto 1rem' }}>
               <Milestone size={11} color="var(--electric-blue)" />
-              CHRONOLOGY 2019–2026
+              ХРОНОЛОГИЯ 2019–2026
             </span>
             <h3 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', fontWeight: 700 }}>
-              Evolutionary Milestones Across The Soundscape
+              Ключевые вехи эволюции звучания
             </h3>
           </div>
 
@@ -264,6 +272,7 @@ export default function About() {
                 style={{
                   background: 'var(--bg-glass)',
                   backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
                   border: '1px solid var(--border-line)',
                   borderRadius: '16px',
                   padding: '1.5rem',

@@ -7,67 +7,92 @@ export interface Achievement {
 
 export const artist = {
   name: 'NARVENT',
-  realName: 'Farkhod Musulmonov',
-  genres: ['Synthwave', 'Wave Phonk', 'Dark Electronic', 'Retrowave', 'Cosmic Phonk'],
-  origin: 'Russia',
-  birthDate: 'July 19, 2005',
+  realName: 'Фарход Мусульмонов',
+  genres: ['Вейв-фонк', 'Атмосферный синтвейв', 'Дрифт-вейв', 'Ноктюрнальная электроника', 'Космический фонк'],
+  origin: 'Самарканд / Россия',
+  birthDate: '19 июля 2005 г.',
   label: 'volume100 / Believe Digital',
   network: 'Utopia Universe / Arcadia Alliance',
   spotifyId: '3QZtwiUoyaXbl1JssMPIQ7',
   appleMusicId: '1460309999',
   youtubeChannel: '@NarventMusic',
-  bio: `Narvent (Farkhod Musulmonov) is an electronic music visionary at the vanguard of the modern dark synthwave and wave phonk movement. 
-Born in 2005, he began crafting music inside FL Studio at an early age, sculpting a sonic signature marked by cavernous 80s reverb, deep sub-bass pulses, and haunting nocturnal melodies.
+  bio: `Фарход Мусульмонов (Narvent) — продюсер и электронный музыкант, ставший одним из ключевых голосов современного вейв-фонка и атмосферного синтвейва на мировой сцене.
 
-His collaborative masterstroke "Memory Reboot" alongside Ukrainian artist VØJ ignited a worldwide cultural phenomenon in 2023, gathering more than 310 million streams on Spotify alone, reaching #13 on the Billboard Hot Dance/Electronic Songs chart, and earning official RIAA Gold certification in the United States.
+Начав создавать музыку в раннем возрасте в FL Studio, он выработал узнаваемый почерк: глубокие вибрирующие саб-басы, кинематографичные синты 80-х, меланхоличные аккордовые прогрессии и ощущение ночного движения сквозь туманные неоновые магистрали.
 
-Maintaining an enigmatic persona that lets soundscapes speak louder than words, Narvent has built a dedicated global audience across Spotify, YouTube, and the wider underground electronic universe.`,
-  shortBio: 'Pioneering producer shaping the atmospheric dark synthwave and cinematic wave phonk universe.',
-  quote: '"Creating sounds that echo in late night drives and distant memories."',
+Мировой успех артисту принёс сингл «Memory Reboot», записанный совместно с украинским продюсером VØJ. Композиция стала глобальным культурным феноменом, преодолела отметку в 310 миллионов стримов на Spotify, заняла 13-е место в престижном чарте Billboard Hot Dance/Electronic Songs и получила официальную золотую сертификацию RIAA в США.
+
+Сохраняя эстетику таинственности и погружения, Narvent объединил вокруг своего творчества миллионы слушателей по всему миру — от Spotify и YouTube до крупнейших электронных плейлистов планеты.`,
+  shortBio: 'Архитектор ноктюрнального вейв-фонка и кинематографичного космического синтвейва.',
+  quote: '«Музыка ночных дорог, бесконечной скорости и воспоминаний, растворяющихся в неоновом тумане.»',
   achievements: [
     {
-      title: 'RIAA Gold',
+      title: 'Золото RIAA',
       value: 'GOLD',
-      label: 'RIAA Certified',
-      detail: 'Certified Gold for "Memory Reboot" in the United States',
+      label: 'Сертификация RIAA',
+      detail: 'Официальный золотой статус сингла «Memory Reboot» в США',
     },
     {
-      title: 'Billboard Peak',
+      title: 'Пик в Billboard',
       value: '#13',
       label: 'Billboard Hot Dance',
-      detail: 'Peaked at #13 on Billboard Hot Dance/Electronic Songs',
+      detail: '13-я позиция в глобальном чарте Hot Dance/Electronic Songs',
     },
     {
-      title: 'Spotify Streams',
+      title: 'Стримы Spotify',
       value: '310M+',
-      label: 'Memory Reboot Streams',
-      detail: 'Over 310,000,000 streams on the lead single alone',
+      label: 'Стримы «Memory Reboot»',
+      detail: 'Более 310 миллионов прослушиваний только на Spotify',
     },
     {
-      title: 'YouTube Views',
+      title: 'Просмотры YouTube',
       value: '650M+',
-      label: 'Total Views',
-      detail: 'Across official releases, 4K music videos & visualizers',
+      label: 'Просмотров на YouTube',
+      detail: 'Суммарные просмотры официальных видеоклипов и визуалайзеров',
     },
     {
-      title: 'Monthly Reach',
+      title: 'Аудитория',
       value: '1.9M+',
-      label: 'Monthly Listeners',
-      detail: 'Consistent monthly listeners across global streaming platforms',
+      label: 'Слушателей в месяц',
+      detail: 'Ежемесячная подтверждённая аудитория на стриминговых платформах',
     },
     {
-      title: 'Catalog Breadth',
+      title: 'Каталог',
       value: '50+',
-      label: 'Releases',
-      detail: 'Spanning 5 studio albums, numerous EPs, and iconic singles',
+      label: 'Официальных релизов',
+      detail: '5 номерных альбомов, концептуальные мини-альбомы (EP) и синглы',
     },
   ] as Achievement[],
   milestones: [
-    { year: 2019, title: 'Debut Album "Endless Way"', desc: 'Launched debut LP with FireWing, establishing his melancholic electronic identity.' },
-    { year: 2020, title: 'Forever In This World & In Our Minds', desc: 'Released sophomore album and cult EP collaboration with DVRST and Telicity.' },
-    { year: 2023, title: 'Memory Reboot Breakthrough', desc: 'Global phenomenon with VØJ. Billboard #13, RIAA Gold, viral across 100M+ TikTok edits.' },
-    { year: 2024, title: 'Insomnia Era', desc: '13-track conceptual masterpiece featuring "Fainted", "Her Eyes", and collaborations with Adieu Aru & KoruSe.' },
-    { year: 2025, title: 'Darkwave Evolution', desc: 'Singles "Fade Into Darkness", "Way Back Home", and expansive atmospheric soundscapes.' },
-    { year: 2026, title: 'Genesis & New Frontiers', desc: '17-track magnum opus "Genesis" alongside EPs "Recall", "Lights Flash", and "Ascend".' },
+    {
+      year: 2019,
+      title: 'Дебютный альбом «Endless Way»',
+      desc: 'Выход первого полноформатного альбома совместно с FireWing, заложившего меланхоличную электронную основу звучания.',
+    },
+    {
+      year: 2020,
+      title: '«Forever In This World» и первые культовые синглы',
+      desc: 'Второй номерной альбом и яркие коллаборации, включая культовые совместные треки с DVRST и Telicity.',
+    },
+    {
+      year: 2023,
+      title: 'Мировой триумф «Memory Reboot»',
+      desc: 'Исторический коллаб с VØJ: золото RIAA в США, 13-е место в Billboard Hot Dance и сотни миллионов видео в соцсетях.',
+    },
+    {
+      year: 2024,
+      title: 'Концептуальная эра «Insomnia»',
+      desc: '13-трековый студийный альбом, ставший эталоном жанра, включая феноменальные треки «Fainted», «Her Eyes» и работы с Adieu Aru.',
+    },
+    {
+      year: 2025,
+      title: 'Развитие дарквейв-направления',
+      desc: 'Выпуск масштабных атмосферных композиций «Fade Into Darkness», «Way Back Home» и расширение звучания.',
+    },
+    {
+      year: 2026,
+      title: 'Магнум опус «Genesis»',
+      desc: '17-трековый монументальный альбом «Genesis», а также серия концептуальных мини-альбомов «Recall», «Lights Flash» и «Ascend».',
+    },
   ],
 };

@@ -1,17 +1,26 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Sparkles, Disc, ChevronRight } from 'lucide-react';
+import { ExternalLink, Sparkles, Disc3, ChevronRight, ChevronLeft, Calendar, Music } from 'lucide-react';
 import { getLatestReleases, Release } from '../data/releases';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
 
 export default function LatestReleases() {
-  const latestReleases = getLatestReleases().slice(0, 6);
+  const latestReleases = getLatestReleases().slice(0, 7);
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
+  const featured = latestReleases[0];
+  const rest = latestReleases.slice(1);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollList = (dir: 'left' | 'right') => {
+    if (!scrollContainerRef.current) return;
+    const amount = 320;
+    scrollContainerRef.current.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+  };
 
   return (
     <section
-      id="music"
+      id="latest"
       style={{
         position: 'relative',
         padding: 'clamp(5rem, 10vh, 9rem) 0',
@@ -19,11 +28,17 @@ export default function LatestReleases() {
       }}
     >
       <div className="container">
-        {/* Header Block */}
-        <div style={{ marginBottom: '3.5rem' }}>
+        {/* Заголовок секции */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: '3.5rem' }}
+        >
           <span className="editorial-badge">
             <Sparkles size={11} color="var(--electric-blue)" />
-            FRESH TRANSMISSIONS // 2025–2026
+            СВЕЖИЕ РЕЛИЗЫ // 2025–2026
           </span>
           <div
             style={{
@@ -35,9 +50,9 @@ export default function LatestReleases() {
             }}
           >
             <div>
-              <h2 className="editorial-title">Latest Releases</h2>
+              <h2 className="editorial-title">Новые релизы</h2>
               <p className="editorial-subtitle">
-                The newest sonic chapters from the digital realm, expanding Narvent's atmospheric universe across multi-track albums, conceptual EPs, and collaborations.
+                Последние музыкальные главы и концептуальные проекты, расширяющие атмосферную вселенную Narvent от Самарканда до мировых электронных плейлистов.
               </p>
             </div>
 
@@ -46,7 +61,7 @@ export default function LatestReleases() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.4rem',
+                gap: '0.45rem',
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: '0.85rem',
                 fontWeight: 600,
@@ -63,115 +78,360 @@ export default function LatestReleases() {
                 e.currentTarget.style.transform = 'translateX(0)';
               }}
             >
-              <span>EXPLORE ALL IN 3D</span>
+              <span>СМОТРЕТЬ ВСЕ В 3D</span>
               <ChevronRight size={15} />
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Releases Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(280px, 30vw, 360px), 1fr))',
-            gap: 'clamp(1.5rem, 3vw, 2.5rem)',
-          }}
-        >
-          {latestReleases.map((release, index) => (
-            <motion.div
-              key={release.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              onClick={() => setSelectedRelease(release)}
-              style={{
-                position: 'relative',
-                background: 'var(--bg-glass)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid var(--border-line)',
-                borderRadius: '20px',
-                padding: '1.25rem',
-                cursor: 'pointer',
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-                e.currentTarget.style.boxShadow = '0 20px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(217, 70, 239, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'var(--border-line)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {/* Cover Art */}
-              <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden' }}>
-                <ReleaseCover release={release} size="100%" />
+        {/* Главный флагманский свежий релиз */}
+        {featured && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            onClick={() => setSelectedRelease(featured)}
+            className="latest-featured-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 'clamp(1.5rem, 3.5vw, 3.5rem)',
+              background: 'var(--bg-glass)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: '1px solid var(--border-line)',
+              borderRadius: '24px',
+              padding: 'clamp(1.25rem, 2.5vw, 2.25rem)',
+              cursor: 'pointer',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+              marginBottom: '3.5rem',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
+              e.currentTarget.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(217, 70, 239, 0.15)';
+              e.currentTarget.style.transform = 'translateY(-4px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-line)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            {/* Обложка */}
+            <div style={{ borderRadius: '18px', overflow: 'hidden', position: 'relative' }}>
+              <ReleaseCover release={featured} size="100%" />
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  left: '1rem',
+                  background: 'rgba(217, 70, 239, 0.9)',
+                  padding: '0.35rem 0.9rem',
+                  borderRadius: '100px',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  letterSpacing: '0.06em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  boxShadow: '0 4px 15px rgba(217, 70, 239, 0.4)',
+                }}
+              >
+                <Sparkles size={11} />
+                НОВЫЙ РЕЛИЗ
+              </div>
+            </div>
 
-                {/* Subtle Hover Overlay */}
+            {/* Описание и метаданные */}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.85rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.74rem',
+                    color: 'var(--electric-blue)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.12em',
+                    fontWeight: 600,
+                  }}
+                >
+                  {featured.type === 'album' ? 'АЛЬБОМ' : featured.type === 'ep' ? 'МИНИ-АЛЬБОМ' : 'СИНГЛ'}
+                </span>
+                <span style={{ color: 'var(--text-dim)', fontSize: '0.75rem' }}>•</span>
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.74rem',
+                    color: 'var(--text-dim)',
+                  }}
+                >
+                  {featured.releaseDate}
+                </span>
+              </div>
+
+              <h3
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: 'clamp(1.8rem, 3.8vw, 3rem)',
+                  fontWeight: 800,
+                  color: '#ffffff',
+                  lineHeight: 1.05,
+                  letterSpacing: '-0.03em',
+                  margin: 0,
+                }}
+              >
+                {featured.title}
+              </h3>
+
+              <p
+                style={{
+                  fontFamily: "'Manrope', sans-serif",
+                  fontSize: 'clamp(0.92rem, 1.4vw, 1.05rem)',
+                  color: 'var(--text-muted)',
+                  lineHeight: 1.6,
+                  maxWidth: '480px',
+                  margin: 0,
+                }}
+              >
+                {featured.artist}
+                {featured.featuring && (
+                  <span style={{ color: 'var(--electric-blue)' }}>
+                    {' '}совместно с {featured.featuring.join(', ')}
+                  </span>
+                )}
+              </p>
+
+              {featured.description && (
+                <p
+                  style={{
+                    fontFamily: "'Manrope', sans-serif",
+                    fontSize: '0.88rem',
+                    color: 'var(--text-dim)',
+                    lineHeight: 1.6,
+                    margin: 0,
+                  }}
+                >
+                  {featured.description}
+                </p>
+              )}
+
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '1rem',
+                  alignItems: 'center',
+                  marginTop: '0.5rem',
+                }}
+              >
                 <div
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'rgba(2, 2, 6, 0.55)',
-                    opacity: 0,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'opacity 0.25s ease',
-                    borderRadius: '14px',
+                    gap: '0.4rem',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.74rem',
+                    color: 'var(--text-muted)',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
                 >
-                  <span
-                    style={{
-                      background: 'rgba(217, 70, 239, 0.85)',
-                      padding: '0.45rem 1.1rem',
-                      borderRadius: '100px',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '0.78rem',
-                      fontWeight: 600,
-                      color: '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.45rem',
-                    }}
-                  >
-                    <Disc size={14} />
-                    VIEW RELEASE
-                  </span>
+                  <Music size={13} color="var(--electric-blue)" />
+                  {featured.trackCount ? `${featured.trackCount} треков` : 'Официальный мастер'}
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.74rem',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  <Calendar size={13} color="var(--neon-magenta)" />
+                  {featured.year} год
                 </div>
               </div>
 
-              {/* Release Card Meta */}
-              <div style={{ marginTop: '1.25rem' }}>
+              <div style={{ marginTop: '0.75rem' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.55rem',
+                    padding: '0.85rem 1.65rem',
+                    borderRadius: '100px',
+                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(217, 70, 239, 0.35) 100%)',
+                    border: '1px solid rgba(217, 70, 239, 0.45)',
+                    color: '#ffffff',
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: '0.84rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                    minHeight: '44px',
+                  }}
+                >
+                  <Disc3 size={15} />
+                  СЛУШАТЬ РЕЛИЗ
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Горизонтальная карусель свежих релизов */}
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '1.25rem',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.72rem',
+                color: 'var(--text-dim)',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}
+            >
+              ДРУГИЕ НЕДАВНИЕ РЕЛИЗЫ // {rest.length}
+            </span>
+
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                onClick={() => scrollList('left')}
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid var(--border-line)',
+                  color: 'var(--text-muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.color = '#ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.color = 'var(--text-muted)';
+                }}
+                aria-label="Назад"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => scrollList('right')}
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid var(--border-line)',
+                  color: 'var(--text-muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.color = '#ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.color = 'var(--text-muted)';
+                }}
+                aria-label="Вперёд"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          <div
+            ref={scrollContainerRef}
+            style={{
+              display: 'flex',
+              gap: '1.25rem',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              paddingBottom: '0.75rem',
+            }}
+          >
+            {rest.map((release, index) => (
+              <motion.div
+                key={release.id}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.07 }}
+                onClick={() => setSelectedRelease(release)}
+                style={{
+                  flexShrink: 0,
+                  width: 'clamp(230px, 28vw, 300px)',
+                  scrollSnapAlign: 'start',
+                  background: 'var(--bg-glass)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid var(--border-line)',
+                  borderRadius: '20px',
+                  padding: '1.1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 18px 40px rgba(0,0,0,0.65), 0 0 25px rgba(217,70,239,0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'var(--border-line)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div style={{ borderRadius: '14px', overflow: 'hidden', marginBottom: '0.9rem' }}>
+                  <ReleaseCover release={release} size="100%" />
+                </div>
+
                 <div
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '0.4rem',
+                    marginBottom: '0.35rem',
                   }}
                 >
                   <span
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.72rem',
+                      fontSize: '0.68rem',
                       color: 'var(--electric-blue)',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.12em',
+                      letterSpacing: '0.1em',
                       fontWeight: 600,
                     }}
                   >
-                    {release.type}
+                    {release.type === 'album' ? 'АЛЬБОМ' : release.type === 'ep' ? 'EP' : 'СИНГЛ'}
                   </span>
                   <span
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.72rem',
+                      fontSize: '0.68rem',
                       color: 'var(--text-dim)',
                     }}
                   >
@@ -179,31 +439,30 @@ export default function LatestReleases() {
                   </span>
                 </div>
 
-                <h3
+                <h4
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '1.35rem',
+                    fontSize: '1.15rem',
                     fontWeight: 700,
                     color: '#ffffff',
-                    lineHeight: 1.2,
-                    marginBottom: '0.25rem',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
+                    marginBottom: '0.25rem',
                   }}
                 >
                   {release.title}
-                </h3>
+                </h4>
 
                 <p
                   style={{
                     fontFamily: "'Manrope', sans-serif",
-                    fontSize: '0.88rem',
+                    fontSize: '0.82rem',
                     color: 'var(--text-muted)',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
-                    marginBottom: '1rem',
+                    margin: 0,
                   }}
                 >
                   {release.artist}
@@ -214,44 +473,27 @@ export default function LatestReleases() {
                   )}
                 </p>
 
-                {/* Card Footer */}
                 <div
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    paddingTop: '0.75rem',
+                    marginTop: '0.85rem',
+                    paddingTop: '0.65rem',
                     borderTop: '1px solid var(--border-line)',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.68rem',
+                    color: 'var(--text-dim)',
                   }}
                 >
-                  <span
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.7rem',
-                      color: 'var(--text-dim)',
-                    }}
-                  >
-                    {release.trackCount ? `${release.trackCount} Tracks` : 'Official Master'}
-                  </span>
-
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem',
-                      color: 'var(--electric-blue)',
-                      fontSize: '0.75rem',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Details
-                    <ExternalLink size={12} />
+                  <span>{release.trackCount ? `${release.trackCount} треков` : 'Сингл'}</span>
+                  <span style={{ color: 'var(--neon-magenta)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                    Подробнее <ExternalLink size={10} />
                   </span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -259,6 +501,14 @@ export default function LatestReleases() {
         release={selectedRelease}
         onClose={() => setSelectedRelease(null)}
       />
+
+      <style>{`
+        @media (max-width: 900px) {
+          .latest-featured-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
