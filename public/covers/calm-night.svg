@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#2a3a6e" stop-opacity="0.9" />
+      <stop offset="45%" stop-color="#1a2a4e" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0a1a2e" stop-opacity="1" />
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d946ef" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#38bdf8" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#d946ef" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0.8" />
+    </linearGradient>
+    <filter id="blurFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="35" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="url(#bg)" />
+
+  <!-- Ambient Nebulae -->
+  <circle cx="400" cy="380" r="280" fill="url(#glow)" filter="url(#blurFilter)" />
+  <circle cx="250" cy="280" r="140" fill="#38bdf8" opacity="0.12" filter="url(#blurFilter)" />
+  <circle cx="550" cy="480" r="160" fill="#d946ef" opacity="0.15" filter="url(#blurFilter)" />
+
+  <!-- Fine Cyberpunk Grid -->
+  <g opacity="0.15" stroke="#ffffff" stroke-width="0.8">
+    <line x1="100" y1="0" x2="100" y2="800" stroke-dasharray="4,8" />
+    <line x1="700" y1="0" x2="700" y2="800" stroke-dasharray="4,8" />
+    <line x1="0" y1="100" x2="800" y2="100" stroke-dasharray="4,8" />
+    <line x1="0" y1="700" x2="800" y2="700" stroke-dasharray="4,8" />
+  </g>
+
+  <!-- Cosmic Geometry Rings -->
+  <g transform="translate(400, 380)">
+    <circle r="190" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" opacity="0.65" stroke-dasharray="8 6 24 6" />
+    <circle r="150" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.4" />
+    <circle r="105" fill="none" stroke="#d946ef" stroke-width="1.8" opacity="0.5" stroke-dasharray="4 8" />
+    <polygon points="0,-75 65,37 -65,37" fill="none" stroke="url(#lineGrad)" stroke-width="2" opacity="0.8" />
+    <polygon points="0,75 -65,-37 65,-37" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.5" />
+    <circle r="14" fill="#ffffff" opacity="0.9" filter="drop-shadow(0 0 12px #d946ef)" />
+  </g>
+
+  <!-- Header Metadata -->
+  <text x="60" y="85" font-family="'JetBrains Mono', monospace, sans-serif" font-size="14" fill="#94a3b8" letter-spacing="4" font-weight="600">NARVENT // OFFICIAL AUDIO ARCHIVE</text>
+  <text x="740" y="85" text-anchor="end" font-family="'JetBrains Mono', monospace, sans-serif" font-size="14" fill="#38bdf8" letter-spacing="2" font-weight="700">SINGLE [2024]</text>
+
+  <!-- Title & Artist Typography -->
+  <text x="60" y="680" font-family="'Space Grotesk', sans-serif" font-size="44" font-weight="800" fill="#ffffff" letter-spacing="-1">CALM NIGHT</text>
+  <text x="60" y="725" font-family="'JetBrains Mono', monospace, sans-serif" font-size="16" font-weight="600" fill="#c084fc" letter-spacing="3">NARVENT & LUNEEX</text>
+  <text x="740" y="725" text-anchor="end" font-family="'JetBrains Mono', monospace, sans-serif" font-size="12" fill="#64748b" letter-spacing="2">VOLUME100 // 48.1KHZ 24BIT</text>
+</svg>

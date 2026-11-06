@@ -19,7 +19,8 @@ export interface Release {
   tracks?: string[];
   description?: string;
   links: StreamingLinks;
-  coverGradient: [string, string, string]; // 3 colors for generated cover gradient
+  coverGradient: [string, string, string];
+  coverImage?: string; // 3 colors for generated cover gradient
   popular?: boolean;
   latest?: boolean;
 }
@@ -28,6 +29,7 @@ export const releases: Release[] = [
   // === ALBUMS ===
   {
     id: 'genesis',
+    coverImage: '/covers/genesis.jpg',
     title: 'Genesis',
     artist: 'Narvent',
     type: 'album',
@@ -46,6 +48,7 @@ export const releases: Release[] = [
   },
   {
     id: 'insomnia',
+    coverImage: '/covers/insomnia.jpg',
     title: 'Insomnia',
     artist: 'Narvent',
     type: 'album',
@@ -65,6 +68,7 @@ export const releases: Release[] = [
   },
   {
     id: 'memory-reboot-album',
+    coverImage: '/covers/memory-reboot-album.jpg',
     title: 'Memory Reboot',
     artist: 'VØJ & Narvent',
     featuring: ['VØJ'],
@@ -83,6 +87,7 @@ export const releases: Release[] = [
   },
   {
     id: 'forever-in-this-world',
+    coverImage: '/covers/forever-in-this-world.jpg',
     title: 'Forever In This World',
     artist: 'Narvent',
     type: 'album',
@@ -96,6 +101,7 @@ export const releases: Release[] = [
   },
   {
     id: 'endless-way',
+    coverImage: '/covers/endless-way.jpg',
     title: 'Endless Way',
     artist: 'Narvent',
     type: 'album',
@@ -111,6 +117,7 @@ export const releases: Release[] = [
   // === EPs ===
   {
     id: 'recall-ep',
+    coverImage: '/covers/recall-ep.svg',
     title: 'Recall',
     artist: 'Narvent',
     type: 'ep',
@@ -126,6 +133,7 @@ export const releases: Release[] = [
   },
   {
     id: 'lights-flash-ep',
+    coverImage: '/covers/lights-flash-ep.jpg',
     title: 'Lights Flash',
     artist: 'Narvent & Ogryzek',
     featuring: ['Ogryzek'],
@@ -140,6 +148,7 @@ export const releases: Release[] = [
   },
   {
     id: 'ascend-ep',
+    coverImage: '/covers/ascend-ep.svg',
     title: 'Ascend',
     artist: 'Narvent & MAXTERX',
     featuring: ['MAXTERX'],
@@ -154,6 +163,7 @@ export const releases: Release[] = [
   },
   {
     id: 'ocean-blue-ep',
+    coverImage: '/covers/ocean-blue-ep.svg',
     title: 'Ocean Blue',
     artist: 'Narvent',
     type: 'ep',
@@ -167,6 +177,7 @@ export const releases: Release[] = [
   },
   {
     id: 'reboot-ep',
+    coverImage: '/covers/reboot-ep.jpg',
     title: 'Reboot',
     artist: 'Narvent',
     type: 'ep',
@@ -180,6 +191,7 @@ export const releases: Release[] = [
   },
   {
     id: 'corsa-ep',
+    coverImage: '/covers/corsa-ep.jpg',
     title: 'Corsa',
     artist: 'Narvent & Axstin',
     featuring: ['Axstin'],
@@ -193,6 +205,7 @@ export const releases: Release[] = [
   },
   {
     id: 'in-our-minds-ep',
+    coverImage: '/covers/in-our-minds-ep.svg',
     title: 'In Our Minds',
     artist: 'Narvent, DVRST & Telicity',
     featuring: ['DVRST', 'Telicity'],
@@ -208,6 +221,7 @@ export const releases: Release[] = [
   // === SINGLES ===
   {
     id: 'memory-reboot',
+    coverImage: '/covers/memory-reboot.jpg',
     title: 'Memory Reboot',
     artist: 'VØJ & Narvent',
     featuring: ['VØJ'],
@@ -225,6 +239,7 @@ export const releases: Release[] = [
   },
   {
     id: 'fainted',
+    coverImage: '/covers/fainted.jpg',
     title: 'Fainted',
     artist: 'Narvent',
     type: 'single',
@@ -241,6 +256,7 @@ export const releases: Release[] = [
   },
   {
     id: 'distant-echoes',
+    coverImage: '/covers/distant-echoes.jpg',
     title: 'Distant Echoes',
     artist: 'VXLLAIN, VØJ & Narvent',
     featuring: ['VXLLAIN', 'VØJ'],
@@ -256,6 +272,7 @@ export const releases: Release[] = [
   },
   {
     id: 'her-eyes',
+    coverImage: '/covers/her-eyes.jpg',
     title: 'Her Eyes',
     artist: 'Narvent',
     type: 'single',
@@ -272,6 +289,7 @@ export const releases: Release[] = [
   },
   {
     id: 'fade-into-darkness',
+    coverImage: '/covers/fade-into-darkness.jpg',
     title: 'Fade Into Darkness',
     artist: 'Narvent',
     type: 'single',
@@ -288,6 +306,7 @@ export const releases: Release[] = [
   },
   {
     id: 'way-back-home',
+    coverImage: '/covers/way-back-home.jpg',
     title: 'Way Back Home',
     artist: 'Narvent',
     type: 'single',
@@ -302,6 +321,7 @@ export const releases: Release[] = [
   },
   {
     id: 'euphoria',
+    coverImage: '/covers/euphoria.svg',
     title: 'Euphoria',
     artist: 'VØJ, Narvent & KoruSe',
     featuring: ['VØJ', 'KoruSe'],
@@ -317,6 +337,7 @@ export const releases: Release[] = [
   },
   {
     id: 'hypnosis',
+    coverImage: '/covers/hypnosis.jpg',
     title: 'Hypnosis',
     artist: 'Narvent & REFLECT AFTER DARK',
     featuring: ['REFLECT AFTER DARK'],
@@ -331,6 +352,7 @@ export const releases: Release[] = [
   },
   {
     id: 'calm-night',
+    coverImage: '/covers/calm-night.jpg',
     title: 'Calm Night',
     artist: 'Narvent & Luneex',
     featuring: ['Luneex'],
@@ -345,6 +367,7 @@ export const releases: Release[] = [
   },
   {
     id: 'avalanche',
+    coverImage: '/covers/avalanche.jpg',
     title: 'Avalanche',
     artist: 'Narvent',
     type: 'single',
@@ -358,6 +381,7 @@ export const releases: Release[] = [
   },
   {
     id: 'hatred',
+    coverImage: '/covers/hatred.jpg',
     title: 'HATRED',
     artist: 'Narvent',
     type: 'single',
@@ -370,6 +394,7 @@ export const releases: Release[] = [
   },
   {
     id: 'hear-me',
+    coverImage: '/covers/hear-me.svg',
     title: 'HEAR ME',
     artist: 'VØJ, Narvent & The Scandalous Playaz',
     featuring: ['VØJ', 'The Scandalous Playaz'],
@@ -383,6 +408,7 @@ export const releases: Release[] = [
   },
   {
     id: 'broken-halo',
+    coverImage: '/covers/broken-halo.jpg',
     title: 'Broken Halo',
     artist: 'Narvent & fadevɇil',
     featuring: ['fadevɇil'],
@@ -397,6 +423,7 @@ export const releases: Release[] = [
   },
   {
     id: 'to-the-moon',
+    coverImage: '/covers/to-the-moon.jpg',
     title: 'To The Moon',
     artist: 'Narvent, MAINLY & CYREX',
     featuring: ['MAINLY', 'CYREX'],
@@ -411,6 +438,7 @@ export const releases: Release[] = [
   },
   {
     id: 'white-roses',
+    coverImage: '/covers/white-roses.jpg',
     title: 'White Roses',
     artist: 'Narvent',
     type: 'single',
@@ -424,6 +452,7 @@ export const releases: Release[] = [
   },
   {
     id: 'strange-memory',
+    coverImage: '/covers/strange-memory.jpg',
     title: 'Strange Memory',
     artist: 'Narvent',
     type: 'single',
@@ -437,6 +466,7 @@ export const releases: Release[] = [
   },
   {
     id: 'no-dress',
+    coverImage: '/covers/no-dress.svg',
     title: 'No Dress',
     artist: 'Narvent',
     type: 'single',
@@ -450,6 +480,7 @@ export const releases: Release[] = [
   },
   {
     id: 'take-me-there',
+    coverImage: '/covers/take-me-there.jpg',
     title: 'Take Me There',
     artist: 'Narvent',
     type: 'single',
@@ -463,6 +494,7 @@ export const releases: Release[] = [
   },
   {
     id: 'obliterate',
+    coverImage: '/covers/obliterate.svg',
     title: 'Obliterate',
     artist: 'Narvent & FORBIDDEN',
     featuring: ['FORBIDDEN'],

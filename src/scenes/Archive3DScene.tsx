@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Release } from '../data/releases';
-import { ExternalLink, Play, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, X, Disc3 } from 'lucide-react';
+import { ExternalLink, Play, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, X, Disc3, Sparkles } from 'lucide-react';
 
 interface Archive3DSceneProps {
   releases: Release[];
@@ -25,43 +25,47 @@ export default function Archive3DScene({
     propsRef.current = { releases, onSelectRelease, activeFilter };
   }, [releases, onSelectRelease, activeFilter]);
 
-  // Sync external selectedRelease with internal activeRelease
+  // Sync external selectedRelease
   useEffect(() => {
     setActiveRelease(selectedRelease);
   }, [selectedRelease]);
 
-  // Refs for camera controls outside Three loop
+  // Controls accessible from UI buttons
   const controlsRef = useRef<{
     next: () => void;
     prev: () => void;
     zoomIn: () => void;
     zoomOut: () => void;
     reset: () => void;
+    focusHit: () => void;
+    focusLatest: () => void;
   }>({
     next: () => {},
     prev: () => {},
     zoomIn: () => {},
     zoomOut: () => {},
     reset: () => {},
+    focusHit: () => {},
+    focusLatest: () => {},
   });
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // --- Scene, Camera, Renderer ---
+    // --- Three.js Setup ---
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x020206, 0.008);
+    scene.fog = new THREE.FogExp2(0x020206, 0.007);
 
     const isMobile = container.clientWidth < 768;
-    const baseFov = isMobile ? 55 : 45;
-    const initialZoom = isMobile ? 38 : 32;
+    const baseFov = isMobile ? 55 : 44;
+    const initialZoom = isMobile ? 38 : 31;
 
     const camera = new THREE.PerspectiveCamera(
       baseFov,
       container.clientWidth / container.clientHeight,
       0.1,
-      250
+      300
     );
     camera.position.set(0, 0, initialZoom);
 
@@ -70,256 +74,214 @@ export default function Archive3DScene({
       antialias: true,
       powerPreference: 'high-performance',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // --- Dynamic Lighting ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
+    // --- Dynamic Cosmic Lighting ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.1);
     scene.add(ambientLight);
 
-    const magentaLight = new THREE.PointLight(0xd946ef, 4.0, 100);
-    magentaLight.position.set(25, 18, 30);
+    const magentaLight = new THREE.PointLight(0xd946ef, 5.0, 120);
+    magentaLight.position.set(25, 20, 30);
     scene.add(magentaLight);
 
-    const cyanLight = new THREE.PointLight(0x38bdf8, 3.8, 100);
-    cyanLight.position.set(-25, -12, 30);
+    const cyanLight = new THREE.PointLight(0x38bdf8, 4.5, 120);
+    cyanLight.position.set(-25, -15, 30);
     scene.add(cyanLight);
 
-    const frontLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    frontLight.position.set(0, 10, 35);
-    scene.add(frontLight);
+    const spotlight = new THREE.SpotLight(0xffffff, 4.0, 80, Math.PI / 6, 0.4);
+    spotlight.position.set(0, 15, 35);
+    scene.add(spotlight);
 
-    // --- Bespoke Cover Art Generation (Unique to each release, no repeated fake diamonds!) ---
-    const createBespokeCoverTexture = (rel: Release): THREE.CanvasTexture => {
+    // --- Starry Nebula Ambient Particles ---
+    const starCount = 650;
+    const starGeo = new THREE.BufferGeometry();
+    const starPositions = new Float32Array(starCount * 3);
+    const starColors = new Float32Array(starCount * 3);
+    const c1 = new THREE.Color(0x38bdf8);
+    const c2 = new THREE.Color(0xd946ef);
+
+    for (let i = 0; i < starCount; i++) {
+      starPositions[i * 3] = (Math.random() - 0.5) * 160;
+      starPositions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+      starPositions[i * 3 + 2] = (Math.random() - 0.5) * 120;
+      const c = Math.random() > 0.5 ? c1 : c2;
+      starColors[i * 3] = c.r;
+      starColors[i * 3 + 1] = c.g;
+      starColors[i * 3 + 2] = c.b;
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+    const starMat = new THREE.PointsMaterial({
+      size: 0.35,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const starPoints = new THREE.Points(starGeo, starMat);
+    scene.add(starPoints);
+
+    // --- Card Meshes Group ---
+    const helixGroup = new THREE.Group();
+    scene.add(helixGroup);
+
+    const textureLoader = new THREE.TextureLoader();
+    const loadedTextures: THREE.Texture[] = [];
+
+    // Helper: generate procedural fallback texture if image load fails
+    const createFallbackTexture = (rel: Release): THREE.CanvasTexture => {
       const canvas = document.createElement('canvas');
-      canvas.width = 640;
-      canvas.height = 640;
+      canvas.width = 512;
+      canvas.height = 512;
       const ctx = canvas.getContext('2d')!;
-
-      const [c1, c2, c3] = rel.coverGradient || ['#060814', '#160b2e', '#3b0764'];
-
-      // Deep atmospheric background
-      const grad = ctx.createLinearGradient(0, 0, 640, 640);
-      grad.addColorStop(0, c1);
-      grad.addColorStop(0.5, c2);
-      grad.addColorStop(1, c3);
+      const [g1, g2, g3] = rel.coverGradient || ['#060814', '#160b2e', '#3b0764'];
+      const grad = ctx.createLinearGradient(0, 0, 512, 512);
+      grad.addColorStop(0, g1);
+      grad.addColorStop(0.5, g2);
+      grad.addColorStop(1, g3);
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 640, 640);
+      ctx.fillRect(0, 0, 512, 512);
 
-      // Unique bespoke thematic art per release
-      if (rel.id === 'memory-reboot') {
-        // Nocturnal city silhouette with rain & gold neon
-        ctx.fillStyle = 'rgba(255, 209, 102, 0.15)';
-        ctx.beginPath();
-        ctx.arc(320, 260, 130, 0, Math.PI * 2);
-        ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.font = 'bold 36px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(rel.title, 256, 256);
+      ctx.font = '20px monospace';
+      ctx.fillStyle = '#c084fc';
+      ctx.fillText(rel.artist, 256, 300);
 
-        // City skyline silhouettes
-        ctx.fillStyle = '#020206';
-        ctx.fillRect(100, 240, 60, 180);
-        ctx.fillRect(180, 200, 75, 220);
-        ctx.fillRect(280, 160, 80, 260);
-        ctx.fillRect(380, 210, 70, 210);
-        ctx.fillRect(470, 250, 70, 170);
-
-        // Neon horizon line
-        ctx.strokeStyle = '#ffd166';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(40, 390);
-        ctx.lineTo(600, 390);
-        ctx.stroke();
-
-        // RIAA Gold Ribbon Badge
-        ctx.fillStyle = '#ffd166';
-        ctx.font = '700 18px "JetBrains Mono", monospace';
-        ctx.fillText('★ RIAA CERTIFIED GOLD ★', 45, 425);
-      } else if (rel.id === 'insomnia') {
-        // Crescent moon and darkwave mist
-        ctx.fillStyle = '#d946ef';
-        ctx.beginPath();
-        ctx.arc(320, 240, 100, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = c2;
-        ctx.beginPath();
-        ctx.arc(350, 220, 95, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Horizontal sound waves
-        ctx.strokeStyle = 'rgba(217, 70, 239, 0.4)';
-        ctx.lineWidth = 2;
-        for (let i = 0; i < 5; i++) {
-          ctx.beginPath();
-          ctx.arc(320, 240, 120 + i * 20, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-      } else if (rel.id === 'fainted') {
-        // High speed drift phonk lines
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 4;
-        for (let i = 0; i < 8; i++) {
-          ctx.beginPath();
-          ctx.moveTo(80 + i * 60, 140);
-          ctx.lineTo(160 + i * 60, 380);
-          ctx.stroke();
-        }
-      } else if (rel.id === 'her-eyes') {
-        // Ethereal eyes contour & violet neon
-        ctx.strokeStyle = '#ec4899';
-        ctx.lineWidth = 3.5;
-        // Left eye
-        ctx.beginPath();
-        ctx.ellipse(220, 250, 65, 30, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        // Right eye
-        ctx.beginPath();
-        ctx.ellipse(420, 250, 65, 30, 0, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.fillStyle = '#ec4899';
-        ctx.beginPath();
-        ctx.arc(220, 250, 15, 0, Math.PI * 2);
-        ctx.arc(420, 250, 15, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (rel.id === 'genesis') {
-        // Monumental monolithic frame
-        ctx.strokeStyle = '#8b5cf6';
-        ctx.lineWidth = 4;
-        ctx.strokeRect(180, 140, 280, 260);
-        ctx.strokeRect(210, 170, 220, 200);
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '700 20px "JetBrains Mono", monospace';
-        ctx.fillText('17-TRACK MAGNUM OPUS', 190, 430);
-      } else {
-        // Geometric abstract wave contours unique to each track
-        const seed = rel.year + rel.title.length;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        for (let x = 60; x <= 580; x += 15) {
-          const y = 260 + Math.sin(x * 0.03 + seed) * 70;
-          if (x === 60) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-
-        // Accent glowing circle
-        ctx.fillStyle = c3;
-        ctx.beginPath();
-        ctx.arc(320, 260, 50, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Card Header
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 24px "Space Grotesk", sans-serif';
-      ctx.fillText('NARVENT', 45, 65);
-
-      ctx.fillStyle = 'rgba(148, 163, 184, 0.95)';
-      ctx.font = '600 16px "JetBrains Mono", monospace';
-      ctx.textAlign = 'right';
-      ctx.fillText(`${rel.type === 'album' ? 'АЛЬБОМ' : rel.type === 'ep' ? 'EP' : 'СИНГЛ'} // ${rel.year}`, 595, 65);
-
-      // Card Title & Artist Footer
-      ctx.textAlign = 'left';
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 36px "Space Grotesk", sans-serif';
-      let title = rel.title;
-      if (title.length > 20) title = title.substring(0, 18) + '...';
-      ctx.fillText(title, 45, 520);
-
-      ctx.fillStyle = 'rgba(203, 213, 225, 0.85)';
-      ctx.font = '500 22px "Manrope", sans-serif';
-      const artistLine = rel.featuring ? `${rel.artist} ft. ${rel.featuring.join(', ')}` : rel.artist;
-      let displayArtist = artistLine;
-      if (displayArtist.length > 26) displayArtist = displayArtist.substring(0, 24) + '...';
-      ctx.fillText(displayArtist, 45, 560);
-
-      // Outer border frame
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(2, 2, 636, 636);
-
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.generateMipmaps = true;
-      texture.minFilter = THREE.LinearMipmapLinearFilter;
-      return texture;
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
     };
 
-    // --- Spatial 3D Architecture ---
-    const cardGroup = new THREE.Group();
-    scene.add(cardGroup);
-
-    const cardGeometry = new THREE.BoxGeometry(6.4, 6.4, 0.35);
-
-    const cardMeshes: {
+    interface HelixCard {
       mesh: THREE.Mesh;
       release: Release;
-      basePos: THREE.Vector3;
-      baseRot: THREE.Euler;
-      texture: THREE.CanvasTexture;
+      targetPos: THREE.Vector3;
+      targetRot: THREE.Euler;
       angle: number;
-    }[] = [];
+      index: number;
+    }
 
-    const total = releases.length;
-    const arcRadius = isMobile ? 14 : 20;
+    const cardMeshes: HelixCard[] = [];
+    const cardList = propsRef.current.releases;
+    const total = cardList.length;
 
-    releases.forEach((rel, index) => {
-      const texture = createBespokeCoverTexture(rel);
+    // Card dimensions
+    const cardWidth = 4.2;
+    const cardHeight = 4.2;
+    const cardDepth = 0.12;
+    const boxGeometry = new THREE.BoxGeometry(cardWidth, cardHeight, cardDepth);
 
-      const edgeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x070814,
+    // Chrono-Helix positioning:
+    // Spiral advancing in 3D: radius, vertical elevation, and rotation
+    const baseRadius = isMobile ? 14 : 17;
+    const heightSpan = 14;
+
+    cardList.forEach((rel, index) => {
+      // Determine texture
+      let texture: THREE.Texture;
+      if (rel.coverImage) {
+        texture = textureLoader.load(
+          rel.coverImage,
+          (t) => {
+            t.colorSpace = THREE.SRGBColorSpace;
+          },
+          undefined,
+          () => {
+            // Fallback on error
+            const fb = createFallbackTexture(rel);
+            materials[4].map = fb;
+            materials[4].needsUpdate = true;
+          }
+        );
+      } else {
+        texture = createFallbackTexture(rel);
+      }
+      loadedTextures.push(texture);
+
+      // Card Materials: front has cover, sides dark glass
+      const edgeMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x060814,
+        roughness: 0.2,
         metalness: 0.9,
-        roughness: 0.15,
       });
 
       const frontMaterial = new THREE.MeshStandardMaterial({
         map: texture,
-        metalness: 0.25,
-        roughness: 0.35,
-        emissive: new THREE.Color(0x0a0b1e),
-        emissiveIntensity: 0.35,
+        roughness: 0.25,
+        metalness: 0.1,
+      });
+
+      const backMaterial = new THREE.MeshStandardMaterial({
+        color: 0x0a0c18,
+        roughness: 0.4,
       });
 
       const materials = [
-        edgeMaterial,
-        edgeMaterial,
-        edgeMaterial,
-        edgeMaterial,
-        frontMaterial,
-        edgeMaterial,
+        edgeMaterial, // right
+        edgeMaterial, // left
+        edgeMaterial, // top
+        edgeMaterial, // bottom
+        frontMaterial, // front
+        backMaterial, // back
       ];
 
-      const mesh = new THREE.Mesh(cardGeometry, materials);
+      const mesh = new THREE.Mesh(boxGeometry, materials);
 
-      // Smooth circular arc distribution
-      const angle = ((index - total / 2) / total) * Math.PI * 1.8;
-      const x = Math.sin(angle) * arcRadius;
-      const z = -Math.cos(angle) * arcRadius + (arcRadius * 0.75);
-      const y = Math.sin(index * 0.8) * 1.6;
+      // Outer Neon Glass Glow Wireframe
+      const outlineGeo = new THREE.EdgesGeometry(boxGeometry);
+      const isPopular = rel.popular || rel.id === 'memory-reboot';
+      const isLatest = rel.latest || rel.id === 'genesis';
+      const outlineColor = isPopular ? 0xf59e0b : isLatest ? 0xd946ef : 0x38bdf8;
 
-      mesh.position.set(x, y, z);
-      mesh.rotation.y = -angle;
+      const outlineMat = new THREE.LineBasicMaterial({
+        color: outlineColor,
+        transparent: true,
+        opacity: 0.65,
+        linewidth: 1.5,
+      });
+      const outlineMesh = new THREE.LineSegments(outlineGeo, outlineMat);
+      mesh.add(outlineMesh);
+
+      // Helix coordinates calculation:
+      // Index 0 (Genesis 2026) -> Front
+      // Last Index (2020) -> Back
+      const normalizedIdx = (index - total / 2) / total;
+      const angle = normalizedIdx * Math.PI * 2.8;
+      const radius = baseRadius + Math.sin(index * 0.4) * 0.8;
+      const x = Math.sin(angle) * radius;
+      const z = -Math.cos(angle) * radius + (baseRadius * 0.55);
+      const y = -normalizedIdx * heightSpan;
+
+      const targetPos = new THREE.Vector3(x, y, z);
+      const targetRot = new THREE.Euler(0, -angle, 0);
+
+      // Initial collapsed position for scroll-reveal
+      mesh.position.set(0, 0, -40);
+      mesh.scale.set(0.01, 0.01, 0.01);
+      mesh.rotation.copy(targetRot);
 
       (mesh as any).userData = { release: rel, index };
-      cardGroup.add(mesh);
+      helixGroup.add(mesh);
 
       cardMeshes.push({
         mesh,
         release: rel,
-        basePos: mesh.position.clone(),
-        baseRot: mesh.rotation.clone(),
-        texture,
+        targetPos,
+        targetRot,
         angle,
+        index,
       });
     });
 
-    // --- Interactive Orbit Physics ---
+    // --- Interactive Orbit & Drag Physics ---
     let isDragging = false;
     let prevPointer = { x: 0, y: 0 };
     const targetRotation = { x: 0, y: 0 };
@@ -327,13 +289,27 @@ export default function Archive3DScene({
     let targetZoom = initialZoom;
     let currentZoom = initialZoom;
 
-    // Controls registration
+    // Reveal animation progression (0 -> 1)
+    let revealProgress = 0;
+    let isRevealed = false;
+
+    // Check if container is in viewport to trigger reveal
+    const checkVisibility = () => {
+      const rect = container.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
+        isRevealed = true;
+      }
+    };
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    checkVisibility();
+
+    // Register UI Controls
     controlsRef.current = {
       next: () => {
-        targetRotation.y -= (Math.PI * 1.8) / total;
+        targetRotation.y -= (Math.PI * 2.8) / total;
       },
       prev: () => {
-        targetRotation.y += (Math.PI * 1.8) / total;
+        targetRotation.y += (Math.PI * 2.8) / total;
       },
       zoomIn: () => {
         targetZoom = Math.max(16, targetZoom - 4);
@@ -345,6 +321,26 @@ export default function Archive3DScene({
         targetRotation.x = 0;
         targetRotation.y = 0;
         targetZoom = initialZoom;
+      },
+      focusHit: () => {
+        const hit = cardMeshes.find((c) => c.release.id === 'memory-reboot' || c.release.popular);
+        if (hit) {
+          targetRotation.y = hit.angle;
+          targetRotation.x = 0;
+          targetZoom = isMobile ? 26 : 22;
+          setActiveRelease(hit.release);
+          propsRef.current.onSelectRelease(hit.release);
+        }
+      },
+      focusLatest: () => {
+        const latest = cardMeshes.find((c) => c.release.id === 'genesis' || c.release.latest);
+        if (latest) {
+          targetRotation.y = latest.angle;
+          targetRotation.x = 0;
+          targetZoom = isMobile ? 26 : 22;
+          setActiveRelease(latest.release);
+          propsRef.current.onSelectRelease(latest.release);
+        }
       },
     };
 
@@ -383,9 +379,11 @@ export default function Archive3DScene({
 
         if (intersects.length > 0) {
           const hit = intersects[0].object as THREE.Mesh;
-          const rel = (hit as any).userData.release as Release;
-          setHoveredRelease(rel);
-          container.style.cursor = 'pointer';
+          const rel = (hit as any).userData?.release as Release;
+          if (rel) {
+            setHoveredRelease(rel);
+            container.style.cursor = 'pointer';
+          }
         } else {
           setHoveredRelease(null);
           container.style.cursor = isDragging ? 'grabbing' : 'grab';
@@ -399,8 +397,9 @@ export default function Archive3DScene({
     };
 
     const onWheel = (e: WheelEvent) => {
+      // Zoom or rotate spiral
       e.preventDefault();
-      targetRotation.y -= e.deltaY * 0.002;
+      targetRotation.y -= e.deltaY * 0.0025;
     };
 
     const onClick = (e: MouseEvent) => {
@@ -413,9 +412,18 @@ export default function Archive3DScene({
 
       if (intersects.length > 0) {
         const hit = intersects[0].object as THREE.Mesh;
-        const clicked = (hit as any).userData.release as Release;
-        setActiveRelease(clicked);
-        propsRef.current.onSelectRelease(clicked);
+        const clicked = (hit as any).userData?.release as Release;
+        if (clicked) {
+          setActiveRelease(clicked);
+          propsRef.current.onSelectRelease(clicked);
+
+          // Smoothly align camera to clicked release
+          const cardData = cardMeshes.find((c) => c.release.id === clicked.id);
+          if (cardData) {
+            targetRotation.y = cardData.angle;
+            targetZoom = isMobile ? 26 : 22;
+          }
+        }
       }
     };
 
@@ -431,13 +439,17 @@ export default function Archive3DScene({
 
     const onResize = () => {
       if (!container) return;
-      camera.aspect = container.clientWidth / container.clientHeight;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      const mob = w < 768;
+      camera.fov = mob ? 55 : 44;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(w, h);
     };
     window.addEventListener('resize', onResize);
 
-    // --- Animation Loop ---
+    // --- 60 FPS Animation Loop ---
     let animId: number;
     const clock = new THREE.Clock();
 
@@ -445,222 +457,128 @@ export default function Archive3DScene({
       animId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
+      // Smooth Reveal Animation
+      if (isRevealed && revealProgress < 1) {
+        revealProgress = Math.min(1, revealProgress + 0.025);
+      }
+
       // Smooth inertia
       currentRotation.x += (targetRotation.x - currentRotation.x) * 0.07;
       currentRotation.y += (targetRotation.y - currentRotation.y) * 0.07;
       currentZoom += (targetZoom - currentZoom) * 0.07;
-
-      if (!isDragging) {
-        targetRotation.y += 0.001;
-      }
-
-      cardGroup.rotation.y = currentRotation.y;
-      cardGroup.rotation.x = currentRotation.x;
       camera.position.z = currentZoom;
 
-      const currentFilter = propsRef.current.activeFilter;
+      // Group rotation
+      helixGroup.rotation.y = currentRotation.y;
+      helixGroup.rotation.x = currentRotation.x;
 
-      cardMeshes.forEach((item, idx) => {
-        const { mesh, release, basePos, baseRot } = item;
+      // Gentle ambient floating wave & reveal lerp
+      cardMeshes.forEach((card, i) => {
+        const floatOffset = Math.sin(elapsed * 1.5 + i * 0.4) * 0.15;
 
-        let match = true;
-        if (currentFilter === 'albums' && release.type !== 'album') match = false;
-        if (currentFilter === 'eps' && release.type !== 'ep') match = false;
-        if (currentFilter === 'singles' && release.type !== 'single') match = false;
-        if (currentFilter === 'collaborations' && (!release.featuring || release.featuring.length === 0)) match = false;
+        // Position interpolation from singularity to spiral
+        card.mesh.position.x = card.targetPos.x * revealProgress;
+        card.mesh.position.y = (card.targetPos.y + floatOffset) * revealProgress;
+        card.mesh.position.z = -40 * (1 - revealProgress) + card.targetPos.z * revealProgress;
 
-        const isCurrentSelected = activeRelease?.id === release.id;
-        const targetScale = isCurrentSelected ? 1.25 : match ? 1.0 : 0.15;
-        mesh.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.09);
+        const isAct = activeRelease?.id === card.release.id;
+        const isHov = hoveredRelease?.id === card.release.id;
 
-        // Floating motion
-        const floatY = Math.sin(elapsed * 1.3 + idx * 0.5) * 0.3;
-        mesh.position.y = basePos.y + floatY;
+        const targetScale = isAct ? 1.25 : isHov ? 1.12 : 1.0;
+        card.mesh.scale.setScalar(targetScale * revealProgress);
 
-        mesh.rotation.z = baseRot.z + Math.sin(elapsed * 0.8 + idx) * 0.03;
+        // Highlight spotlight position if active
+        if (isAct) {
+          const worldPos = new THREE.Vector3();
+          card.mesh.getWorldPosition(worldPos);
+          spotlight.target.position.copy(worldPos);
+          spotlight.target.updateMatrixWorld();
+        }
       });
+
+      // Starfield slow orbit
+      starPoints.rotation.y = elapsed * 0.02;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
+    // --- Cleanup ---
     return () => {
       cancelAnimationFrame(animId);
+      window.removeEventListener('scroll', checkVisibility);
       container.removeEventListener('mousedown', onPointerDown);
       window.removeEventListener('mousemove', onPointerMove);
       window.removeEventListener('mouseup', onPointerUp);
       container.removeEventListener('click', onClick);
       container.removeEventListener('wheel', onWheel);
+
       container.removeEventListener('touchstart', onPointerDown);
       window.removeEventListener('touchmove', onPointerMove);
       window.removeEventListener('touchend', onPointerUp);
       window.removeEventListener('resize', onResize);
-      if (container && renderer.domElement) {
+
+      boxGeometry.dispose();
+      starGeo.dispose();
+      starMat.dispose();
+      loadedTextures.forEach((t) => t.dispose());
+      renderer.dispose();
+      if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
-      cardGeometry.dispose();
-      cardMeshes.forEach((c) => c.texture.dispose());
-      renderer.dispose();
     };
-  }, [releases, activeRelease]);
+  }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      {/* 3D Canvas Container */}
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        minHeight: '600px',
+        borderRadius: '24px',
+        overflow: 'hidden',
+        background: 'radial-gradient(ellipse at 50% 50%, #060714 0%, #020206 100%)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        boxShadow: '0 25px 70px rgba(0, 0, 0, 0.8), inset 0 0 100px rgba(0,0,0,0.8)',
+      }}
+    >
+      {/* 3D WebGL Canvas Container */}
       <div
         ref={containerRef}
         style={{
           width: '100%',
           height: '100%',
-          minHeight: '620px',
-          outline: 'none',
           cursor: 'grab',
+          position: 'relative',
         }}
       />
 
-      {/* Floating 3D Navigation Controls Bar */}
+      {/* Top Bar: Telemetry & Status Indicator */}
       <div
         style={{
           position: 'absolute',
           top: '1.25rem',
+          left: '1.25rem',
           right: '1.25rem',
-          zIndex: 10,
           display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          gap: '0.4rem',
-          background: 'rgba(6, 7, 18, 0.82)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid var(--border-line)',
-          padding: '0.35rem 0.65rem',
-          borderRadius: '100px',
-          boxShadow: '0 8px 30px rgba(0,0,0,0.6)',
+          pointerEvents: 'none',
+          zIndex: 10,
         }}
       >
-        <button
-          onClick={() => controlsRef.current.prev()}
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: 'none',
-            color: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-          }}
-          title="Предыдущий релиз"
-        >
-          <ChevronLeft size={16} />
-        </button>
-
-        <button
-          onClick={() => controlsRef.current.next()}
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: 'none',
-            color: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-          }}
-          title="Следующий релиз"
-        >
-          <ChevronRight size={16} />
-        </button>
-
-        <div style={{ width: '1px', height: '16px', background: 'var(--border-line)', margin: '0 2px' }} />
-
-        <button
-          onClick={() => controlsRef.current.zoomIn()}
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: 'none',
-            color: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-          title="Приблизить"
-        >
-          <ZoomIn size={14} />
-        </button>
-
-        <button
-          onClick={() => controlsRef.current.zoomOut()}
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: 'none',
-            color: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-          title="Отдалить"
-        >
-          <ZoomOut size={14} />
-        </button>
-
-        <button
-          onClick={() => controlsRef.current.reset()}
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: 'none',
-            color: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-          title="Сбросить ракурс"
-        >
-          <RotateCcw size={13} />
-        </button>
-      </div>
-
-      {/* Floating HUD Tooltip when hovering a card */}
-      {hoveredRelease && !activeRelease && (
         <div
           style={{
-            position: 'absolute',
-            bottom: '1.5rem',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(10, 11, 28, 0.9)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(217, 70, 239, 0.4)',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.7), 0 0 25px rgba(217, 70, 239, 0.25)',
-            padding: '0.65rem 1.6rem',
-            borderRadius: '100px',
-            color: '#ffffff',
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: '0.9rem',
-            fontWeight: 600,
-            pointerEvents: 'none',
-            zIndex: 10,
-            whiteSpace: 'nowrap',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.75rem',
+            gap: '0.65rem',
+            padding: '0.5rem 1rem',
+            borderRadius: '100px',
+            background: 'rgba(5, 7, 16, 0.75)',
+            border: '1px solid rgba(217, 70, 239, 0.3)',
+            backdropFilter: 'blur(12px)',
           }}
         >
           <span
@@ -668,243 +586,325 @@ export default function Archive3DScene({
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              background: 'var(--neon-magenta)',
-              boxShadow: '0 0 10px var(--neon-magenta)',
+              background: '#d946ef',
+              boxShadow: '0 0 10px #d946ef',
             }}
           />
-          <span>{hoveredRelease.title}</span>
-          <span style={{ color: 'var(--text-dim)', fontWeight: 400 }}>//</span>
-          <span style={{ color: 'var(--text-muted)' }}>{hoveredRelease.artist}</span>
-          <span style={{ color: 'var(--electric-blue)', fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace" }}>
-            [НАЖМИТЕ ДЛЯ ПРОСМОТРА]
+          <span
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.72rem',
+              color: '#ffffff',
+              letterSpacing: '0.1em',
+              fontWeight: 600,
+            }}
+          >
+            ХРОНО-СПИРАЛЬ ДИСКОГРАФИИ // 31 РЕЛИЗ
           </span>
         </div>
-      )}
 
-      {/* Selected Card Spotlight Panel (When a release is clicked) */}
+        {/* Quick Jump Buttons */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '0.5rem',
+            pointerEvents: 'auto',
+          }}
+        >
+          <button
+            onClick={() => controlsRef.current.focusLatest()}
+            style={{
+              padding: '0.45rem 0.85rem',
+              borderRadius: '8px',
+              background: 'rgba(217, 70, 239, 0.2)',
+              border: '1px solid rgba(217, 70, 239, 0.4)',
+              color: '#ffffff',
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+            }}
+          >
+            <Sparkles size={11} color="var(--neon-magenta)" />
+            <span>2026 GENESIS</span>
+          </button>
+
+          <button
+            onClick={() => controlsRef.current.focusHit()}
+            style={{
+              padding: '0.45rem 0.85rem',
+              borderRadius: '8px',
+              background: 'rgba(245, 158, 11, 0.15)',
+              border: '1px solid rgba(245, 158, 11, 0.35)',
+              color: '#f59e0b',
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            MEMORY REBOOT
+          </button>
+        </div>
+      </div>
+
+      {/* Floating 3D Navigation Controls Bar */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '1.25rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          padding: '0.5rem 0.85rem',
+          borderRadius: '100px',
+          background: 'rgba(7, 9, 20, 0.85)',
+          border: '1px solid rgba(255, 255, 255, 0.14)',
+          backdropFilter: 'blur(16px)',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.7)',
+          zIndex: 10,
+        }}
+      >
+        <button
+          onClick={() => controlsRef.current.prev()}
+          aria-label="Предыдущий релиз"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: '#ffffff',
+            padding: '0.4rem',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            display: 'flex',
+          }}
+        >
+          <ChevronLeft size={18} />
+        </button>
+
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '0.75rem',
+            color: 'var(--text-dim)',
+            padding: '0 0.5rem',
+          }}
+        >
+          ВРАЩЕНИЕ
+        </span>
+
+        <button
+          onClick={() => controlsRef.current.next()}
+          aria-label="Следующий релиз"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: '#ffffff',
+            padding: '0.4rem',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            display: 'flex',
+          }}
+        >
+          <ChevronRight size={18} />
+        </button>
+
+        <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.15)', margin: '0 0.25rem' }} />
+
+        <button
+          onClick={() => controlsRef.current.zoomIn()}
+          aria-label="Приблизить"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--electric-blue)',
+            padding: '0.4rem',
+            cursor: 'pointer',
+            display: 'flex',
+          }}
+        >
+          <ZoomIn size={16} />
+        </button>
+
+        <button
+          onClick={() => controlsRef.current.zoomOut()}
+          aria-label="Отдалить"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--electric-blue)',
+            padding: '0.4rem',
+            cursor: 'pointer',
+            display: 'flex',
+          }}
+        >
+          <ZoomOut size={16} />
+        </button>
+
+        <button
+          onClick={() => controlsRef.current.reset()}
+          aria-label="Сброс положения"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--text-muted)',
+            padding: '0.4rem',
+            cursor: 'pointer',
+            display: 'flex',
+          }}
+        >
+          <RotateCcw size={15} />
+        </button>
+      </div>
+
+      {/* Spotlight Inspection Card (When a release is active) */}
       {activeRelease && (
         <div
           style={{
             position: 'absolute',
-            bottom: '1.5rem',
-            left: '1.5rem',
-            right: '1.5rem',
-            maxWidth: '560px',
-            margin: '0 auto',
-            zIndex: 20,
-            background: 'rgba(8, 9, 24, 0.94)',
-            backdropFilter: 'blur(28px)',
-            WebkitBackdropFilter: 'blur(28px)',
+            bottom: '4.8rem',
+            left: 'clamp(1rem, 3vw, 2rem)',
+            maxWidth: '380px',
+            width: 'calc(100% - 2rem)',
+            padding: '1.25rem',
+            borderRadius: '18px',
+            background: 'rgba(8, 10, 22, 0.92)',
             border: '1px solid rgba(217, 70, 239, 0.45)',
-            borderRadius: '24px',
-            padding: '1.25rem 1.5rem',
-            boxShadow: '0 25px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(217, 70, 239, 0.2)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 15px 40px rgba(0,0,0,0.8), 0 0 35px rgba(217, 70, 239, 0.2)',
+            zIndex: 15,
+            animation: 'fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <span
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.85rem' }}>
+            <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'center' }}>
+              <div
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.72rem',
-                  color: 'var(--neon-magenta)',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
+                  width: '54px',
+                  height: '54px',
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  flexShrink: 0,
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.6)',
                 }}
               >
-                {activeRelease.type === 'album' ? 'АЛЬБОМ' : activeRelease.type === 'ep' ? 'МИНИ-АЛЬБОМ' : 'СИНГЛ'}
-              </span>
-              <span style={{ color: 'var(--text-dim)' }}>•</span>
-              <span
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.72rem',
-                  color: 'var(--text-dim)',
-                }}
-              >
-                {activeRelease.releaseDate}
-              </span>
+                <img
+                  src={activeRelease.coverImage || `/covers/${activeRelease.id}.jpg`}
+                  alt={activeRelease.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+
+              <div>
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.68rem',
+                    color: 'var(--neon-magenta)',
+                    fontWeight: 700,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {activeRelease.type} // {activeRelease.year}
+                </span>
+                <div
+                  style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: '1.15rem',
+                    fontWeight: 800,
+                    color: '#ffffff',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {activeRelease.title}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.72rem',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  {activeRelease.artist}
+                </div>
+              </div>
             </div>
 
             <button
               onClick={() => setActiveRelease(null)}
               style={{
-                width: '30px',
-                height: '30px',
-                borderRadius: '50%',
-                background: 'rgba(255, 255, 255, 0.06)',
+                background: 'rgba(255,255,255,0.08)',
                 border: 'none',
-                color: 'var(--text-muted)',
+                borderRadius: '50%',
+                color: '#ffffff',
+                padding: '0.35rem',
                 cursor: 'pointer',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
-              title="Закрыть"
             >
-              <X size={15} />
+              <X size={14} />
             </button>
           </div>
 
-          <div>
-            <h3
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '1.45rem',
-                fontWeight: 800,
-                color: '#ffffff',
-                margin: '0 0 0.2rem',
-              }}
-            >
-              {activeRelease.title}
-            </h3>
-            <p
-              style={{
-                fontFamily: "'Manrope', sans-serif",
-                fontSize: '0.9rem',
-                color: 'var(--text-muted)',
-                margin: 0,
-              }}
-            >
-              {activeRelease.artist}
-              {activeRelease.featuring && (
-                <span style={{ color: 'var(--electric-blue)' }}>
-                  {' '}совместно с {activeRelease.featuring.join(', ')}
-                </span>
-              )}
-            </p>
-          </div>
-
-          {/* Ссылки на прослушивание и детали */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.65rem',
-              alignItems: 'center',
-              paddingTop: '0.5rem',
-              borderTop: '1px solid var(--border-line)',
-            }}
-          >
+          {/* Quick Actions */}
+          <div style={{ display: 'flex', gap: '0.65rem', marginTop: '1rem' }}>
             {activeRelease.links.spotify && (
               <a
                 href={activeRelease.links.spotify}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
+                  flex: 1,
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.45rem 0.95rem',
-                  borderRadius: '100px',
-                  background: 'rgba(29, 185, 84, 0.15)',
+                  justifyContent: 'center',
+                  gap: '0.45rem',
+                  padding: '0.55rem',
+                  borderRadius: '8px',
+                  background: 'rgba(29, 185, 84, 0.18)',
                   border: '1px solid rgba(29, 185, 84, 0.4)',
-                  color: '#1db954',
+                  color: '#1ed760',
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.78rem',
+                  fontSize: '0.75rem',
                   fontWeight: 600,
                   textDecoration: 'none',
                 }}
               >
-                <span>Spotify</span>
-                <ExternalLink size={11} />
-              </a>
-            )}
-
-            {activeRelease.links.appleMusic && (
-              <a
-                href={activeRelease.links.appleMusic}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.45rem 0.95rem',
-                  borderRadius: '100px',
-                  background: 'rgba(252, 60, 68, 0.15)',
-                  border: '1px solid rgba(252, 60, 68, 0.4)',
-                  color: '#fc3c44',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                }}
-              >
-                <span>Apple Music</span>
-                <ExternalLink size={11} />
-              </a>
-            )}
-
-            {activeRelease.links.youtube && (
-              <a
-                href={activeRelease.links.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.45rem 0.95rem',
-                  borderRadius: '100px',
-                  background: 'rgba(255, 0, 0, 0.15)',
-                  border: '1px solid rgba(255, 0, 0, 0.4)',
-                  color: '#ff4444',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                }}
-              >
-                <span>YouTube</span>
-                <ExternalLink size={11} />
+                <span>SPOTIFY</span>
+                <ExternalLink size={12} />
               </a>
             )}
 
             <button
               onClick={() => propsRef.current.onSelectRelease(activeRelease)}
               style={{
+                flex: 1,
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.4rem',
-                padding: '0.45rem 1.05rem',
-                borderRadius: '100px',
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.35))',
-                border: '1px solid rgba(217, 70, 239, 0.45)',
+                justifyContent: 'center',
+                gap: '0.45rem',
+                padding: '0.55rem',
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(217, 70, 239, 0.4) 100%)',
+                border: '1px solid rgba(217, 70, 239, 0.4)',
                 color: '#ffffff',
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.78rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 cursor: 'pointer',
-                marginLeft: 'auto',
               }}
             >
-              <Disc3 size={13} />
-              <span>ТРЕКЛИСТ И ДЕТАЛИ</span>
+              <Play size={12} />
+              <span>ДЕТАЛИ РЕЛИЗА</span>
             </button>
           </div>
         </div>
       )}
-
-      {/* Инструкция по управлению внизу */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '1rem',
-          left: '1.25rem',
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.65rem',
-          color: 'var(--text-dim)',
-          letterSpacing: '0.08em',
-          pointerEvents: 'none',
-        }}
-      >
-        ПЕРЕТАСКИВАЙТЕ МЫШЬЮ ИЛИ ПАЛЬЦЕМ ДЛЯ ВРАЩЕНИЯ • КЛИКНИТЕ НА ОБЛОЖКУ
-      </div>
     </div>
   );
 }
