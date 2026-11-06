@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Volume2, VolumeX, Disc3, X, Radio } from 'lucide-react';
 import { ambientSound } from './AmbientSoundEngine';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AudioBar() {
   const [isPlayingAmbient, setIsPlayingAmbient] = useState(false);
   const [showSpotifyEmbed, setShowSpotifyEmbed] = useState(false);
+  const { t } = useLanguage();
 
   const toggleSound = () => {
     const active = ambientSound.toggle();
@@ -61,7 +63,7 @@ export default function AudioBar() {
           {isPlayingAmbient ? (
             <>
               <Volume2 size={14} />
-              <span>ЗВУК ВКЛ</span>
+              <span>{t.audioBar.soundOn}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
                 <span
                   style={{
@@ -92,7 +94,7 @@ export default function AudioBar() {
           ) : (
             <>
               <VolumeX size={14} />
-              <span>ЭМБИЕНТ</span>
+              <span>{t.audioBar.ambient}</span>
             </>
           )}
         </button>
@@ -120,14 +122,14 @@ export default function AudioBar() {
             transition: 'all 0.3s ease',
             cursor: 'pointer',
           }}
-          title="Открыть официальный плеер Spotify"
+          title={t.audioBar.spotifyTitle}
         >
           <Radio size={13} />
-          <span>ПЛЕЕР</span>
+          <span>{t.audioBar.player}</span>
         </button>
       </div>
 
-      {/* Embedded Spotify Official Drawer */}
+      {/* Embedded Spotify Official Drawer — Memory Reboot */}
       {showSpotifyEmbed && (
         <div
           className="spotify-embed-drawer"
@@ -166,7 +168,7 @@ export default function AudioBar() {
                   color: '#ffffff',
                 }}
               >
-                Официальный плеер Spotify
+                {t.audioBar.spotifyTitle}
               </span>
             </div>
             <button
@@ -179,21 +181,22 @@ export default function AudioBar() {
                 background: 'none',
                 border: 'none',
               }}
-              aria-label="Закрыть плеер"
+              aria-label={t.audioBar.close}
             >
               <X size={15} />
             </button>
           </div>
 
+          {/* Memory Reboot — VØJ & Narvent (Spotify track ID) */}
           <iframe
             style={{ borderRadius: '12px' }}
-            src="https://open.spotify.com/embed/track/4oyDaL2r04O5s2zPevV03P?utm_source=generator&theme=0"
+            src="https://open.spotify.com/embed/track/5aN2OGGpaNjyYShsHHMPdj?utm_source=generator&theme=0"
             width="100%"
             height="152"
             frameBorder="0"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
-            title="Spotify Official Embed - Narvent"
+            title="Memory Reboot — VØJ & Narvent"
           />
         </div>
       )}

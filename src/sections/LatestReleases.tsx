@@ -2,10 +2,12 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Sparkles, Disc3, ChevronRight, ChevronLeft, Calendar, Music } from 'lucide-react';
 import { getLatestReleases, Release } from '../data/releases';
+import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
 
 export default function LatestReleases() {
+  const { t, lang } = useLanguage();
   const latestReleases = getLatestReleases().slice(0, 7);
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
   const featured = latestReleases[0];
@@ -38,7 +40,7 @@ export default function LatestReleases() {
         >
           <span className="editorial-badge">
             <Sparkles size={11} color="var(--electric-blue)" />
-            СВЕЖИЕ РЕЛИЗЫ // 2025–2026
+            {t.latest.badge}
           </span>
           <div
             style={{
@@ -50,9 +52,9 @@ export default function LatestReleases() {
             }}
           >
             <div>
-              <h2 className="editorial-title">Новые релизы</h2>
+              <h2 className="editorial-title">{t.latest.title}</h2>
               <p className="editorial-subtitle">
-                Последние музыкальные главы и концептуальные проекты, расширяющие атмосферную вселенную Narvent от Самарканда до мировых электронных плейлистов.
+                {t.latest.subtitle}
               </p>
             </div>
 
@@ -78,7 +80,7 @@ export default function LatestReleases() {
                 e.currentTarget.style.transform = 'translateX(0)';
               }}
             >
-              <span>СМОТРЕТЬ ВСЕ В 3D</span>
+              <span>{t.latest.viewAll3D}</span>
               <ChevronRight size={15} />
             </a>
           </div>
@@ -138,7 +140,7 @@ export default function LatestReleases() {
                 }}
               >
                 <Sparkles size={11} />
-                НОВЫЙ РЕЛИЗ
+                {t.latest.newReleaseBadge}
               </div>
             </div>
 
@@ -155,7 +157,7 @@ export default function LatestReleases() {
                     fontWeight: 600,
                   }}
                 >
-                  {featured.type === 'album' ? 'АЛЬБОМ' : featured.type === 'ep' ? 'МИНИ-АЛЬБОМ' : 'СИНГЛ'}
+                  {featured.type === 'album' ? t.latest.album : featured.type === 'ep' ? t.latest.ep : t.latest.single}
                 </span>
                 <span style={{ color: 'var(--text-dim)', fontSize: '0.75rem' }}>•</span>
                 <span
@@ -196,7 +198,7 @@ export default function LatestReleases() {
                 {featured.artist}
                 {featured.featuring && (
                   <span style={{ color: 'var(--electric-blue)' }}>
-                    {' '}совместно с {featured.featuring.join(', ')}
+                    {' '}{t.latest.featWith} {featured.featuring.join(', ')}
                   </span>
                 )}
               </p>
@@ -235,7 +237,7 @@ export default function LatestReleases() {
                   }}
                 >
                   <Music size={13} color="var(--electric-blue)" />
-                  {featured.trackCount ? `${featured.trackCount} треков` : 'Официальный мастер'}
+                  {featured.trackCount ? `${featured.trackCount} ${t.latest.tracksSuffix}` : t.latest.officialMaster}
                 </div>
 
                 <div
@@ -249,7 +251,7 @@ export default function LatestReleases() {
                   }}
                 >
                   <Calendar size={13} color="var(--neon-magenta)" />
-                  {featured.year} год
+                  {featured.year} {t.latest.yearSuffix}
                 </div>
               </div>
 
@@ -272,7 +274,7 @@ export default function LatestReleases() {
                   }}
                 >
                   <Disc3 size={15} />
-                  СЛУШАТЬ РЕЛИЗ
+                  {t.latest.listenRelease}
                 </span>
               </div>
             </div>
@@ -298,7 +300,7 @@ export default function LatestReleases() {
                 textTransform: 'uppercase',
               }}
             >
-              ДРУГИЕ НЕДАВНИЕ РЕЛИЗЫ // {rest.length}
+              {t.latest.otherReleases} // {rest.length}
             </span>
 
             <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -325,7 +327,7 @@ export default function LatestReleases() {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
                   e.currentTarget.style.color = 'var(--text-muted)';
                 }}
-                aria-label="Назад"
+                aria-label={t.latest.prev}
               >
                 <ChevronLeft size={16} />
               </button>
@@ -352,7 +354,7 @@ export default function LatestReleases() {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
                   e.currentTarget.style.color = 'var(--text-muted)';
                 }}
-                aria-label="Вперёд"
+                aria-label={t.latest.next}
               >
                 <ChevronRight size={16} />
               </button>

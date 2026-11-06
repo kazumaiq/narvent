@@ -2,20 +2,22 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Disc3, ExternalLink, Flame } from 'lucide-react';
 import { releases, Release } from '../data/releases';
+import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
 
 export default function PopularReleases() {
+  const { t } = useLanguage();
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
   // Подтверждённый порядок ключевых синглов
-  const rankingMeta: Record<string, { highlight: string; streamOrder: number }> = {
-    'memory-reboot': { highlight: 'Золотая сертификация RIAA (США) • Пик #13 Billboard Hot Dance', streamOrder: 310 },
-    'fainted': { highlight: 'Культовый мировой феномен ночной эстетики и вирусных автомобильных эдитов', streamOrder: 85 },
-    'her-eyes': { highlight: 'Мелодичный атмосферный синтвейв, ставший мировым трендом', streamOrder: 65 },
-    'distant-echoes': { highlight: 'Совместный релиз с продюсерами VXLLAIN и VØJ', streamOrder: 45 },
-    'euphoria': { highlight: 'Коллаборационный сингл с VØJ и KoruSe', streamOrder: 35 },
-    'fade-into-darkness': { highlight: 'Глубокий ночной атмосферный сингл в стилистике dark electronic', streamOrder: 25 },
+  const rankingMeta: Record<string, { streamOrder: number }> = {
+    'memory-reboot': { streamOrder: 310 },
+    'fainted': { streamOrder: 85 },
+    'her-eyes': { streamOrder: 65 },
+    'distant-echoes': { streamOrder: 45 },
+    'euphoria': { streamOrder: 35 },
+    'fade-into-darkness': { streamOrder: 25 },
   };
 
   const rankedTracks = useMemo(() => {
@@ -45,7 +47,7 @@ export default function PopularReleases() {
         >
           <span className="editorial-badge">
             <Trophy size={11} color="var(--electric-blue)" />
-            МИРОВЫЕ СИНГЛЫ // SPOTIFY
+            {t.popular.badge}
           </span>
           <div
             style={{
@@ -57,9 +59,9 @@ export default function PopularReleases() {
             }}
           >
             <div>
-              <h2 className="editorial-title">Главные синглы и хиты</h2>
+              <h2 className="editorial-title">{t.popular.title}</h2>
               <p className="editorial-subtitle">
-                Определяющие синглы и сертифицированные мировые релизы, сформировавшие современное звучание атмосферного кинематографичного синтвейва.
+                {t.popular.subtitle}
               </p>
             </div>
 
@@ -71,7 +73,7 @@ export default function PopularReleases() {
                 letterSpacing: '0.08em',
               }}
             >
-              [ОФИЦИАЛЬНЫЕ СИНГЛЫ // SPOTIFY ВЕРИФИКАЦИЯ]
+              {t.popular.sortBadge}
             </div>
           </div>
         </motion.div>
@@ -169,7 +171,7 @@ export default function PopularReleases() {
                         }}
                       >
                         <Flame size={10} />
-                        МИРОВОЙ ФЕНОМЕН
+                        {t.popular.viralBadge}
                       </span>
                     )}
                   </div>
@@ -186,7 +188,7 @@ export default function PopularReleases() {
                     {release.featuring && (
                       <span style={{ color: 'var(--electric-blue)' }}>
                         {' '}
-                        (совместно с {release.featuring.join(', ')})
+                        ({t.popular.featWith} {release.featuring.join(', ')})
                       </span>
                     )}
                   </div>
@@ -201,7 +203,7 @@ export default function PopularReleases() {
                       lineHeight: 1.4,
                     }}
                   >
-                    {meta.highlight}
+                    {t.popular.highlights[release.id] || ''}
                   </div>
                 </div>
 
@@ -225,7 +227,7 @@ export default function PopularReleases() {
                       textTransform: 'uppercase',
                     }}
                   >
-                    СИНГЛ // {release.year}
+                    {t.popular.singleTag} // {release.year}
                   </span>
 
                   <div
@@ -245,7 +247,7 @@ export default function PopularReleases() {
                     }}
                   >
                     <Disc3 size={12} />
-                    <span>СЛУШАТЬ</span>
+                    <span>{t.popular.listen}</span>
                     <ExternalLink size={10} />
                   </div>
                 </div>

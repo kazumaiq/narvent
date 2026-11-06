@@ -2,22 +2,24 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Box, Grid3X3, Sparkles } from 'lucide-react';
 import { releases, Release } from '../data/releases';
+import { useLanguage } from '../context/LanguageContext';
 import Archive3DScene from '../scenes/Archive3DScene';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
 
 export default function MusicArchive() {
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'all' | 'albums' | 'eps' | 'singles' | 'collaborations'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'3d' | 'grid'>('3d');
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
   const filters = [
-    { id: 'all', label: 'ВСЕ', count: releases.length },
-    { id: 'albums', label: 'АЛЬБОМЫ', count: releases.filter((r) => r.type === 'album').length },
-    { id: 'eps', label: 'EP', count: releases.filter((r) => r.type === 'ep').length },
-    { id: 'singles', label: 'СИНГЛЫ', count: releases.filter((r) => r.type === 'single').length },
-    { id: 'collaborations', label: 'КОЛЛАБЫ', count: releases.filter((r) => r.featuring && r.featuring.length > 0).length },
+    { id: 'all', label: t.archive.filterAll, count: releases.length },
+    { id: 'albums', label: t.archive.filterAlbums, count: releases.filter((r) => r.type === 'album').length },
+    { id: 'eps', label: t.archive.filterEPs, count: releases.filter((r) => r.type === 'ep').length },
+    { id: 'singles', label: t.archive.filterSingles, count: releases.filter((r) => r.type === 'single').length },
+    { id: 'collaborations', label: t.archive.filterCollabs, count: releases.filter((r) => r.featuring && r.featuring.length > 0).length },
   ] as const;
 
   const filteredReleases = useMemo(() => {
@@ -63,11 +65,11 @@ export default function MusicArchive() {
         >
           <span className="editorial-badge magenta" style={{ margin: '0 auto 1.25rem' }}>
             <Sparkles size={11} color="var(--neon-magenta)" />
-            <span>ПРОСТРАНСТВЕННАЯ ДИСКОГРАФИЯ // THREE.JS</span>
+            <span>{t.archive.badge}</span>
           </span>
-          <h2 className="editorial-title">3D Архив дискографии</h2>
+          <h2 className="editorial-title">{t.archive.title}</h2>
           <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>
-            Все номерные альбомы, концептуальные мини-альбомы и ночные синглы артиста в интерактивном трехмерном пространстве.
+            {t.archive.subtitle}
           </p>
         </motion.div>
 
@@ -158,7 +160,7 @@ export default function MusicArchive() {
               />
               <input
                 type="text"
-                placeholder="Поиск..."
+                placeholder={t.archive.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
@@ -207,7 +209,7 @@ export default function MusicArchive() {
                 }}
               >
                 <Box size={13} />
-                <span>3D</span>
+                <span>{t.archive.view3D}</span>
               </button>
 
               <button
@@ -228,7 +230,7 @@ export default function MusicArchive() {
                 }}
               >
                 <Grid3X3 size={13} />
-                <span>СЕТКА</span>
+                <span>{t.archive.viewGrid}</span>
               </button>
             </div>
           </div>

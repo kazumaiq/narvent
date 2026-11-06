@@ -4,8 +4,10 @@ import { Disc3, Play, ExternalLink, ArrowDown, Sparkles, Radio } from 'lucide-re
 import CosmicResonator3D from '../scenes/CosmicResonator3D';
 import ReleaseModal from '../components/ReleaseModal';
 import { getLatestReleases, Release } from '../data/releases';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Hero() {
+  const { t, lang } = useLanguage();
   const latestRelease = getLatestReleases()[0];
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
@@ -88,7 +90,7 @@ export default function Hero() {
             {/* Микро-бейдж */}
             <div className="editorial-badge magenta" style={{ marginBottom: '1.25rem' }}>
               <Radio size={12} color="var(--neon-magenta)" className="pulse-dot" />
-              <span>ОФИЦИАЛЬНЫЙ САЙТ АРТИСТА</span>
+              <span>{t.hero.badge}</span>
             </div>
 
             {/* Заголовок NARVENT */}
@@ -121,7 +123,7 @@ export default function Hero() {
                 maxWidth: '580px',
               }}
             >
-              Кинематографичный синтвейв и электронная музыка.
+              {t.hero.subtitle}
             </h2>
 
             <p
@@ -134,7 +136,7 @@ export default function Hero() {
                 fontWeight: 400,
               }}
             >
-              Фарход Мусулмонов (более известный как Narvent) — автор вирусных мировых хитов «Memory Reboot» и «Fainted». Эстетика ночных дорог, бесконечной скорости и воспоминаний в неоновом тумане.
+              {t.hero.bio}
             </p>
 
             {/* Mobile 3D Artifact Centerpiece */}
@@ -215,7 +217,7 @@ export default function Hero() {
                         textTransform: 'uppercase',
                       }}
                     >
-                      НОВЫЙ РЕЛИЗ 2026
+                      {t.hero.latestReleaseTag}
                     </span>
                     <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.7rem' }}>•</span>
                     <span
@@ -225,7 +227,7 @@ export default function Hero() {
                         color: 'var(--text-dim)',
                       }}
                     >
-                      {latestRelease.trackCount || 17} ТРЕКОВ
+                      {latestRelease.trackCount || 17} {t.hero.tracksCount}
                     </span>
                   </div>
                   <div
@@ -262,7 +264,7 @@ export default function Hero() {
                     flexShrink: 0,
                   }}
                 >
-                  <span>СЛУШАТЬ</span>
+                  <span>{t.hero.listen}</span>
                 </div>
               </motion.div>
             )}
@@ -308,7 +310,7 @@ export default function Hero() {
                 }}
               >
                 <Disc3 size={16} />
-                <span>3D ДИСКОГРАФИЯ</span>
+                <span>{t.hero.cta3D}</span>
               </button>
 
               <button
@@ -339,7 +341,7 @@ export default function Hero() {
                 }}
               >
                 <Play size={14} />
-                <span>ТОП ТРЕКИ</span>
+                <span>{t.hero.ctaPopular}</span>
               </button>
 
               <a
@@ -370,7 +372,7 @@ export default function Hero() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                <span>SPOTIFY</span>
+                <span>{t.hero.ctaSpotify}</span>
                 <ExternalLink size={13} />
               </a>
             </div>
@@ -378,8 +380,8 @@ export default function Hero() {
             {/* Достижения артиста — Золото RIAA и #13 Billboard */}
             <div className="hero-stats-grid">
               {[
-                { label: 'GOLD RIAA', sub: 'Сертификация США', badge: 'Официально' },
-                { label: '#13 BILLBOARD', sub: 'Hot Dance / Elec', badge: 'Чарт США' },
+                { label: t.hero.riaaLabel, sub: t.hero.riaaSub, badge: lang === 'ru' ? 'Официально' : 'Official' },
+                { label: t.hero.billboardLabel, sub: t.hero.billboardSub, badge: lang === 'ru' ? 'Чарт США' : 'US Chart' },
               ].map((stat, idx) => (
                 <div
                   key={idx}
@@ -460,7 +462,7 @@ export default function Hero() {
                 pointerEvents: 'none',
               }}
             >
-              FREQ // 432.0 HZ
+              {t.hero.telemetryFreq}
             </div>
 
             <div
@@ -479,7 +481,7 @@ export default function Hero() {
                 pointerEvents: 'none',
               }}
             >
-              LOC // 39.65° N SAMARKAND
+              {t.hero.telemetryLoc}
             </div>
           </div>
         </div>

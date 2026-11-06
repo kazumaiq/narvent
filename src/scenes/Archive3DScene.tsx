@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Release } from '../data/releases';
 import { ExternalLink, Play, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, X, Disc3, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface Archive3DSceneProps {
   releases: Release[];
@@ -16,6 +17,7 @@ export default function Archive3DScene({
   onSelectRelease,
   activeFilter,
 }: Archive3DSceneProps) {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeRelease, setActiveRelease] = useState<Release | null>(selectedRelease);
   const [hoveredRelease, setHoveredRelease] = useState<Release | null>(null);
@@ -613,7 +615,7 @@ export default function Archive3DScene({
               fontWeight: 600,
             }}
           >
-            ХРОНО-СПИРАЛЬ // 31 РЕЛИЗ
+            {t.archive.spiralFullTitle}
           </span>
           <span
             className="mobile-title"
@@ -626,7 +628,7 @@ export default function Archive3DScene({
               fontWeight: 600,
             }}
           >
-            СПИРАЛЬ // 31
+            {t.archive.spiralMobileTitle}
           </span>
         </div>
 
@@ -724,7 +726,7 @@ export default function Archive3DScene({
             padding: '0 0.5rem',
           }}
         >
-          ВРАЩЕНИЕ
+          {t.archive.rotate}
         </span>
 
         <button
@@ -933,7 +935,7 @@ export default function Archive3DScene({
               }}
             >
               <Play size={12} />
-              <span>ДЕТАЛИ РЕЛИЗА</span>
+              <span>{t.archive.openDetails}</span>
             </button>
           </div>
         </div>

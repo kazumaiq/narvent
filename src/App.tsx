@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { LanguageProvider } from './context/LanguageContext';
 import Loader from './components/Loader';
 import Navigation from './components/Navigation';
 import BackgroundScene from './scenes/BackgroundScene';
@@ -91,55 +92,57 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: 'var(--bg-void)' }}>
-      {/* Экран кинематографичной загрузки */}
-      <AnimatePresence>
-        {loading && <Loader progress={progress} />}
-      </AnimatePresence>
+    <LanguageProvider>
+      <div style={{ position: 'relative', minHeight: '100vh', background: 'var(--bg-void)' }}>
+        {/* Экран кинематографичной загрузки */}
+        <AnimatePresence>
+          {loading && <Loader progress={progress} />}
+        </AnimatePresence>
 
-      {/* Глубокий 3D-фон космических частиц */}
-      <BackgroundScene />
+        {/* Глубокий 3D-фон космических частиц */}
+        <BackgroundScene />
 
-      {/* Динамический атмосферный градиент скролла */}
-      <ScrollGradientOverlay />
+        {/* Динамический атмосферный градиент скролла */}
+        <ScrollGradientOverlay />
 
-      {/* Текстура зернистости */}
-      <div className="ambient-grain" />
+        {/* Текстура зернистости */}
+        <div className="ambient-grain" />
 
-      {/* Навигация и звуковая панель */}
-      <Navigation />
-      <AudioBar />
+        {/* Навигация и звуковая панель */}
+        <Navigation />
+        <AudioBar />
 
-      {/* Основной поток разделов Narvent */}
-      <SmoothScroll>
-        <main style={{ position: 'relative', zIndex: 2 }}>
-          {/* 01. ГЛАВНАЯ */}
-          <Hero />
-          <SectionDivider />
+        {/* Основной поток разделов Narvent */}
+        <SmoothScroll>
+          <main style={{ position: 'relative', zIndex: 2 }}>
+            {/* 01. ГЛАВНАЯ */}
+            <Hero />
+            <SectionDivider />
 
-          {/* 02. НОВЫЕ РЕЛИЗЫ */}
-          <LatestReleases />
-          <SectionDivider variant="glow" />
+            {/* 02. НОВЫЕ РЕЛИЗЫ */}
+            <LatestReleases />
+            <SectionDivider variant="glow" />
 
-          {/* 03. ПОПУЛЯРНОЕ */}
-          <PopularReleases />
-          <SectionDivider />
+            {/* 03. ПОПУЛЯРНОЕ */}
+            <PopularReleases />
+            <SectionDivider />
 
-          {/* 04. 3D АРХИВ */}
-          <MusicArchive />
-          <SectionDivider variant="glow" />
+            {/* 04. 3D АРХИВ */}
+            <MusicArchive />
+            <SectionDivider variant="glow" />
 
-          {/* 05. ОБ АРТИСТЕ */}
-          <About />
-          <SectionDivider />
+            {/* 05. ОБ АРТИСТЕ */}
+            <About />
+            <SectionDivider />
 
-          {/* 06. СОЦИАЛЬНЫЕ СЕТИ */}
-          <SocialUniverse />
+            {/* 06. СОЦИАЛЬНЫЕ СЕТИ */}
+            <SocialUniverse />
 
-          {/* ФУТЕР */}
-          <Footer />
-        </main>
-      </SmoothScroll>
-    </div>
+            {/* ФУТЕР */}
+            <Footer />
+          </main>
+        </SmoothScroll>
+      </div>
+    </LanguageProvider>
   );
 }

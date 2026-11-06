@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Calendar, Music, Sparkles } from 'lucide-react';
 import { Release } from '../data/releases';
 import ReleaseCover from './ReleaseCover';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ReleaseModalProps {
   release: Release | null;
@@ -9,6 +10,8 @@ interface ReleaseModalProps {
 }
 
 export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
+  const { t, lang } = useLanguage();
+
   if (!release) return null;
 
   return (
@@ -62,31 +65,32 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
           {/* Кнопка закрытия */}
           <button
             onClick={onClose}
+            aria-label={t.modal.close}
             style={{
               position: 'absolute',
               top: '1.25rem',
               right: '1.25rem',
-              width: '42px',
-              height: '42px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid var(--border-line)',
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              cursor: 'pointer',
               transition: 'all 0.2s',
+              zIndex: 10,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(217, 70, 239, 0.2)';
-              e.currentTarget.style.color = '#ffffff';
+              e.currentTarget.style.background = 'rgba(217, 70, 239, 0.3)';
+              e.currentTarget.style.transform = 'scale(1.08)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.color = 'var(--text-muted)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+              e.currentTarget.style.transform = 'scale(1)';
             }}
-            aria-label="Закрыть окно"
           >
             <X size={18} />
           </button>
@@ -94,118 +98,95 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 'clamp(1.5rem, 3vw, 2.5rem)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(220px, 30vw, 320px), 1fr))',
+              gap: 'clamp(1.5rem, 3.5vw, 2.75rem)',
               alignItems: 'start',
             }}
           >
             {/* Обложка релиза */}
-            <div>
-              <div
-                style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  boxShadow: '0 20px 45px rgba(0,0,0,0.7)',
-                }}
-              >
-                <ReleaseCover release={release} size="100%" showDetails={false} />
-              </div>
+            <div style={{ position: 'relative' }}>
+              <ReleaseCover release={release} size="100%" showDetails={false} />
             </div>
 
-            {/* Метаданные и ссылки */}
+            {/* Детали релиза */}
             <div>
-              {/* Бейджи */}
+              {/* Бейдж типа */}
               <div
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.6rem',
-                  flexWrap: 'wrap',
+                  gap: '0.4rem',
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '100px',
+                  background: 'rgba(217, 70, 239, 0.15)',
+                  border: '1px solid rgba(217, 70, 239, 0.4)',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: 'var(--neon-magenta)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
                   marginBottom: '1rem',
                 }}
               >
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.72rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.12em',
-                    color: 'var(--neon-magenta)',
-                    background: 'rgba(217, 70, 239, 0.1)',
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '100px',
-                    border: '1px solid rgba(217, 70, 239, 0.25)',
-                    fontWeight: 600,
-                  }}
-                >
-                  {release.type === 'album' ? 'АЛЬБОМ' : release.type === 'ep' ? 'EP' : 'СИНГЛ'}
+                <Sparkles size={11} />
+                <span>
+                  {release.type === 'album'
+                    ? t.modal.album
+                    : release.type === 'ep'
+                    ? t.modal.ep
+                    : t.modal.single}
                 </span>
-
-                <span
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.75rem',
-                    color: 'var(--text-dim)',
-                  }}
-                >
-                  <Calendar size={13} />
-                  {release.releaseDate}
-                </span>
-
-                {release.popular && (
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem',
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.72rem',
-                      color: '#ffd166',
-                      background: 'rgba(255, 209, 102, 0.1)',
-                      padding: '0.2rem 0.6rem',
-                      borderRadius: '100px',
-                      border: '1px solid rgba(255, 209, 102, 0.25)',
-                      fontWeight: 600,
-                    }}
-                  >
-                    <Sparkles size={11} />
-                    ТОП РЕЛИЗ
-                  </span>
-                )}
               </div>
 
-              {/* Название */}
+              {/* Название релиза */}
               <h2
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)',
+                  fontSize: 'clamp(1.8rem, 3.5vw, 2.75rem)',
                   fontWeight: 800,
-                  letterSpacing: '-0.03em',
                   color: '#ffffff',
                   lineHeight: 1.1,
-                  marginBottom: '0.45rem',
+                  letterSpacing: '-0.03em',
+                  marginBottom: '0.5rem',
                 }}
               >
                 {release.title}
               </h2>
 
-              {/* Артисты */}
+              {/* Дата и год */}
               <div
                 style={{
-                  fontFamily: "'Manrope', sans-serif",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.78rem',
+                  color: 'var(--text-dim)',
+                  marginBottom: '1.25rem',
+                }}
+              >
+                <Calendar size={13} color="var(--electric-blue)" />
+                <span>
+                  {t.modal.released}: {release.releaseDate} ({release.year})
+                </span>
+              </div>
+
+              {/* Артист и коллаборации */}
+              <div
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: '1.05rem',
                   color: 'var(--text-muted)',
                   marginBottom: '1.25rem',
                 }}
               >
-                Исполнитель: <strong style={{ color: '#ffffff' }}>{release.artist}</strong>
+                {lang === 'ru' ? 'Исполнитель:' : 'Artist:'}{' '}
+                <strong style={{ color: '#ffffff' }}>{release.artist}</strong>
                 {release.featuring && release.featuring.length > 0 && (
                   <span style={{ color: 'var(--electric-blue)' }}>
                     {' '}
-                    (совместно с {release.featuring.join(', ')})
+                    ({lang === 'ru' ? 'совместно с' : 'feat.'} {release.featuring.join(', ')})
                   </span>
                 )}
               </div>
@@ -242,7 +223,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                     }}
                   >
                     <Music size={12} />
-                    Избранные композиции ({release.tracks.length} треков)
+                    {t.modal.tracklist} ({release.tracks.length})
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {release.tracks.map((track, i) => (
@@ -268,7 +249,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                 </div>
               )}
 
-              {/* Кнопки стриминга */}
+              {/* Кнопки стриминга: Официальный Spotify */}
               <div>
                 <div
                   style={{
@@ -280,7 +261,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                     marginBottom: '0.75rem',
                   }}
                 >
-                  Слушать на официальных площадках
+                  {t.modal.listenOn}
                 </div>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.65rem' }}>
@@ -318,40 +299,6 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                     </a>
                   )}
 
-                  {release.links.youtube && (
-                    <a
-                      href={release.links.youtube}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        padding: '0.6rem 1.1rem',
-                        borderRadius: '100px',
-                        background: 'rgba(255, 0, 0, 0.12)',
-                        border: '1px solid rgba(255, 0, 0, 0.35)',
-                        color: '#ff4d4d',
-                        fontFamily: "'Space Grotesk', sans-serif",
-                        fontSize: '0.82rem',
-                        fontWeight: 600,
-                        transition: 'all 0.2s',
-                        textDecoration: 'none',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 0, 0, 0.22)';
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 0, 0, 0.12)';
-                        e.currentTarget.style.transform = 'translateY(0)';
-                      }}
-                    >
-                      YouTube Music
-                      <ExternalLink size={13} />
-                    </a>
-                  )}
-
                   {release.links.appleMusic && (
                     <a
                       href={release.links.appleMusic}
@@ -385,38 +332,6 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                       <ExternalLink size={13} />
                     </a>
                   )}
-
-                  <a
-                    href="https://soundcloud.com/musicofnarvent"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.6rem 1.1rem',
-                      borderRadius: '100px',
-                      background: 'rgba(255, 119, 0, 0.12)',
-                      border: '1px solid rgba(255, 119, 0, 0.35)',
-                      color: '#ff8833',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '0.82rem',
-                      fontWeight: 600,
-                      transition: 'all 0.2s',
-                      textDecoration: 'none',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 119, 0, 0.22)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 119, 0, 0.12)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    SoundCloud
-                    <ExternalLink size={13} />
-                  </a>
                 </div>
               </div>
             </div>

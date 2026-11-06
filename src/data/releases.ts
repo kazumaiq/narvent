@@ -2,8 +2,6 @@ export type ReleaseType = 'album' | 'ep' | 'single' | 'collaboration';
 
 export interface StreamingLinks {
   spotify?: string;
-  youtube?: string;
-  soundcloud?: string;
   appleMusic?: string;
 }
 
@@ -20,13 +18,13 @@ export interface Release {
   description?: string;
   links: StreamingLinks;
   coverGradient: [string, string, string];
-  coverImage?: string; // 3 colors for generated cover gradient
+  coverImage?: string;
   popular?: boolean;
   latest?: boolean;
 }
 
 export const releases: Release[] = [
-  // === ALBUMS ===
+  // === ALBUMS (Official Spotify) ===
   {
     id: 'genesis',
     coverImage: '/covers/genesis.jpg',
@@ -37,10 +35,9 @@ export const releases: Release[] = [
     year: 2026,
     trackCount: 17,
     tracks: ['The Running Man', 'Override', 'Arcade', 'Supersonic', 'Genesis'],
-    description: 'A massive 17-track project showcasing Narvent\'s evolution in synthwave production.',
+    description: 'A massive 17-track project showcasing Narvent\'s evolution in cinematic synthwave production.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0a0a2e', '#1a0a3e', '#3a1a6e'],
@@ -60,7 +57,6 @@ export const releases: Release[] = [
     description: 'A deeply atmospheric journey through sleepless nights, featuring collaborations with Adieu Aru, KoruSe, and Nikkie.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0d0d2b', '#1a1a4e', '#2d1b69'],
@@ -79,7 +75,6 @@ export const releases: Release[] = [
     description: 'The collaborative album that spawned the global viral hit "Memory Reboot", reaching No. 13 on Billboard Hot Dance/Electronic Songs chart.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0a0520', '#1a0a40', '#4a1a8a'],
@@ -114,7 +109,7 @@ export const releases: Release[] = [
     coverGradient: ['#0d1b2a', '#1b2838', '#2a3f5f'],
   },
 
-  // === EPs ===
+  // === EPs (Official Spotify) ===
   {
     id: 'recall-ep',
     coverImage: '/covers/recall-ep.jpg',
@@ -125,7 +120,6 @@ export const releases: Release[] = [
     year: 2026,
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0a0a1e', '#1e0a3e', '#3e1a5e'],
@@ -171,54 +165,11 @@ export const releases: Release[] = [
     year: 2026,
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
     },
     coverGradient: ['#0a1a3e', '#1a2a5e', '#2a4a8e'],
   },
-  {
-    id: 'reboot-ep',
-    coverImage: '/covers/reboot-ep.jpg',
-    title: 'Reboot',
-    artist: 'Narvent',
-    type: 'ep',
-    releaseDate: '2026-01-01',
-    year: 2026,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
-    },
-    coverGradient: ['#1a0020', '#2a0040', '#5a0080'],
-  },
-  {
-    id: 'corsa-ep',
-    coverImage: '/covers/corsa-ep.jpg',
-    title: 'Corsa',
-    artist: 'Narvent & Axstin',
-    featuring: ['Axstin'],
-    type: 'ep',
-    releaseDate: '2026-01-01',
-    year: 2026,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-    },
-    coverGradient: ['#1a0a1a', '#2a1a3a', '#4a2a5a'],
-  },
-  {
-    id: 'in-our-minds-ep',
-    coverImage: '/covers/in-our-minds-ep.jpg',
-    title: 'In Our Minds',
-    artist: 'Narvent, DVRST & Telicity',
-    featuring: ['DVRST', 'Telicity'],
-    type: 'ep',
-    releaseDate: '2020-01-01',
-    year: 2020,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-    },
-    coverGradient: ['#0d0d1a', '#1a1a3a', '#2a2a5a'],
-  },
 
-  // === SINGLES ===
+  // === SINGLES (Official Spotify) ===
   {
     id: 'memory-reboot',
     coverImage: '/covers/memory-reboot.jpg',
@@ -231,7 +182,6 @@ export const releases: Release[] = [
     description: 'RIAA Gold-certified viral hit. Peaked at No. 13 on Billboard Hot Dance/Electronic Songs.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0a0520', '#1a0a40', '#4a1a8a'],
@@ -248,7 +198,6 @@ export const releases: Release[] = [
     description: 'One of Narvent\'s most popular solo tracks with dark, melancholic synth textures.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0d0d2b', '#1a1a4e', '#2d1b69'],
@@ -265,7 +214,6 @@ export const releases: Release[] = [
     year: 2023,
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
     },
     coverGradient: ['#0a0a2e', '#1a1a4e', '#3a2a6e'],
     popular: true,
@@ -281,7 +229,6 @@ export const releases: Release[] = [
     description: 'A melodic synthwave fan-favorite that paved the way into the Insomnia era.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#1a0a2a', '#2a1a4a', '#4a2a7a'],
@@ -298,7 +245,6 @@ export const releases: Release[] = [
     description: 'A moody, atmospheric electronic piece blending cinematic synthwave and darkwave.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
     },
     coverGradient: ['#0a0a1a', '#1a0a2a', '#2a1a4a'],
     popular: true,
@@ -314,7 +260,6 @@ export const releases: Release[] = [
     year: 2025,
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
     },
     coverGradient: ['#0d1a2d', '#1a2a4d', '#2a4a7d'],
     latest: true,
@@ -330,10 +275,24 @@ export const releases: Release[] = [
     year: 2023,
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
     },
     coverGradient: ['#1a0a3e', '#2a1a5e', '#4a2a8e'],
     popular: true,
+  },
+  {
+    id: 'white-roses',
+    coverImage: '/covers/white-roses.jpg',
+    title: 'White Roses',
+    artist: 'Narvent',
+    type: 'single',
+    releaseDate: '2025-01-01',
+    year: 2025,
+    description: 'Official single featuring iconic retro-aesthetic artwork and driving nocturnal electronic melodies.',
+    links: {
+      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+    },
+    coverGradient: ['#1a1a2a', '#2a2a3a', '#4a4a5a'],
+    latest: true,
   },
   {
     id: 'hypnosis',
@@ -361,7 +320,6 @@ export const releases: Release[] = [
     year: 2024,
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-      youtube: 'https://www.youtube.com/@NarventMusic',
     },
     coverGradient: ['#0a1a2e', '#1a2a4e', '#2a3a6e'],
   },
@@ -378,33 +336,6 @@ export const releases: Release[] = [
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#1a1a2e', '#2a2a4e', '#3a3a6e'],
-  },
-  {
-    id: 'hatred',
-    coverImage: '/covers/hatred.jpg',
-    title: 'HATRED',
-    artist: 'Narvent',
-    type: 'single',
-    releaseDate: '2023-01-01',
-    year: 2023,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-    },
-    coverGradient: ['#1a0000', '#2a0010', '#4a0020'],
-  },
-  {
-    id: 'hear-me',
-    coverImage: '/covers/hear-me.jpg',
-    title: 'HEAR ME',
-    artist: 'VØJ, Narvent & The Scandalous Playaz',
-    featuring: ['VØJ', 'The Scandalous Playaz'],
-    type: 'single',
-    releaseDate: '2023-01-01',
-    year: 2023,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-    },
-    coverGradient: ['#0a0a2a', '#1a0a3a', '#3a1a5a'],
   },
   {
     id: 'broken-halo',
@@ -434,20 +365,6 @@ export const releases: Release[] = [
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
     },
     coverGradient: ['#0a1a3a', '#1a2a5a', '#2a3a7a'],
-    latest: true,
-  },
-  {
-    id: 'white-roses',
-    coverImage: '/covers/white-roses.jpg',
-    title: 'White Roses',
-    artist: 'Narvent',
-    type: 'single',
-    releaseDate: '2025-01-01',
-    year: 2025,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-    },
-    coverGradient: ['#1a1a2a', '#2a2a3a', '#4a4a5a'],
     latest: true,
   },
   {
@@ -490,21 +407,6 @@ export const releases: Release[] = [
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
     },
     coverGradient: ['#1a0a2e', '#2a1a3e', '#4a2a5e'],
-    latest: true,
-  },
-  {
-    id: 'obliterate',
-    coverImage: '/covers/obliterate.jpg',
-    title: 'Obliterate',
-    artist: 'Narvent & FORBIDDEN',
-    featuring: ['FORBIDDEN'],
-    type: 'single',
-    releaseDate: '2025-01-01',
-    year: 2025,
-    links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
-    },
-    coverGradient: ['#1a0000', '#2a0000', '#5a0010'],
     latest: true,
   },
 ];

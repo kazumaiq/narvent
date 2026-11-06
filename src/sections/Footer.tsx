@@ -1,6 +1,9 @@
 import { ArrowUp } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -49,7 +52,7 @@ export default function Footer() {
                 lineHeight: 1.6,
               }}
             >
-              Атмосферные звуковые ландшафты, погружающие в эстетику ночных дорог, бесконечной скорости и кинематографичного синтвейва.
+              {t.footer.tagline}
             </p>
           </div>
 
@@ -85,7 +88,7 @@ export default function Footer() {
             }}
           >
             <ArrowUp size={14} />
-            <span>В НАЧАЛО</span>
+            <span>{t.footer.backToTop}</span>
           </button>
         </div>
 
@@ -105,11 +108,11 @@ export default function Footer() {
           }}
         >
           <div>
-            © {new Date().getFullYear()} NARVENT (Фарход Мусулмонов). Официальная цифровая платформа.
+            {t.footer.copyright}
           </div>
 
           <div>
-            Дистрибуция через volume100 / Believe Digital • Utopia Universe
+            {t.footer.distribution}
           </div>
         </div>
       </div>

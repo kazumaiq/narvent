@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { Sparkles, ExternalLink, Globe } from 'lucide-react';
 import { socials } from '../data/socials';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function SocialUniverse() {
+  const { t } = useLanguage();
   const platformMeta: Record<string, { color: string; desc: string; handle: string }> = {
     spotify: { color: '#1db954', desc: '1.9M+ слушателей в месяц • Главный каталог', handle: 'Narvent на Spotify' },
     youtube: { color: '#ff0000', desc: '579K+ подписчиков • 4K клипы и визуалайзеры', handle: '@NarventMusic' },
@@ -35,11 +37,11 @@ export default function SocialUniverse() {
         >
           <span className="editorial-badge">
             <Sparkles size={11} color="var(--electric-blue)" />
-            ОФИЦИАЛЬНЫЕ ПЛОЩАДКИ // КАНАЛЫ
+            {t.socials.badge}
           </span>
-          <h2 className="editorial-title">Социальные сети и стриминг</h2>
+          <h2 className="editorial-title">{t.socials.title}</h2>
           <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>
-            Прямой доступ ко всем официальным профилям, стриминговым сервисам и фан-сообществам артиста.
+            {t.socials.subtitle}
           </p>
         </motion.div>
 
