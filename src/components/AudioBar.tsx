@@ -15,21 +15,21 @@ export default function AudioBar() {
     <>
       {/* Floating Audio Controller */}
       <div
+        className="audio-controller-bar"
         style={{
           position: 'fixed',
-          bottom: '1.5rem',
+          bottom: 'calc(1.25rem + var(--safe-bottom, 0px))',
           right: '1.5rem',
           zIndex: 40,
           display: 'flex',
           alignItems: 'center',
           gap: '0.65rem',
-          background: 'rgba(9, 9, 25, 0.75)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(111, 147, 255, 0.25)',
+          background: 'rgba(6, 7, 18, 0.85)',
+          backdropFilter: 'blur(24px)',
+          border: '1px solid var(--border-line)',
           padding: '0.45rem 0.75rem',
           borderRadius: '100px',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 117, 255, 0.15)',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.7)',
         }}
       >
         {/* Ambient Soundscape Toggle */}
@@ -42,15 +42,15 @@ export default function AudioBar() {
             padding: '0.35rem 0.75rem',
             borderRadius: '100px',
             background: isPlayingAmbient
-              ? 'rgba(79, 117, 255, 0.25)'
-              : 'rgba(255, 255, 255, 0.05)',
+              ? 'rgba(217, 70, 239, 0.22)'
+              : 'rgba(255, 255, 255, 0.04)',
             border: isPlayingAmbient
-              ? '1px solid rgba(111, 147, 255, 0.5)'
+              ? '1px solid rgba(217, 70, 239, 0.45)'
               : '1px solid transparent',
-            color: isPlayingAmbient ? '#7093ff' : 'rgba(184, 169, 212, 0.75)',
+            color: isPlayingAmbient ? 'var(--neon-magenta)' : 'var(--text-muted)',
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.72rem',
-            fontWeight: 500,
+            fontWeight: 600,
             letterSpacing: '0.08em',
             transition: 'all 0.3s ease',
             cursor: 'pointer',
@@ -59,39 +59,38 @@ export default function AudioBar() {
         >
           {isPlayingAmbient ? (
             <>
-              <Volume2 size={15} />
+              <Volume2 size={14} />
               <span>SOUND ON</span>
-              {/* Mini visualizer bars */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
                 <span
                   style={{
                     width: '2px',
                     height: '8px',
-                    background: '#7093ff',
-                    animation: 'pulseGlow 0.8s infinite alternate',
+                    background: 'var(--neon-magenta)',
+                    animation: 'iridescentPulse 0.8s infinite alternate',
                   }}
                 />
                 <span
                   style={{
                     width: '2px',
                     height: '12px',
-                    background: '#7093ff',
-                    animation: 'pulseGlow 1.2s infinite alternate',
+                    background: 'var(--neon-magenta)',
+                    animation: 'iridescentPulse 1.2s infinite alternate',
                   }}
                 />
                 <span
                   style={{
                     width: '2px',
                     height: '6px',
-                    background: '#7093ff',
-                    animation: 'pulseGlow 0.6s infinite alternate',
+                    background: 'var(--neon-magenta)',
+                    animation: 'iridescentPulse 0.6s infinite alternate',
                   }}
                 />
               </div>
             </>
           ) : (
             <>
-              <VolumeX size={15} />
+              <VolumeX size={14} />
               <span>AMBIENCE</span>
             </>
           )}
@@ -107,22 +106,22 @@ export default function AudioBar() {
             padding: '0.35rem 0.8rem',
             borderRadius: '100px',
             background: showSpotifyEmbed
-              ? 'rgba(29, 185, 84, 0.25)'
-              : 'rgba(255, 255, 255, 0.05)',
+              ? 'rgba(29, 185, 84, 0.22)'
+              : 'rgba(255, 255, 255, 0.04)',
             border: showSpotifyEmbed
-              ? '1px solid rgba(29, 185, 84, 0.5)'
+              ? '1px solid rgba(29, 185, 84, 0.45)'
               : '1px solid transparent',
-            color: showSpotifyEmbed ? '#1db954' : 'rgba(184, 169, 212, 0.75)',
+            color: showSpotifyEmbed ? '#1db954' : 'var(--text-muted)',
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.72rem',
-            fontWeight: 500,
+            fontWeight: 600,
             letterSpacing: '0.08em',
             transition: 'all 0.3s ease',
             cursor: 'pointer',
           }}
           title="Open Official Spotify Player"
         >
-          <Radio size={14} />
+          <Radio size={13} />
           <span>PLAYER</span>
         </button>
       </div>
@@ -136,13 +135,12 @@ export default function AudioBar() {
             right: '1.5rem',
             zIndex: 45,
             width: 'clamp(290px, 90vw, 360px)',
-            background: 'rgba(10, 10, 26, 0.94)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-            border: '1px solid rgba(111, 147, 255, 0.3)',
-            borderRadius: '18px',
+            background: 'rgba(8, 9, 24, 0.95)',
+            backdropFilter: 'blur(30px)',
+            border: '1px solid var(--border-line)',
+            borderRadius: '20px',
             padding: '1rem',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(79, 117, 255, 0.2)',
+            boxShadow: '0 25px 60px rgba(0,0,0,0.85)',
           }}
         >
           <div
@@ -152,36 +150,35 @@ export default function AudioBar() {
               justifyContent: 'space-between',
               marginBottom: '0.75rem',
               paddingBottom: '0.5rem',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+              borderBottom: '1px solid var(--border-line)',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Disc3 size={16} color="#1db954" className="floating-anim" />
+              <Disc3 size={15} color="#1db954" />
               <span
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.8rem',
+                  fontSize: '0.82rem',
                   fontWeight: 600,
                   color: '#ffffff',
                 }}
               >
-                Official Spotify Player
+                Official Spotify Stream
               </span>
             </div>
             <button
               onClick={() => setShowSpotifyEmbed(false)}
               style={{
-                color: 'rgba(255,255,255,0.6)',
+                color: 'var(--text-muted)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
               }}
             >
-              <X size={16} />
+              <X size={15} />
             </button>
           </div>
 
-          {/* Official Spotify Artist/Track Embed iframe */}
           <iframe
             style={{ borderRadius: '12px' }}
             src="https://open.spotify.com/embed/track/4oyDaL2r04O5s2zPevV03P?utm_source=generator&theme=0"
@@ -194,6 +191,17 @@ export default function AudioBar() {
           />
         </div>
       )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .audio-controller-bar {
+            right: auto !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            bottom: calc(0.85rem + var(--safe-bottom, 0px)) !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

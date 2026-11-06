@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 
 interface LoaderProps {
   progress: number;
@@ -9,12 +8,12 @@ export default function Loader({ progress }: LoaderProps) {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] } }}
+      exit={{ opacity: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } }}
       style={{
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: '#04040c',
+        background: '#020206',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -29,17 +28,17 @@ export default function Loader({ progress }: LoaderProps) {
           width: '450px',
           height: '450px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(111, 147, 255, 0.18) 0%, rgba(107, 77, 150, 0.1) 45%, transparent 70%)',
-          filter: 'blur(40px)',
+          background: 'radial-gradient(circle, rgba(217, 70, 239, 0.15) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%)',
+          filter: 'blur(50px)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Monogram emblem */}
+      {/* Monogram & Title */}
       <motion.div
-        initial={{ scale: 0.85, opacity: 0 }}
+        initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: 'relative',
           marginBottom: '2.5rem',
@@ -50,12 +49,12 @@ export default function Loader({ progress }: LoaderProps) {
       >
         <div
           style={{
-            width: '90px',
-            height: '90px',
+            width: '84px',
+            height: '84px',
             borderRadius: '24px',
-            background: 'linear-gradient(135deg, rgba(79, 117, 255, 0.25) 0%, rgba(107, 77, 150, 0.25) 100%)',
-            border: '1px solid rgba(111, 147, 255, 0.5)',
-            boxShadow: '0 0 45px rgba(79, 117, 255, 0.35)',
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(217, 70, 239, 0.25) 100%)',
+            border: '1px solid rgba(217, 70, 239, 0.45)',
+            boxShadow: '0 0 45px rgba(217, 70, 239, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -64,11 +63,10 @@ export default function Loader({ progress }: LoaderProps) {
         >
           <span
             style={{
-              fontFamily: "'Cinzel', serif",
-              fontSize: '2.8rem',
-              fontWeight: 900,
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: '2.6rem',
+              fontWeight: 800,
               color: '#ffffff',
-              textShadow: '0 0 20px #7093ff',
             }}
           >
             N
@@ -77,10 +75,10 @@ export default function Loader({ progress }: LoaderProps) {
 
         <div
           style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: '1.35rem',
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: '1.5rem',
             fontWeight: 800,
-            letterSpacing: '0.3em',
+            letterSpacing: '0.18em',
             color: '#ffffff',
             textTransform: 'uppercase',
           }}
@@ -92,20 +90,20 @@ export default function Loader({ progress }: LoaderProps) {
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.68rem',
-            letterSpacing: '0.2em',
-            color: 'rgba(184, 169, 212, 0.65)',
+            letterSpacing: '0.15em',
+            color: 'var(--text-dim)',
             marginTop: '0.4rem',
             textTransform: 'uppercase',
           }}
         >
-          IMMERSIVE DIGITAL UNIVERSE
+          IMMERSIVE DIGITAL UNIVERSE V2
         </div>
       </motion.div>
 
       {/* Progress Bar Container */}
       <div
         style={{
-          width: 'clamp(220px, 40vw, 320px)',
+          width: 'clamp(220px, 35vw, 300px)',
           height: '2px',
           background: 'rgba(255, 255, 255, 0.08)',
           borderRadius: '4px',
@@ -117,8 +115,8 @@ export default function Loader({ progress }: LoaderProps) {
         <motion.div
           style={{
             height: '100%',
-            background: 'linear-gradient(90deg, #4f75ff 0%, #b8a9d4 50%, #7093ff 100%)',
-            boxShadow: '0 0 15px #7093ff',
+            background: 'linear-gradient(90deg, var(--electric-blue) 0%, var(--electric-indigo) 50%, var(--neon-magenta) 100%)',
+            boxShadow: '0 0 15px var(--neon-magenta)',
             width: `${progress}%`,
             transition: 'width 0.2s ease-out',
           }}
@@ -129,12 +127,12 @@ export default function Loader({ progress }: LoaderProps) {
       <div
         style={{
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.72rem',
-          color: 'rgba(184, 169, 212, 0.6)',
-          letterSpacing: '0.15em',
+          fontSize: '0.7rem',
+          color: 'var(--text-dim)',
+          letterSpacing: '0.12em',
         }}
       >
-        INITIALIZING SPATIAL AUDIO & 3D ARCHIVE // {Math.round(progress)}%
+        SPATIAL SYNTH & SHADERS // {Math.round(progress)}%
       </div>
     </motion.div>
   );

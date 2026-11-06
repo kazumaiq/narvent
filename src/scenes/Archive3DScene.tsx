@@ -16,9 +16,8 @@ export default function Archive3DScene({
   activeFilter,
 }: Archive3DSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hoveredReleaseTitle, setHoveredReleaseTitle] = useState<string | null>(null);
+  const [hoveredRelease, setHoveredRelease] = useState<Release | null>(null);
 
-  // Keep latest callbacks/props in refs for the Three.js render loop
   const propsRef = useRef({ releases, onSelectRelease, activeFilter });
   useEffect(() => {
     propsRef.current = { releases, onSelectRelease, activeFilter };
@@ -30,15 +29,17 @@ export default function Archive3DScene({
 
     // --- Scene Setup ---
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x060613, 0.0035);
+
+    const isMobile = container.clientWidth < 768;
+    const cameraZ = isMobile ? 36 : 30;
 
     const camera = new THREE.PerspectiveCamera(
-      50,
+      isMobile ? 55 : 45,
       container.clientWidth / container.clientHeight,
       0.1,
-      1000
+      200
     );
-    camera.position.set(0, 0, 48);
+    camera.position.set(0, 0, cameraZ);
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -48,103 +49,107 @@ export default function Archive3DScene({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // --- Lighting ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    // --- Dynamic Studio Lights ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x7093ff, 2.5);
-    dirLight1.position.set(20, 30, 40);
-    scene.add(dirLight1);
+    const magentaLight = new THREE.PointLight(0xd946ef, 3.5, 90);
+    magentaLight.position.set(20, 15, 25);
+    scene.add(magentaLight);
 
-    const dirLight2 = new THREE.DirectionalLight(0xb8a9d4, 1.8);
-    dirLight2.position.set(-25, -20, 20);
-    scene.add(dirLight2);
+    const cyanLight = new THREE.PointLight(0x38bdf8, 3.5, 90);
+    cyanLight.position.set(-20, -10, 25);
+    scene.add(cyanLight);
 
-    const pointLight = new THREE.PointLight(0x4f75ff, 3, 70);
-    pointLight.position.set(0, 5, 20);
-    scene.add(pointLight);
+    const frontLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    frontLight.position.set(0, 5, 30);
+    scene.add(frontLight);
 
-    // Helper: generate 2D canvas texture for album cover
+    // --- Helper: Generate Luxury Procedural Texture for each album cover ---
     const createCoverTexture = (rel: Release): THREE.CanvasTexture => {
       const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 512;
+      canvas.width = 600;
+      canvas.height = 600;
       const ctx = canvas.getContext('2d')!;
 
-      const [c1, c2, c3] = rel.coverGradient || ['#0d0d26', '#191142', '#361866'];
+      const [c1, c2, c3] = rel.coverGradient || ['#060814', '#160b2e', '#3b0764'];
 
-      // Gradient background
-      const grad = ctx.createLinearGradient(0, 0, 512, 512);
+      // Background gradient
+      const grad = ctx.createLinearGradient(0, 0, 600, 600);
       grad.addColorStop(0, c1);
       grad.addColorStop(0.5, c2);
       grad.addColorStop(1, c3);
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 512, 512);
+      ctx.fillRect(0, 0, 600, 600);
 
-      // Grid effect
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      // Cyberpunk minimal geometric noise
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
       ctx.lineWidth = 1;
-      for (let i = 40; i < 512; i += 40) {
+      for (let y = 30; y < 600; y += 30) {
         ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, 512);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, i);
-        ctx.lineTo(512, i);
+        ctx.moveTo(0, y);
+        ctx.lineTo(600, y);
         ctx.stroke();
       }
 
-      // Neon center emblem
+      // Central Iridescent Hologram Glyph
       ctx.save();
-      ctx.translate(256, 230);
+      ctx.translate(300, 270);
       ctx.rotate((Math.PI / 180) * 45);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+
+      const haloGrad = ctx.createRadialGradient(0, 0, 10, 0, 0, 120);
+      haloGrad.addColorStop(0, '#d946ef');
+      haloGrad.addColorStop(0.5, '#6366f1');
+      haloGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = haloGrad;
+      ctx.fillRect(-120, -120, 240, 240);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
       ctx.lineWidth = 2.5;
-      ctx.strokeRect(-65, -65, 130, 130);
-      ctx.strokeStyle = '#7093ff';
-      ctx.strokeRect(-40, -40, 80, 80);
+      ctx.strokeRect(-80, -80, 160, 160);
+
+      ctx.strokeStyle = '#38bdf8';
+      ctx.strokeRect(-50, -50, 100, 100);
+
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
-      ctx.arc(0, 0, 12, 0, Math.PI * 2);
+      ctx.arc(0, 0, 14, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
 
-      // Top Tag
-      ctx.font = '600 22px "Space Grotesk", sans-serif';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-      ctx.fillText('NARVENT', 40, 60);
+      // Header Typography
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+      ctx.font = '700 24px "Space Grotesk", sans-serif';
+      ctx.fillText('NARVENT', 45, 65);
 
-      ctx.font = '500 16px "JetBrains Mono", monospace';
-      ctx.fillStyle = 'rgba(184, 169, 212, 0.9)';
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.95)';
+      ctx.font = '600 18px "JetBrains Mono", monospace';
       ctx.textAlign = 'right';
-      ctx.fillText(`${rel.type.toUpperCase()} // ${rel.year}`, 472, 60);
+      ctx.fillText(`${rel.type.toUpperCase()} // ${rel.year}`, 555, 65);
 
-      // Bottom Title
+      // Title & Artist
       ctx.textAlign = 'left';
-      ctx.font = '700 32px "Space Grotesk", sans-serif';
       ctx.fillStyle = '#ffffff';
+      ctx.font = '800 36px "Space Grotesk", sans-serif';
 
-      // Truncate title if long
       let title = rel.title;
-      if (title.length > 22) title = title.substring(0, 20) + '...';
-      ctx.fillText(title, 40, 430);
+      if (title.length > 20) title = title.substring(0, 18) + '...';
+      ctx.fillText(title, 45, 500);
 
-      // Bottom Artist
-      ctx.font = '400 20px "Inter", sans-serif';
-      ctx.fillStyle = 'rgba(212, 200, 245, 0.75)';
+      ctx.fillStyle = 'rgba(203, 213, 225, 0.85)';
+      ctx.font = '500 22px "Manrope", sans-serif';
       const artistLine = rel.featuring ? `${rel.artist} ft. ${rel.featuring.join(', ')}` : rel.artist;
       let displayArtist = artistLine;
-      if (displayArtist.length > 28) displayArtist = displayArtist.substring(0, 26) + '...';
-      ctx.fillText(displayArtist, 40, 465);
+      if (displayArtist.length > 26) displayArtist = displayArtist.substring(0, 24) + '...';
+      ctx.fillText(displayArtist, 45, 540);
 
-      // Shiny border
+      // Chrome rim border
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
       ctx.lineWidth = 4;
-      ctx.strokeRect(2, 2, 508, 508);
+      ctx.strokeRect(2, 2, 596, 596);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.generateMipmaps = true;
@@ -152,42 +157,42 @@ export default function Archive3DScene({
       return texture;
     };
 
-    // --- Create 3D Meshes for Releases ---
-    const releaseCardMeshes: {
+    // --- Create 3D Meshes ---
+    const cardGroup = new THREE.Group();
+    cardGroup.position.set(0, 0, 0);
+    scene.add(cardGroup);
+
+    // Box case geometry with rounded appearance
+    const cardGeometry = new THREE.BoxGeometry(6.4, 6.4, 0.35);
+
+    const cardMeshes: {
       mesh: THREE.Mesh;
       release: Release;
       basePos: THREE.Vector3;
       baseRot: THREE.Euler;
-      targetScale: number;
       texture: THREE.CanvasTexture;
     }[] = [];
 
-    const cardGroup = new THREE.Group();
-    scene.add(cardGroup);
-
-    // Box geometry with bevel-like depth
-    const cardGeometry = new THREE.BoxGeometry(6, 6, 0.28);
+    const total = releases.length;
+    const arcRadius = isMobile ? 13 : 19;
 
     releases.forEach((rel, index) => {
       const texture = createCoverTexture(rel);
 
-      // Dark edge/back material
       const edgeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x090918,
-        metalness: 0.8,
-        roughness: 0.3,
+        color: 0x060714,
+        metalness: 0.85,
+        roughness: 0.2,
       });
 
-      // Front cover material with dynamic texture
       const frontMaterial = new THREE.MeshStandardMaterial({
         map: texture,
-        metalness: 0.25,
-        roughness: 0.45,
-        emissive: new THREE.Color(0x111122),
+        metalness: 0.3,
+        roughness: 0.4,
+        emissive: new THREE.Color(0x0e0e24),
         emissiveIntensity: 0.4,
       });
 
-      // Six face materials: [right, left, top, bottom, front, back]
       const materials = [
         edgeMaterial,
         edgeMaterial,
@@ -199,18 +204,16 @@ export default function Archive3DScene({
 
       const mesh = new THREE.Mesh(cardGeometry, materials);
 
-      // Calculate position along an expansive cosmic ribbon / helix
-      const total = releases.length;
-      const angle = (index / total) * Math.PI * 4.2;
-      const radius = 17 + Math.sin(index * 0.4) * 3;
-      const x = Math.sin(angle) * radius;
-      const y = (index - total / 2) * 2.8;
-      const z = Math.cos(angle) * (radius * 0.85);
+      // Perfectly centered circular arc in X-Z plane
+      const angle = ((index - total / 2) / total) * Math.PI * 1.6;
+
+      const x = Math.sin(angle) * arcRadius;
+      const z = -Math.cos(angle) * arcRadius + (arcRadius * 0.7);
+      // Gentle subtle elevation variation centered around y=0
+      const y = Math.sin(index * 0.7) * 1.5;
 
       mesh.position.set(x, y, z);
-      // Face towards center/viewer
-      mesh.rotation.y = angle + Math.PI;
-      mesh.rotation.x = -y * 0.015;
+      mesh.rotation.y = -angle;
 
       const basePos = mesh.position.clone();
       const baseRot = mesh.rotation.clone();
@@ -218,63 +221,64 @@ export default function Archive3DScene({
       (mesh as any).userData = { release: rel };
       cardGroup.add(mesh);
 
-      releaseCardMeshes.push({
+      cardMeshes.push({
         mesh,
         release: rel,
         basePos,
         baseRot,
-        targetScale: 1,
         texture,
       });
     });
 
-    // --- Interactive Orbit & Drag Controls ---
+    // --- Interactive Orbit & Drag Physics ---
     let isDragging = false;
-    let prevMousePos = { x: 0, y: 0 };
-    const rotationTarget = { x: 0, y: 0 };
-    const rotationCurrent = { x: 0, y: 0 };
-    let zoomTarget = 48;
-    let zoomCurrent = 48;
+    let prevPointer = { x: 0, y: 0 };
+    const targetRotation = { x: 0, y: 0 };
+    const currentRotation = { x: 0, y: 0 };
+    const initialZoom = isMobile ? 36 : 30;
+    let targetZoom = initialZoom;
+    let currentZoom = initialZoom;
 
     const onPointerDown = (e: MouseEvent | TouchEvent) => {
       isDragging = true;
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-      prevMousePos = { x: clientX, y: clientY };
+      prevPointer = { x: clientX, y: clientY };
     };
+
+    const raycaster = new THREE.Raycaster();
 
     const onPointerMove = (e: MouseEvent | TouchEvent) => {
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
       if (isDragging) {
-        const deltaX = clientX - prevMousePos.x;
-        const deltaY = clientY - prevMousePos.y;
-        rotationTarget.y += deltaX * 0.005;
-        rotationTarget.x += deltaY * 0.004;
-        // Clamp vertical tilt
-        rotationTarget.x = Math.max(-0.6, Math.min(0.6, rotationTarget.x));
-        prevMousePos = { x: clientX, y: clientY };
+        const deltaX = clientX - prevPointer.x;
+        const deltaY = clientY - prevPointer.y;
+
+        targetRotation.y += deltaX * 0.0055;
+        targetRotation.x += deltaY * 0.003;
+        targetRotation.x = Math.max(-0.35, Math.min(0.35, targetRotation.x));
+
+        prevPointer = { x: clientX, y: clientY };
       }
 
-      // Raycasting for hover (mouse only)
+      // Raycast Hover (Mouse only)
       if (!('touches' in e)) {
         const rect = container.getBoundingClientRect();
-        const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const my = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-        raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
-        const intersects = raycaster.intersectObjects(
-          releaseCardMeshes.map((r) => r.mesh)
-        );
+        raycaster.setFromCamera(new THREE.Vector2(mx, my), camera);
+        const intersects = raycaster.intersectObjects(cardMeshes.map((c) => c.mesh));
 
         if (intersects.length > 0) {
-          const hoveredMesh = intersects[0].object as THREE.Mesh;
-          const rel = (hoveredMesh as any).userData.release as Release;
-          setHoveredReleaseTitle(`${rel.title} — ${rel.artist}`);
+          const hit = intersects[0].object as THREE.Mesh;
+          const rel = (hit as any).userData.release as Release;
+          setHoveredRelease(rel);
           container.style.cursor = 'pointer';
         } else {
-          setHoveredReleaseTitle(null);
+          setHoveredRelease(null);
           container.style.cursor = isDragging ? 'grabbing' : 'grab';
         }
       }
@@ -286,28 +290,22 @@ export default function Archive3DScene({
     };
 
     const onWheel = (e: WheelEvent) => {
-      // Zoom gently without breaking scroll
       e.preventDefault();
-      zoomTarget += e.deltaY * 0.04;
-      zoomTarget = Math.max(18, Math.min(75, zoomTarget));
+      targetRotation.y -= e.deltaY * 0.002;
     };
-
-    const raycaster = new THREE.Raycaster();
 
     const onClick = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const my = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-      raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
-      const intersects = raycaster.intersectObjects(
-        releaseCardMeshes.map((r) => r.mesh)
-      );
+      raycaster.setFromCamera(new THREE.Vector2(mx, my), camera);
+      const intersects = raycaster.intersectObjects(cardMeshes.map((c) => c.mesh));
 
       if (intersects.length > 0) {
-        const hitMesh = intersects[0].object as THREE.Mesh;
-        const clickedRelease = (hitMesh as any).userData.release as Release;
-        propsRef.current.onSelectRelease(clickedRelease);
+        const hit = intersects[0].object as THREE.Mesh;
+        const clicked = (hit as any).userData.release as Release;
+        propsRef.current.onSelectRelease(clicked);
       }
     };
 
@@ -317,12 +315,10 @@ export default function Archive3DScene({
     container.addEventListener('click', onClick);
     container.addEventListener('wheel', onWheel, { passive: false });
 
-    // Touch events for mobile
     container.addEventListener('touchstart', onPointerDown, { passive: true });
     window.addEventListener('touchmove', onPointerMove, { passive: true });
     window.addEventListener('touchend', onPointerUp);
 
-    // Resize handler
     const onResize = () => {
       if (!container) return;
       camera.aspect = container.clientWidth / container.clientHeight;
@@ -331,56 +327,53 @@ export default function Archive3DScene({
     };
     window.addEventListener('resize', onResize);
 
-    // --- Render Loop ---
+    // --- Animation Loop ---
     let animId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
-    const render = () => {
-      animId = requestAnimationFrame(render);
-      const elapsedTime = clock.getElapsedTime();
+    const animate = () => {
+      animId = requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
 
-      // Smooth camera orbit
-      rotationCurrent.x += (rotationTarget.x - rotationCurrent.x) * 0.06;
-      rotationCurrent.y += (rotationTarget.y - rotationCurrent.y) * 0.06;
-      zoomCurrent += (zoomTarget - zoomCurrent) * 0.06;
+      // Smooth inertia
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.07;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.07;
+      currentZoom += (targetZoom - currentZoom) * 0.07;
 
-      // Slowly rotate the entire galaxy of releases if not dragging
       if (!isDragging) {
-        rotationTarget.y += 0.0012;
+        targetRotation.y += 0.0012;
       }
 
-      cardGroup.rotation.y = rotationCurrent.y;
-      cardGroup.rotation.x = rotationCurrent.x;
-      camera.position.z = zoomCurrent;
+      cardGroup.rotation.y = currentRotation.y;
+      cardGroup.rotation.x = currentRotation.x;
+      camera.position.z = currentZoom;
 
-      // Animate individual release meshes (gentle hovering and filter scaling)
       const currentFilter = propsRef.current.activeFilter;
 
-      releaseCardMeshes.forEach((item, idx) => {
+      cardMeshes.forEach((item, idx) => {
         const { mesh, release, basePos, baseRot } = item;
 
-        // Check filter match
-        let isVisible = true;
-        if (currentFilter === 'albums' && release.type !== 'album') isVisible = false;
-        if (currentFilter === 'eps' && release.type !== 'ep') isVisible = false;
-        if (currentFilter === 'singles' && release.type !== 'single') isVisible = false;
-        if (currentFilter === 'collaborations' && (!release.featuring || release.featuring.length === 0)) isVisible = false;
+        let match = true;
+        if (currentFilter === 'albums' && release.type !== 'album') match = false;
+        if (currentFilter === 'eps' && release.type !== 'ep') match = false;
+        if (currentFilter === 'singles' && release.type !== 'single') match = false;
+        if (currentFilter === 'collaborations' && (!release.featuring || release.featuring.length === 0)) match = false;
 
-        const targetScale = isVisible ? 1 : 0.15;
-        mesh.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.08);
+        const targetScale = match ? 1.0 : 0.15;
+        mesh.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.09);
 
-        // Gentle floating motion
-        const floatOffset = Math.sin(elapsedTime * 1.5 + idx * 0.7) * 0.45;
-        mesh.position.y = basePos.y + floatOffset;
+        // Gentle floating wave
+        const floatY = Math.sin(elapsed * 1.4 + idx * 0.5) * 0.35;
+        mesh.position.y = basePos.y + floatY;
 
-        // Subtle wobble
-        mesh.rotation.z = baseRot.z + Math.sin(elapsedTime * 0.8 + idx) * 0.03;
+        // Subtle dynamic tilt
+        mesh.rotation.z = baseRot.z + Math.sin(elapsed * 0.9 + idx) * 0.03;
       });
 
       renderer.render(scene, camera);
     };
 
-    render();
+    animate();
 
     return () => {
       cancelAnimationFrame(animId);
@@ -397,9 +390,7 @@ export default function Archive3DScene({
         container.removeChild(renderer.domElement);
       }
       cardGeometry.dispose();
-      releaseCardMeshes.forEach((r) => {
-        r.texture.dispose();
-      });
+      cardMeshes.forEach((c) => c.texture.dispose());
       renderer.dispose();
     };
   }, [releases]);
@@ -417,31 +408,30 @@ export default function Archive3DScene({
         }}
       />
 
-      {/* Floating 3D HUD Tooltip */}
-      {hoveredReleaseTitle && (
+      {/* Floating HUD Tooltip */}
+      {hoveredRelease && (
         <div
           style={{
             position: 'absolute',
             bottom: '2rem',
             left: '50%',
             transform: 'translateX(-50%)',
-            background: 'rgba(10, 10, 30, 0.85)',
-            backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(111, 147, 255, 0.4)',
-            boxShadow: '0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(79, 117, 255, 0.25)',
+            background: 'rgba(10, 11, 28, 0.88)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(217, 70, 239, 0.4)',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.7), 0 0 25px rgba(217, 70, 239, 0.25)',
             padding: '0.65rem 1.6rem',
             borderRadius: '100px',
             color: '#ffffff',
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: '0.9rem',
+            fontSize: '0.92rem',
             fontWeight: 600,
-            letterSpacing: '0.04em',
             pointerEvents: 'none',
             zIndex: 10,
             whiteSpace: 'nowrap',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6rem',
+            gap: '0.75rem',
           }}
         >
           <span
@@ -449,35 +439,34 @@ export default function Archive3DScene({
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              background: '#4f75ff',
-              boxShadow: '0 0 10px #4f75ff',
+              background: 'var(--neon-magenta)',
+              boxShadow: '0 0 10px var(--neon-magenta)',
             }}
           />
-          {hoveredReleaseTitle}
+          <span>{hoveredRelease.title}</span>
+          <span style={{ color: 'var(--text-dim)', fontWeight: 400 }}>//</span>
+          <span style={{ color: 'var(--text-muted)' }}>{hoveredRelease.artist}</span>
         </div>
       )}
 
-      {/* Exploration instruction overlay badge */}
+      {/* HUD Instruction */}
       <div
         style={{
           position: 'absolute',
           top: '1.25rem',
           right: '1.5rem',
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.72rem',
-          color: 'rgba(184, 169, 212, 0.65)',
-          background: 'rgba(12, 12, 32, 0.65)',
+          fontSize: '0.7rem',
+          color: 'var(--text-dim)',
+          background: 'rgba(10, 11, 28, 0.65)',
           backdropFilter: 'blur(12px)',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '0.45rem 0.9rem',
+          padding: '0.4rem 0.85rem',
           borderRadius: '100px',
           pointerEvents: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem',
         }}
       >
-        <span>DRAG TO ROTATE // CLICK COVER TO INSPECT</span>
+        <span>SWIPE OR DRAG TO ROTATE // CLICK TO INSPECT</span>
       </div>
     </div>
   );

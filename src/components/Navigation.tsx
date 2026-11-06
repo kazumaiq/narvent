@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Menu, X, Disc } from 'lucide-react';
+import { Menu, X, Disc } from 'lucide-react';
 
 const navItems = [
   { label: 'HOME', href: '#home' },
   { label: 'LATEST', href: '#music' },
-  { label: 'TOP TRACKS', href: '#popular' },
+  { label: 'TOP HITS', href: '#popular' },
   { label: '3D ARCHIVE', href: '#archive' },
+  { label: 'SANCTUARY', href: '#sanctuary' },
   { label: 'ABOUT', href: '#about' },
   { label: 'SOCIALS', href: '#socials' },
 ];
@@ -17,7 +18,7 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -34,9 +35,9 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Desktop Floating Navigation Pill */}
+      {/* Desktop Floating Pill Navigation */}
       <motion.header
-        initial={{ y: -60, opacity: 0 }}
+        initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
@@ -57,45 +58,53 @@ export default function Navigation() {
             padding: '0.45rem 0.65rem 0.45rem 1.25rem',
             borderRadius: '100px',
             background: scrolled
-              ? 'rgba(8, 8, 22, 0.85)'
-              : 'rgba(12, 12, 32, 0.6)',
-            backdropFilter: 'blur(20px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: '1px solid rgba(111, 147, 255, 0.22)',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 117, 255, 0.1)',
+              ? 'rgba(6, 7, 18, 0.88)'
+              : 'rgba(10, 11, 28, 0.65)',
+            backdropFilter: 'blur(24px) saturate(160%)',
+            border: '1px solid var(--border-line)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.6)',
             transition: 'all 0.3s ease',
           }}
         >
-          {/* Logo Monogram */}
+          {/* Logo */}
           <button
             onClick={() => scrollToSection('#home')}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.6rem',
+              gap: '0.5rem',
               cursor: 'pointer',
             }}
           >
             <span
               style={{
-                fontFamily: "'Cinzel', serif",
+                fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: '1.15rem',
-                fontWeight: 900,
-                letterSpacing: '0.15em',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
                 color: '#ffffff',
               }}
             >
               NARVENT
             </span>
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                background: 'var(--neon-magenta)',
+                boxShadow: '0 0 8px var(--neon-magenta)',
+              }}
+            />
           </button>
 
-          {/* Desktop Nav Links */}
+          {/* Desktop Links */}
           <nav
-            className="hide-on-mobile"
+            className="desktop-only"
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.2rem',
+              gap: '0.15rem',
             }}
           >
             {navItems.map((item) => (
@@ -106,19 +115,19 @@ export default function Navigation() {
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: '0.75rem',
                   fontWeight: 600,
-                  letterSpacing: '0.08em',
-                  color: 'rgba(212, 200, 245, 0.75)',
+                  letterSpacing: '0.06em',
+                  color: 'var(--text-muted)',
                   padding: '0.45rem 0.85rem',
                   borderRadius: '100px',
-                  transition: 'all 0.25s',
+                  transition: 'all 0.2s',
                   cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.background = 'rgba(79, 117, 255, 0.15)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'rgba(212, 200, 245, 0.75)';
+                  e.currentTarget.style.color = 'var(--text-muted)';
                   e.currentTarget.style.background = 'transparent';
                 }}
               >
@@ -127,36 +136,36 @@ export default function Navigation() {
             ))}
           </nav>
 
-          {/* Quick CTA to 3D Archive */}
+          {/* 3D Archive Fast Entry */}
           <button
             onClick={() => scrollToSection('#archive')}
-            className="hide-on-mobile"
+            className="desktop-only"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.4rem',
               padding: '0.45rem 0.95rem',
               borderRadius: '100px',
-              background: 'linear-gradient(135deg, rgba(79, 117, 255, 0.35), rgba(107, 77, 150, 0.35))',
-              border: '1px solid rgba(111, 147, 255, 0.45)',
+              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.35))',
+              border: '1px solid rgba(217, 70, 239, 0.4)',
               color: '#ffffff',
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: '0.75rem',
               fontWeight: 700,
-              letterSpacing: '0.06em',
+              letterSpacing: '0.04em',
               cursor: 'pointer',
               transition: 'all 0.2s',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
-            <Disc size={13} className="floating-anim" />
+            <Disc size={13} />
             <span>3D ARCHIVE</span>
           </button>
 
-          {/* Mobile Menu Hamburger Button */}
+          {/* Mobile Hamburger Button */}
           <button
-            className="hide-on-desktop"
+            className="mobile-only"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{
               width: '38px',
@@ -165,10 +174,11 @@ export default function Navigation() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(255, 255, 255, 0.08)',
+              background: 'rgba(255, 255, 255, 0.06)',
               color: '#ffffff',
               cursor: 'pointer',
             }}
+            aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -182,23 +192,22 @@ export default function Navigation() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             style={{
               position: 'fixed',
-              top: '4.5rem',
+              top: '4.75rem',
               left: '1.25rem',
               right: '1.25rem',
               zIndex: 49,
-              background: 'rgba(10, 10, 28, 0.96)',
-              backdropFilter: 'blur(28px)',
-              WebkitBackdropFilter: 'blur(28px)',
-              border: '1px solid rgba(111, 147, 255, 0.3)',
+              background: 'rgba(8, 9, 24, 0.96)',
+              backdropFilter: 'blur(30px)',
+              border: '1px solid rgba(217, 70, 239, 0.3)',
               borderRadius: '24px',
               padding: '1.5rem',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85)',
+              boxShadow: '0 25px 70px rgba(0, 0, 0, 0.9)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.75rem',
+              gap: '0.65rem',
             }}
           >
             {navItems.map((item) => (
@@ -207,12 +216,12 @@ export default function Navigation() {
                 onClick={() => scrollToSection(item.href)}
                 style={{
                   textAlign: 'left',
-                  padding: '0.85rem 1rem',
+                  padding: '0.85rem 1.15rem',
                   borderRadius: '12px',
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.95rem',
+                  fontSize: '1rem',
                   fontWeight: 600,
-                  letterSpacing: '0.08em',
+                  letterSpacing: '0.06em',
                   color: '#ffffff',
                   background: 'rgba(255, 255, 255, 0.04)',
                   cursor: 'pointer',

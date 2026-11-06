@@ -14,7 +14,7 @@ export default function ReleaseCover({
   className = '',
   showDetails = true,
 }: ReleaseCoverProps) {
-  const [g1, g2, g3] = release.coverGradient || ['#0a0520', '#140a32', '#2a1a52'];
+  const [g1, g2, g3] = release.coverGradient || ['#060714', '#180d36', '#4a044e'];
 
   return (
     <div
@@ -25,8 +25,8 @@ export default function ReleaseCover({
         position: 'relative',
         borderRadius: '14px',
         overflow: 'hidden',
-        boxShadow: `0 14px 40px rgba(0,0,0,0.65), 0 0 30px ${g2}44`,
-        border: '1px solid rgba(255, 255, 255, 0.12)',
+        boxShadow: `0 14px 40px rgba(0,0,0,0.7), 0 0 30px ${g2}55`,
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         background: `linear-gradient(135deg, ${g1} 0%, ${g2} 50%, ${g3} 100%)`,
         userSelect: 'none',
       }}
@@ -36,17 +36,17 @@ export default function ReleaseCover({
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle at 80% 20%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.03) 30%, transparent 60%)',
+          background: 'radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.02) 35%, transparent 65%)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Cyberpunk grid lines / atmospheric horizon */}
+      {/* Cyberpunk grid lines */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.25,
+          opacity: 0.18,
           backgroundImage: `
             linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)
@@ -58,7 +58,7 @@ export default function ReleaseCover({
         }}
       />
 
-      {/* Glowing neon halo */}
+      {/* Neon glowing halo */}
       <div
         style={{
           position: 'absolute',
@@ -67,7 +67,7 @@ export default function ReleaseCover({
           top: '12%',
           left: '12%',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${g3}88 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${g3}99 0%, transparent 70%)`,
           filter: 'blur(16px)',
           pointerEvents: 'none',
         }}
@@ -92,8 +92,9 @@ export default function ReleaseCover({
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: 'clamp(8px, 2.2cqi, 11px)',
               letterSpacing: '0.2em',
-              color: 'rgba(255, 255, 255, 0.65)',
+              color: 'rgba(255, 255, 255, 0.7)',
               textTransform: 'uppercase',
+              fontWeight: 600,
             }}
           >
             NRVNT // {release.year}
@@ -105,10 +106,10 @@ export default function ReleaseCover({
               fontWeight: 600,
               padding: '2px 8px',
               borderRadius: '4px',
-              background: 'rgba(255,255,255,0.12)',
+              background: 'rgba(255,255,255,0.1)',
               backdropFilter: 'blur(8px)',
               color: '#ffffff',
-              letterSpacing: '0.15em',
+              letterSpacing: '0.12em',
               textTransform: 'uppercase',
               border: '1px solid rgba(255,255,255,0.15)',
             }}
@@ -137,7 +138,7 @@ export default function ReleaseCover({
               alignItems: 'center',
               justifyContent: 'center',
               boxShadow: `0 0 25px ${g3}99`,
-              background: 'rgba(0,0,0,0.25)',
+              background: 'rgba(0,0,0,0.3)',
               backdropFilter: 'blur(4px)',
             }}
           >
@@ -145,7 +146,7 @@ export default function ReleaseCover({
               style={{
                 width: '60%',
                 aspectRatio: '1 / 1',
-                border: '1px solid rgba(111, 147, 255, 0.5)',
+                border: '1px solid rgba(56, 189, 248, 0.6)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -170,8 +171,8 @@ export default function ReleaseCover({
             <div
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(13px, 4.2cqi, 22px)',
-                fontWeight: 700,
+                fontSize: 'clamp(13px, 4.2cqi, 21px)',
+                fontWeight: 800,
                 color: '#ffffff',
                 lineHeight: 1.15,
                 letterSpacing: '-0.02em',
@@ -185,11 +186,11 @@ export default function ReleaseCover({
             </div>
             <div
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "'Manrope', sans-serif",
                 fontSize: 'clamp(9px, 2.6cqi, 13px)',
-                color: 'rgba(235, 230, 250, 0.75)',
+                color: 'rgba(226, 232, 240, 0.75)',
                 marginTop: '4px',
-                letterSpacing: '0.04em',
+                letterSpacing: '0.02em',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -197,7 +198,7 @@ export default function ReleaseCover({
             >
               {release.artist}
               {release.featuring && release.featuring.length > 0 && (
-                <span style={{ color: 'rgba(170, 190, 255, 0.85)' }}>
+                <span style={{ color: 'var(--electric-blue)' }}>
                   {' '}ft. {release.featuring.join(', ')}
                 </span>
               )}
@@ -213,7 +214,7 @@ export default function ReleaseCover({
           bottom: 0,
           left: 0,
           right: 0,
-          height: '3px',
+          height: '2px',
           background: `linear-gradient(90deg, transparent, ${g2}, #ffffff, ${g3}, transparent)`,
           opacity: 0.8,
         }}

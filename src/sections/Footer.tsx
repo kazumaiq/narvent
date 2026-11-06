@@ -1,4 +1,4 @@
-import { ArrowUp, Sparkles, Disc } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { artist } from '../data/artist';
 
 export default function Footer() {
@@ -11,8 +11,8 @@ export default function Footer() {
       style={{
         position: 'relative',
         padding: '5rem 0 3.5rem',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        background: 'linear-gradient(180deg, transparent 0%, rgba(3, 3, 10, 0.95) 100%)',
+        borderTop: '1px solid var(--border-line)',
+        background: 'linear-gradient(180deg, transparent 0%, #010104 100%)',
         zIndex: 2,
       }}
     >
@@ -31,26 +31,26 @@ export default function Footer() {
           <div>
             <div
               style={{
-                fontFamily: "'Cinzel', serif",
-                fontSize: '2rem',
-                fontWeight: 900,
-                letterSpacing: '0.15em',
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: '1.9rem',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
                 color: '#ffffff',
-                marginBottom: '0.5rem',
+                marginBottom: '0.4rem',
               }}
             >
               NARVENT
             </div>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "'Manrope', sans-serif",
                 fontSize: '0.88rem',
-                color: 'rgba(184, 169, 212, 0.7)',
-                maxWidth: '420px',
+                color: 'var(--text-muted)',
+                maxWidth: '440px',
                 lineHeight: 1.6,
               }}
             >
-              Digital soundscapes sculpting late-night journeys across the synthwave and wave phonk cosmos.
+              Atmospheric soundscapes sculpting late-night journeys across the dark synthwave and wave phonk cosmos.
             </p>
           </div>
 
@@ -63,30 +63,30 @@ export default function Footer() {
               gap: '0.5rem',
               padding: '0.75rem 1.4rem',
               borderRadius: '100px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid var(--border-line)',
               color: '#ffffff',
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: '0.82rem',
               fontWeight: 600,
-              letterSpacing: '0.08em',
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
+              transition: 'all 0.25s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(79, 117, 255, 0.2)';
-              e.currentTarget.style.borderColor = 'rgba(111, 147, 255, 0.4)';
-              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.background = 'rgba(217, 70, 239, 0.2)';
+              e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+              e.currentTarget.style.borderColor = 'var(--border-line)';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            <ArrowUp size={15} />
-            <span>RETURN TO SUMMIT</span>
+            <ArrowUp size={14} />
+            <span>RETURN TO TOP</span>
           </button>
         </div>
 
@@ -94,7 +94,7 @@ export default function Footer() {
         <div
           style={{
             paddingTop: '2rem',
-            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+            borderTop: '1px solid var(--border-line)',
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
@@ -102,11 +102,11 @@ export default function Footer() {
             gap: '1rem',
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.72rem',
-            color: 'rgba(184, 169, 212, 0.55)',
+            color: 'var(--text-dim)',
           }}
         >
           <div>
-            © {new Date().getFullYear()} NARVENT (Farkhod Musulmonov). All rights reserved.
+            © {new Date().getFullYear()} NARVENT (Farkhod Musulmonov). Official Digital Experience V2.
           </div>
 
           <div>

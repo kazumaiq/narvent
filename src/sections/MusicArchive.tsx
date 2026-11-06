@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, Box, Grid3X3, Disc, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Search, Box, Grid3X3, Disc, Sparkles } from 'lucide-react';
 import { releases, Release } from '../data/releases';
 import Archive3DScene from '../scenes/Archive3DScene';
 import ReleaseCover from '../components/ReleaseCover';
@@ -13,24 +13,21 @@ export default function MusicArchive() {
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
   const filters = [
-    { id: 'all', label: 'ALL' },
-    { id: 'albums', label: 'ALBUMS' },
-    { id: 'eps', label: 'EPS' },
-    { id: 'singles', label: 'SINGLES' },
-    { id: 'collaborations', label: 'COLLABORATIONS' },
+    { id: 'all', label: 'ALL', count: releases.length },
+    { id: 'albums', label: 'ALBUMS', count: releases.filter((r) => r.type === 'album').length },
+    { id: 'eps', label: 'EPS', count: releases.filter((r) => r.type === 'ep').length },
+    { id: 'singles', label: 'SINGLES', count: releases.filter((r) => r.type === 'single').length },
+    { id: 'collaborations', label: 'COLLABS', count: releases.filter((r) => r.featuring && r.featuring.length > 0).length },
   ] as const;
 
-  // Filtered releases for 2D Grid & search
   const filteredReleases = useMemo(() => {
     return releases.filter((r) => {
-      // Type match
       let matchesFilter = true;
       if (activeFilter === 'albums') matchesFilter = r.type === 'album';
       if (activeFilter === 'eps') matchesFilter = r.type === 'ep';
       if (activeFilter === 'singles') matchesFilter = r.type === 'single';
       if (activeFilter === 'collaborations') matchesFilter = Boolean(r.featuring && r.featuring.length > 0);
 
-      // Search match
       let matchesSearch = true;
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
@@ -58,42 +55,34 @@ export default function MusicArchive() {
       <div className="container-wide">
         {/* Header Block */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span className="section-badge" style={{ margin: '0 auto 1.25rem' }}>
-            <Sparkles size={12} color="#7093ff" />
-            INTERACTIVE DISCOGRAPHY // 3D SPATIAL ARCHIVE
+          <span className="editorial-badge magenta" style={{ margin: '0 auto 1.25rem' }}>
+            <span>SPATIAL GALLERY // THREE.JS ENGINE</span>
           </span>
-          <h2 className="section-title">The Complete Archive</h2>
-          <p className="section-desc" style={{ margin: '0.75rem auto 0' }}>
-            Explore Narvent's full universe of releases floating in interactive 3D space. Hover, drag, and select any release to open official links and track data.
+          <h2 className="editorial-title">The Complete Archive</h2>
+          <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>
+            Every studio album, conceptual EP, and nocturnal single suspended in an interactive 3D spatial field.
           </p>
         </div>
 
-        {/* Toolbar: Filters, Search, and 3D/Grid Mode Switch */}
+        {/* Toolbar: Filters, Search & Mode Toggle */}
         <div
           style={{
-            maxWidth: '1200px',
+            maxWidth: '1240px',
             margin: '0 auto 2.5rem',
-            background: 'rgba(12, 12, 32, 0.7)',
+            background: 'var(--bg-glass)',
             backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '100px',
-            padding: '0.5rem 0.75rem',
+            border: '1px solid var(--border-line)',
+            borderRadius: '24px',
+            padding: '0.65rem 1rem',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '0.75rem',
+            gap: '0.85rem',
           }}
         >
-          {/* Filters pills */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.35rem',
-            }}
-          >
+          {/* Category Filter Pills */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
             {filters.map((f) => {
               const isActive = activeFilter === f.id;
               return (
@@ -104,80 +93,79 @@ export default function MusicArchive() {
                     fontFamily: "'Space Grotesk', sans-serif",
                     fontSize: '0.75rem',
                     fontWeight: 600,
-                    letterSpacing: '0.08em',
+                    letterSpacing: '0.06em',
                     padding: '0.45rem 1rem',
                     borderRadius: '100px',
-                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transition: 'all 0.25s ease',
                     background: isActive
-                      ? 'linear-gradient(135deg, rgba(79, 117, 255, 0.35), rgba(107, 77, 150, 0.35))'
+                      ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.35))'
                       : 'transparent',
                     border: isActive
-                      ? '1px solid rgba(111, 147, 255, 0.5)'
+                      ? '1px solid rgba(217, 70, 239, 0.45)'
                       : '1px solid transparent',
-                    color: isActive ? '#ffffff' : 'rgba(184, 169, 212, 0.7)',
-                    boxShadow: isActive ? '0 0 15px rgba(79, 117, 255, 0.3)' : 'none',
+                    color: isActive ? '#ffffff' : 'var(--text-muted)',
                     cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
                   }}
                 >
-                  {f.label}
+                  <span>{f.label}</span>
+                  <span
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.65rem',
+                      opacity: isActive ? 1 : 0.6,
+                      color: isActive ? 'var(--electric-blue)' : 'inherit',
+                    }}
+                  >
+                    {f.count}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Search Input & View Mode Switcher */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-            }}
-          >
-            {/* Live Search */}
-            <div
-              style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+          {/* Search Input & View Mode Toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Search
                 size={14}
                 style={{
                   position: 'absolute',
                   left: '0.85rem',
-                  color: 'rgba(184, 169, 212, 0.5)',
+                  color: 'var(--text-dim)',
                   pointerEvents: 'none',
                 }}
               />
               <input
                 type="text"
-                placeholder="Search catalog..."
+                placeholder="Search releases..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid var(--border-line)',
                   borderRadius: '100px',
                   padding: '0.45rem 1rem 0.45rem 2.2rem',
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "'Manrope', sans-serif",
                   fontSize: '0.8rem',
                   color: '#ffffff',
                   outline: 'none',
-                  width: 'clamp(140px, 20vw, 200px)',
+                  width: 'clamp(140px, 18vw, 200px)',
                   transition: 'all 0.2s',
                 }}
-                onFocus={(e) => (e.target.style.borderColor = 'rgba(111, 147, 255, 0.5)')}
-                onBlur={(e) => (e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)')}
+                onFocus={(e) => (e.target.style.borderColor = 'rgba(217, 70, 239, 0.5)')}
+                onBlur={(e) => (e.target.style.borderColor = 'var(--border-line)')}
               />
             </div>
 
-            {/* View Mode Toggle: 3D Universe / 2D Grid */}
+            {/* View Mode */}
             <div
               style={{
                 display: 'flex',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid var(--border-line)',
                 borderRadius: '100px',
                 padding: '2px',
               }}
@@ -191,17 +179,16 @@ export default function MusicArchive() {
                   padding: '0.35rem 0.75rem',
                   borderRadius: '100px',
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.72rem',
+                  fontSize: '0.7rem',
                   fontWeight: 600,
-                  background: viewMode === '3d' ? 'rgba(79, 117, 255, 0.4)' : 'transparent',
-                  color: viewMode === '3d' ? '#ffffff' : 'rgba(184, 169, 212, 0.65)',
-                  transition: 'all 0.2s',
+                  background: viewMode === '3d' ? 'rgba(99, 102, 241, 0.4)' : 'transparent',
+                  color: viewMode === '3d' ? '#ffffff' : 'var(--text-dim)',
                   cursor: 'pointer',
+                  transition: 'all 0.2s',
                 }}
-                title="3D Spatial Archive"
               >
                 <Box size={13} />
-                <span className="hide-on-mobile">3D SPACE</span>
+                <span className="desktop-only">3D SPACE</span>
               </button>
 
               <button
@@ -213,37 +200,35 @@ export default function MusicArchive() {
                   padding: '0.35rem 0.75rem',
                   borderRadius: '100px',
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.72rem',
+                  fontSize: '0.7rem',
                   fontWeight: 600,
-                  background: viewMode === 'grid' ? 'rgba(79, 117, 255, 0.4)' : 'transparent',
-                  color: viewMode === 'grid' ? '#ffffff' : 'rgba(184, 169, 212, 0.65)',
-                  transition: 'all 0.2s',
+                  background: viewMode === 'grid' ? 'rgba(99, 102, 241, 0.4)' : 'transparent',
+                  color: viewMode === 'grid' ? '#ffffff' : 'var(--text-dim)',
                   cursor: 'pointer',
+                  transition: 'all 0.2s',
                 }}
-                title="2D Grid Catalog"
               >
                 <Grid3X3 size={13} />
-                <span className="hide-on-mobile">CATALOG</span>
+                <span className="desktop-only">CATALOG</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Dynamic Display Area */}
+        {/* 3D or 2D Presentation */}
         {viewMode === '3d' ? (
-          /* 3D Spatial Interactive Universe */
           <div
             style={{
               position: 'relative',
               width: '100%',
               height: '75vh',
               minHeight: '620px',
-              maxHeight: '850px',
-              background: 'radial-gradient(ellipse at 50% 50%, rgba(14, 14, 40, 0.4) 0%, rgba(6, 6, 19, 0.85) 100%)',
-              border: '1px solid rgba(111, 147, 255, 0.2)',
+              maxHeight: '860px',
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(18, 16, 45, 0.45) 0%, rgba(4, 5, 14, 0.9) 100%)',
+              border: '1px solid var(--border-line)',
               borderRadius: '28px',
               overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(79, 117, 255, 0.1)',
+              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(99, 102, 241, 0.08)',
             }}
           >
             <Archive3DScene
@@ -254,11 +239,10 @@ export default function MusicArchive() {
             />
           </div>
         ) : (
-          /* 2D Mosaic Catalog Grid */
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(200px, 20vw, 260px), 1fr))',
@@ -272,22 +256,22 @@ export default function MusicArchive() {
                 key={release.id}
                 onClick={() => setSelectedRelease(release)}
                 style={{
-                  background: 'rgba(12, 12, 32, 0.6)',
+                  background: 'var(--bg-glass)',
                   backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  border: '1px solid var(--border-line)',
                   borderRadius: '16px',
                   padding: '1rem',
                   cursor: 'pointer',
-                  transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.borderColor = 'rgba(111, 147, 255, 0.4)';
-                  e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.5), 0 0 20px rgba(79, 117, 255, 0.2)';
+                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(217, 70, 239, 0.2)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.borderColor = 'var(--border-line)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
@@ -300,13 +284,13 @@ export default function MusicArchive() {
                       justifyContent: 'space-between',
                       fontSize: '0.68rem',
                       fontFamily: "'JetBrains Mono', monospace",
-                      color: '#7093ff',
+                      color: 'var(--electric-blue)',
                       marginBottom: '0.25rem',
                       textTransform: 'uppercase',
                     }}
                   >
                     <span>{release.type}</span>
-                    <span style={{ color: 'rgba(184, 169, 212, 0.6)' }}>{release.year}</span>
+                    <span style={{ color: 'var(--text-dim)' }}>{release.year}</span>
                   </div>
 
                   <h4
@@ -326,9 +310,9 @@ export default function MusicArchive() {
 
                   <p
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "'Manrope', sans-serif",
                       fontSize: '0.8rem',
-                      color: 'rgba(212, 200, 245, 0.7)',
+                      color: 'var(--text-muted)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
@@ -344,7 +328,6 @@ export default function MusicArchive() {
         )}
       </div>
 
-      {/* Selected Release Inspector Modal */}
       <ReleaseModal
         release={selectedRelease}
         onClose={() => setSelectedRelease(null)}

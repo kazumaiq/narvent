@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Award, Radio, Disc, Milestone, Globe, Cpu } from 'lucide-react';
+import { Sparkles, Milestone, Disc, Radio, ExternalLink } from 'lucide-react';
 import { artist } from '../data/artist';
 
 export default function About() {
@@ -13,60 +13,60 @@ export default function About() {
       }}
     >
       <div className="container">
-        {/* Section Header */}
+        {/* Header Block */}
         <div style={{ marginBottom: '4rem' }}>
-          <span className="section-badge">
-            <Sparkles size={12} color="#7093ff" />
-            EDITORIAL MONOGRAPH // IDENTITY & ARCHITECTURE
+          <span className="editorial-badge magenta">
+            <Sparkles size={11} color="var(--neon-magenta)" />
+            EDITORIAL MONOGRAPH // IDENTITY & GENESIS
           </span>
-          <h2 className="section-title">The Architect Behind The Sound</h2>
+          <h2 className="editorial-title">The Architect of Nocturnal Sound</h2>
         </div>
 
         {/* Editorial Two-Column Feature */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 35vw, 500px), 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 35vw, 520px), 1fr))',
             gap: 'clamp(2rem, 5vw, 4.5rem)',
             alignItems: 'start',
             marginBottom: '4.5rem',
           }}
         >
-          {/* Left Column: Philosophical Overview & Quote */}
+          {/* Left Column: Biography & Philosophy */}
           <div>
             <div
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(1.4rem, 2.5vw, 2rem)',
+                fontSize: 'clamp(1.35rem, 2.5vw, 1.95rem)',
                 fontWeight: 600,
                 color: '#ffffff',
-                lineHeight: 1.3,
+                lineHeight: 1.35,
                 letterSpacing: '-0.02em',
                 marginBottom: '1.75rem',
               }}
             >
-              Shaping the atmospheric horizon where dark synthwave, wave phonk, and nocturnal nostalgia converge.
+              Farkhod Musulmonov, known globally as Narvent, defines the atmospheric vanguard of wave phonk and dark synthwave.
             </div>
 
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "'Manrope', sans-serif",
                 fontSize: '1rem',
-                color: 'rgba(212, 200, 245, 0.85)',
+                color: 'var(--text-muted)',
                 lineHeight: 1.8,
                 marginBottom: '1.5rem',
-                fontWeight: 300,
+                fontWeight: 400,
               }}
             >
               {artist.bio}
             </p>
 
-            {/* Stylized Editorial Quote Callout */}
+            {/* Editorial Quote Callout */}
             <div
               style={{
                 position: 'relative',
-                background: 'linear-gradient(135deg, rgba(79, 117, 255, 0.08) 0%, rgba(107, 77, 150, 0.08) 100%)',
-                borderLeft: '3px solid #7093ff',
+                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(217, 70, 239, 0.08) 100%)',
+                borderLeft: '3px solid var(--neon-magenta)',
                 padding: '1.25rem 1.5rem',
                 borderRadius: '0 16px 16px 0',
                 margin: '2rem 0',
@@ -74,7 +74,7 @@ export default function About() {
             >
               <div
                 style={{
-                  fontFamily: "'Cinzel', serif",
+                  fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: '1.15rem',
                   fontStyle: 'italic',
                   color: '#ffffff',
@@ -88,7 +88,7 @@ export default function About() {
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '0.72rem',
-                  color: '#7093ff',
+                  color: 'var(--neon-magenta)',
                   letterSpacing: '0.12em',
                 }}
               >
@@ -107,23 +107,23 @@ export default function About() {
             >
               <div
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.07)',
-                  borderRadius: '12px',
-                  padding: '1rem',
+                  background: 'var(--bg-glass)',
+                  border: '1px solid var(--border-line)',
+                  borderRadius: '14px',
+                  padding: '1.1rem',
                 }}
               >
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: '0.68rem',
-                    color: 'rgba(184, 169, 212, 0.6)',
+                    color: 'var(--text-dim)',
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     marginBottom: '0.3rem',
                   }}
                 >
-                  DAW & Roots
+                  DAW & Origins
                 </div>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 600 }}>
                   FL Studio (since ~2016)
@@ -132,32 +132,32 @@ export default function About() {
 
               <div
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.07)',
-                  borderRadius: '12px',
-                  padding: '1rem',
+                  background: 'var(--bg-glass)',
+                  border: '1px solid var(--border-line)',
+                  borderRadius: '14px',
+                  padding: '1.1rem',
                 }}
               >
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: '0.68rem',
-                    color: 'rgba(184, 169, 212, 0.6)',
+                    color: 'var(--text-dim)',
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     marginBottom: '0.3rem',
                   }}
                 >
-                  Imprint & Alliance
+                  Distribution & Label
                 </div>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 600 }}>
-                  volume100 / Utopia Universe
+                  volume100 / Believe Digital
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Achievements & Metric Cards */}
+          {/* Right Column: Verified Achievements Matrix */}
           <div>
             <div
               style={{
@@ -169,14 +169,14 @@ export default function About() {
               {artist.achievements.map((item, idx) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 25 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: idx * 0.08 }}
+                  transition={{ duration: 0.5, delay: idx * 0.08 }}
                   style={{
-                    background: 'rgba(12, 12, 32, 0.65)',
-                    backdropFilter: 'blur(16px)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    background: 'var(--bg-glass)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid var(--border-line)',
                     borderRadius: '18px',
                     padding: '1.5rem',
                     position: 'relative',
@@ -184,11 +184,11 @@ export default function About() {
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(111, 147, 255, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
                     e.currentTarget.style.transform = 'translateY(-4px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    e.currentTarget.style.borderColor = 'var(--border-line)';
                     e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
@@ -197,7 +197,7 @@ export default function About() {
                       fontFamily: "'Space Grotesk', sans-serif",
                       fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)',
                       fontWeight: 800,
-                      color: idx === 0 ? '#ffd166' : idx === 1 ? '#7093ff' : '#ffffff',
+                      color: idx === 0 ? '#ffd166' : idx === 1 ? 'var(--electric-blue)' : '#ffffff',
                       lineHeight: 1.1,
                       marginBottom: '0.35rem',
                     }}
@@ -209,10 +209,11 @@ export default function About() {
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: '0.72rem',
-                      color: '#7093ff',
+                      color: 'var(--electric-blue)',
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
                       marginBottom: '0.6rem',
+                      fontWeight: 600,
                     }}
                   >
                     {item.label}
@@ -220,9 +221,9 @@ export default function About() {
 
                   <div
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "'Manrope', sans-serif",
                       fontSize: '0.82rem',
-                      color: 'rgba(184, 169, 212, 0.75)',
+                      color: 'var(--text-muted)',
                       lineHeight: 1.5,
                     }}
                   >
@@ -234,15 +235,15 @@ export default function About() {
           </div>
         </div>
 
-        {/* Chronological Timeline Section */}
+        {/* Chronological Milestones Timeline */}
         <div style={{ marginTop: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span className="section-badge" style={{ margin: '0 auto 1rem' }}>
-              <Milestone size={12} color="#7093ff" />
-              EVOLUTIONARY TRAJECTORY
+            <span className="editorial-badge" style={{ margin: '0 auto 1rem' }}>
+              <Milestone size={11} color="var(--electric-blue)" />
+              CHRONOLOGY 2019–2026
             </span>
             <h3 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', fontWeight: 700 }}>
-              Milestones Across The Soundscape
+              Evolutionary Milestones Across The Soundscape
             </h3>
           </div>
 
@@ -256,25 +257,24 @@ export default function About() {
             {artist.milestones.map((ms, index) => (
               <motion.div
                 key={ms.year}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
                 style={{
-                  background: 'rgba(12, 12, 32, 0.5)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  background: 'var(--bg-glass)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid var(--border-line)',
                   borderRadius: '16px',
                   padding: '1.5rem',
-                  position: 'relative',
                 }}
               >
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '1.3rem',
+                    fontSize: '1.35rem',
                     fontWeight: 700,
-                    color: '#7093ff',
+                    color: 'var(--electric-blue)',
                     marginBottom: '0.4rem',
                   }}
                 >
@@ -285,7 +285,7 @@ export default function About() {
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
                     fontSize: '1.1rem',
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: '#ffffff',
                     marginBottom: '0.5rem',
                   }}
@@ -295,9 +295,9 @@ export default function About() {
 
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Manrope', sans-serif",
                     fontSize: '0.85rem',
-                    color: 'rgba(184, 169, 212, 0.75)',
+                    color: 'var(--text-muted)',
                     lineHeight: 1.6,
                     margin: 0,
                   }}

@@ -19,11 +19,11 @@ export default function LatestReleases() {
       }}
     >
       <div className="container">
-        {/* Section Header */}
+        {/* Header Block */}
         <div style={{ marginBottom: '3.5rem' }}>
-          <span className="section-badge">
-            <Sparkles size={12} color="#7093ff" />
-            FRESH SONIC DROPS // 2025–2026
+          <span className="editorial-badge">
+            <Sparkles size={11} color="var(--electric-blue)" />
+            FRESH TRANSMISSIONS // 2025–2026
           </span>
           <div
             style={{
@@ -35,9 +35,9 @@ export default function LatestReleases() {
             }}
           >
             <div>
-              <h2 className="section-title">Latest Releases</h2>
-              <p className="section-desc" style={{ marginTop: '0.75rem' }}>
-                Recent sonic transmissions from the digital realm, spanning full-length albums, conceptual EPs, and atmospheric collaborations.
+              <h2 className="editorial-title">Latest Releases</h2>
+              <p className="editorial-subtitle">
+                The newest sonic chapters from the digital realm, expanding Narvent's atmospheric universe across multi-track albums, conceptual EPs, and collaborations.
               </p>
             </div>
 
@@ -48,10 +48,10 @@ export default function LatestReleases() {
                 alignItems: 'center',
                 gap: '0.4rem',
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.88rem',
+                fontSize: '0.85rem',
                 fontWeight: 600,
-                color: '#7093ff',
-                letterSpacing: '0.05em',
+                color: 'var(--electric-blue)',
+                letterSpacing: '0.04em',
                 transition: 'all 0.2s',
               }}
               onMouseEnter={(e) => {
@@ -59,12 +59,12 @@ export default function LatestReleases() {
                 e.currentTarget.style.transform = 'translateX(4px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#7093ff';
+                e.currentTarget.style.color = 'var(--electric-blue)';
                 e.currentTarget.style.transform = 'translateX(0)';
               }}
             >
-              <span>VIEW FULL ARCHIVE</span>
-              <ChevronRight size={16} />
+              <span>EXPLORE ALL IN 3D</span>
+              <ChevronRight size={15} />
             </a>
           </div>
         </div>
@@ -80,57 +80,56 @@ export default function LatestReleases() {
           {latestReleases.map((release, index) => (
             <motion.div
               key={release.id}
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setSelectedRelease(release)}
               style={{
                 position: 'relative',
-                background: 'rgba(12, 12, 32, 0.55)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'var(--bg-glass)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid var(--border-line)',
                 borderRadius: '20px',
                 padding: '1.25rem',
                 cursor: 'pointer',
-                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.borderColor = 'rgba(111, 147, 255, 0.45)';
-                e.currentTarget.style.boxShadow = '0 20px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(79, 117, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(-6px)';
+                e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
+                e.currentTarget.style.boxShadow = '0 20px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(217, 70, 239, 0.15)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                e.currentTarget.style.borderColor = 'var(--border-line)';
                 e.currentTarget.style.boxShadow = 'none';
               }}
             >
               {/* Cover Art */}
-              <div style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden' }}>
+              <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden' }}>
                 <ReleaseCover release={release} size="100%" />
 
-                {/* Hover overlay hint */}
+                {/* Subtle Hover Overlay */}
                 <div
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    background: 'rgba(5, 5, 20, 0.5)',
+                    background: 'rgba(2, 2, 6, 0.55)',
                     opacity: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transition: 'opacity 0.3s',
-                    borderRadius: '12px',
+                    transition: 'opacity 0.25s ease',
+                    borderRadius: '14px',
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
                   onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
                 >
                   <span
                     style={{
-                      background: 'rgba(79, 117, 255, 0.85)',
-                      padding: '0.45rem 1rem',
+                      background: 'rgba(217, 70, 239, 0.85)',
+                      padding: '0.45rem 1.1rem',
                       borderRadius: '100px',
                       fontFamily: "'Space Grotesk', sans-serif",
                       fontSize: '0.78rem',
@@ -138,17 +137,17 @@ export default function LatestReleases() {
                       color: '#ffffff',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.4rem',
+                      gap: '0.45rem',
                     }}
                   >
                     <Disc size={14} />
-                    INSPECT DETAILS
+                    VIEW RELEASE
                   </span>
                 </div>
               </div>
 
               {/* Release Card Meta */}
-              <div style={{ marginTop: '1.2rem' }}>
+              <div style={{ marginTop: '1.25rem' }}>
                 <div
                   style={{
                     display: 'flex',
@@ -161,9 +160,10 @@ export default function LatestReleases() {
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: '0.72rem',
-                      color: '#7093ff',
+                      color: 'var(--electric-blue)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.12em',
+                      fontWeight: 600,
                     }}
                   >
                     {release.type}
@@ -172,7 +172,7 @@ export default function LatestReleases() {
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: '0.72rem',
-                      color: 'rgba(184, 169, 212, 0.65)',
+                      color: 'var(--text-dim)',
                     }}
                   >
                     {release.releaseDate}
@@ -197,9 +197,9 @@ export default function LatestReleases() {
 
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Manrope', sans-serif",
                     fontSize: '0.88rem',
-                    color: 'rgba(212, 200, 245, 0.75)',
+                    color: 'var(--text-muted)',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
@@ -208,30 +208,30 @@ export default function LatestReleases() {
                 >
                   {release.artist}
                   {release.featuring && (
-                    <span style={{ color: 'rgba(170, 190, 255, 0.75)' }}>
+                    <span style={{ color: 'var(--electric-blue)' }}>
                       {' '}ft. {release.featuring.join(', ')}
                     </span>
                   )}
                 </p>
 
-                {/* Quick Listen Button */}
+                {/* Card Footer */}
                 <div
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     paddingTop: '0.75rem',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                    borderTop: '1px solid var(--border-line)',
                   }}
                 >
                   <span
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: '0.7rem',
-                      color: 'rgba(184, 169, 212, 0.55)',
+                      color: 'var(--text-dim)',
                     }}
                   >
-                    {release.trackCount ? `${release.trackCount} Tracks` : 'Official Single'}
+                    {release.trackCount ? `${release.trackCount} Tracks` : 'Official Master'}
                   </span>
 
                   <span
@@ -239,13 +239,13 @@ export default function LatestReleases() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.3rem',
-                      color: '#7093ff',
+                      color: 'var(--electric-blue)',
                       fontSize: '0.75rem',
                       fontFamily: "'Space Grotesk', sans-serif",
                       fontWeight: 600,
                     }}
                   >
-                    Listen
+                    Details
                     <ExternalLink size={12} />
                   </span>
                 </div>
@@ -255,7 +255,6 @@ export default function LatestReleases() {
         </div>
       </div>
 
-      {/* Selected Release Inspector Modal */}
       <ReleaseModal
         release={selectedRelease}
         onClose={() => setSelectedRelease(null)}
