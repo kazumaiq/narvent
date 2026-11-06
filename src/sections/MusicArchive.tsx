@@ -81,7 +81,7 @@ export default function MusicArchive() {
             WebkitBackdropFilter: 'blur(20px)',
             border: '1px solid var(--border-line)',
             borderRadius: '24px',
-            padding: '0.65rem 1rem',
+            padding: '0.65rem 0.85rem',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
@@ -89,8 +89,16 @@ export default function MusicArchive() {
             gap: '0.85rem',
           }}
         >
-          {/* Фильтры по категориям */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+          {/* Фильтры по категориям (горизонтальный скролл на мобильных) */}
+          <div
+            className="scroll-touch-x"
+            style={{
+              display: 'flex',
+              gap: '0.35rem',
+              maxWidth: '100%',
+              paddingBottom: '2px',
+            }}
+          >
             {filters.map((f) => {
               const isActive = activeFilter === f.id;
               return (
@@ -99,10 +107,10 @@ export default function MusicArchive() {
                   onClick={() => setActiveFilter(f.id)}
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '0.75rem',
+                    fontSize: '0.74rem',
                     fontWeight: 600,
                     letterSpacing: '0.04em',
-                    padding: '0.45rem 1rem',
+                    padding: '0.42rem 0.9rem',
                     borderRadius: '100px',
                     transition: 'all 0.25s ease',
                     background: isActive
@@ -115,7 +123,9 @@ export default function MusicArchive() {
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.4rem',
+                    gap: '0.35rem',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
                   }}
                 >
                   <span>{f.label}</span>
@@ -135,8 +145,8 @@ export default function MusicArchive() {
           </div>
 
           {/* Поиск и переключатель 3D / Список */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', width: 'auto' }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', flexGrow: 1 }}>
               <Search
                 size={14}
                 style={{
@@ -148,19 +158,19 @@ export default function MusicArchive() {
               />
               <input
                 type="text"
-                placeholder="Поиск релизов..."
+                placeholder="Поиск..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid var(--border-line)',
                   borderRadius: '100px',
-                  padding: '0.45rem 1rem 0.45rem 2.2rem',
+                  padding: '0.42rem 0.85rem 0.42rem 2.2rem',
                   fontFamily: "'Manrope', sans-serif",
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   color: '#ffffff',
                   outline: 'none',
-                  width: 'clamp(140px, 18vw, 220px)',
+                  width: 'clamp(120px, 18vw, 200px)',
                   transition: 'all 0.2s',
                 }}
                 onFocus={(e) => (e.target.style.borderColor = 'rgba(217, 70, 239, 0.5)')}
@@ -176,6 +186,7 @@ export default function MusicArchive() {
                 border: '1px solid var(--border-line)',
                 borderRadius: '100px',
                 padding: '2px',
+                flexShrink: 0,
               }}
             >
               <button
@@ -184,7 +195,7 @@ export default function MusicArchive() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  padding: '0.35rem 0.8rem',
+                  padding: '0.35rem 0.75rem',
                   borderRadius: '100px',
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '0.7rem',
@@ -196,7 +207,7 @@ export default function MusicArchive() {
                 }}
               >
                 <Box size={13} />
-                <span className="desktop-only">3D ВИД</span>
+                <span>3D</span>
               </button>
 
               <button
@@ -205,7 +216,7 @@ export default function MusicArchive() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  padding: '0.35rem 0.8rem',
+                  padding: '0.35rem 0.75rem',
                   borderRadius: '100px',
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '0.7rem',
@@ -217,7 +228,7 @@ export default function MusicArchive() {
                 }}
               >
                 <Grid3X3 size={13} />
-                <span className="desktop-only">КАТАЛОГ</span>
+                <span>СЕТКА</span>
               </button>
             </div>
           </div>
@@ -229,9 +240,7 @@ export default function MusicArchive() {
             style={{
               position: 'relative',
               width: '100%',
-              height: '75vh',
-              minHeight: '620px',
-              maxHeight: '860px',
+              height: 'clamp(480px, 72vh, 840px)',
               background: 'radial-gradient(ellipse at 50% 50%, rgba(18, 16, 45, 0.45) 0%, rgba(4, 5, 14, 0.9) 100%)',
               border: '1px solid var(--border-line)',
               borderRadius: '28px',
@@ -253,8 +262,8 @@ export default function MusicArchive() {
             transition={{ duration: 0.4 }}
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(200px, 20vw, 260px), 1fr))',
-              gap: 'clamp(1rem, 2vw, 2rem)',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(145px, 20vw, 240px), 1fr))',
+              gap: 'clamp(0.85rem, 2vw, 1.75rem)',
               maxWidth: '1280px',
               margin: '0 auto',
             }}

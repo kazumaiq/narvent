@@ -192,13 +192,17 @@ export default function Archive3DScene({
           rel.coverImage,
           (t) => {
             t.colorSpace = THREE.SRGBColorSpace;
+            materials[4].needsUpdate = true;
+            materials[5].needsUpdate = true;
           },
           undefined,
           () => {
             // Fallback on error
             const fb = createFallbackTexture(rel);
             materials[4].map = fb;
+            materials[5].map = fb;
             materials[4].needsUpdate = true;
+            materials[5].needsUpdate = true;
           }
         );
       } else {
@@ -206,7 +210,7 @@ export default function Archive3DScene({
       }
       loadedTextures.push(texture);
 
-      // Card Materials: front has cover, sides dark glass
+      // Card Materials: front & back have cover texture, edges dark glass
       const edgeMaterial = new THREE.MeshPhysicalMaterial({
         color: 0x060814,
         roughness: 0.2,
@@ -220,8 +224,9 @@ export default function Archive3DScene({
       });
 
       const backMaterial = new THREE.MeshStandardMaterial({
-        color: 0x0a0c18,
-        roughness: 0.4,
+        map: texture,
+        roughness: 0.3,
+        metalness: 0.1,
       });
 
       const materials = [
@@ -361,9 +366,12 @@ export default function Archive3DScene({
         const deltaX = clientX - prevPointer.x;
         const deltaY = clientY - prevPointer.y;
 
+        // On touch devices, prefer horizontal rotation and avoid fighting page scroll
         targetRotation.y += deltaX * 0.005;
-        targetRotation.x += deltaY * 0.0025;
-        targetRotation.x = Math.max(-0.35, Math.min(0.35, targetRotation.x));
+        if (!('touches' in e) || Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+          targetRotation.x += deltaY * 0.0025;
+          targetRotation.x = Math.max(-0.35, Math.min(0.35, targetRotation.x));
+        }
 
         prevPointer = { x: clientX, y: clientY };
       }
@@ -552,54 +560,73 @@ export default function Archive3DScene({
           height: '100%',
           cursor: 'grab',
           position: 'relative',
+          touchAction: 'pan-y',
         }}
       />
 
       {/* Top Bar: Telemetry & Status Indicator */}
       <div
+        className="archive-3d-topbar"
         style={{
           position: 'absolute',
-          top: '1.25rem',
-          left: '1.25rem',
-          right: '1.25rem',
+          top: '1rem',
+          left: '1rem',
+          right: '1rem',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           pointerEvents: 'none',
           zIndex: 10,
+          gap: '0.5rem',
         }}
       >
         <div
+          className="topbar-badge"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.65rem',
-            padding: '0.5rem 1rem',
+            gap: '0.5rem',
+            padding: '0.45rem 0.85rem',
             borderRadius: '100px',
-            background: 'rgba(5, 7, 16, 0.75)',
-            border: '1px solid rgba(217, 70, 239, 0.3)',
+            background: 'rgba(5, 7, 16, 0.8)',
+            border: '1px solid rgba(217, 70, 239, 0.35)',
             backdropFilter: 'blur(12px)',
           }}
         >
           <span
             style={{
-              width: '8px',
-              height: '8px',
+              width: '7px',
+              height: '7px',
               borderRadius: '50%',
               background: '#d946ef',
               boxShadow: '0 0 10px #d946ef',
+              flexShrink: 0,
             }}
           />
           <span
+            className="full-title"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.72rem',
               color: '#ffffff',
-              letterSpacing: '0.1em',
+              letterSpacing: '0.08em',
               fontWeight: 600,
             }}
           >
-            ХРОНО-СПИРАЛЬ ДИСКОГРАФИИ // 31 РЕЛИЗ
+            ХРОНО-СПИРАЛЬ // 31 РЕЛИЗ
+          </span>
+          <span
+            className="mobile-title"
+            style={{
+              display: 'none',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.7rem',
+              color: '#ffffff',
+              letterSpacing: '0.06em',
+              fontWeight: 600,
+            }}
+          >
+            СПИРАЛЬ // 31
           </span>
         </div>
 
@@ -607,17 +634,17 @@ export default function Archive3DScene({
         <div
           style={{
             display: 'flex',
-            gap: '0.5rem',
+            gap: '0.4rem',
             pointerEvents: 'auto',
           }}
         >
           <button
             onClick={() => controlsRef.current.focusLatest()}
             style={{
-              padding: '0.45rem 0.85rem',
+              padding: '0.42rem 0.75rem',
               borderRadius: '8px',
-              background: 'rgba(217, 70, 239, 0.2)',
-              border: '1px solid rgba(217, 70, 239, 0.4)',
+              background: 'rgba(217, 70, 239, 0.22)',
+              border: '1px solid rgba(217, 70, 239, 0.45)',
               color: '#ffffff',
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: '0.72rem',
@@ -629,16 +656,17 @@ export default function Archive3DScene({
             }}
           >
             <Sparkles size={11} color="var(--neon-magenta)" />
-            <span>2026 GENESIS</span>
+            <span>GENESIS</span>
           </button>
 
           <button
             onClick={() => controlsRef.current.focusHit()}
+            className="quick-jump-hit"
             style={{
-              padding: '0.45rem 0.85rem',
+              padding: '0.42rem 0.75rem',
               borderRadius: '8px',
-              background: 'rgba(245, 158, 11, 0.15)',
-              border: '1px solid rgba(245, 158, 11, 0.35)',
+              background: 'rgba(245, 158, 11, 0.18)',
+              border: '1px solid rgba(245, 158, 11, 0.4)',
               color: '#f59e0b',
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: '0.72rem',
@@ -653,21 +681,23 @@ export default function Archive3DScene({
 
       {/* Floating 3D Navigation Controls Bar */}
       <div
+        className="archive-controls-bar"
         style={{
           position: 'absolute',
-          bottom: '1.25rem',
+          bottom: '1rem',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
           alignItems: 'center',
-          gap: '0.5rem',
-          padding: '0.5rem 0.85rem',
+          gap: '0.4rem',
+          padding: '0.45rem 0.75rem',
           borderRadius: '100px',
-          background: 'rgba(7, 9, 20, 0.85)',
+          background: 'rgba(7, 9, 20, 0.9)',
           border: '1px solid rgba(255, 255, 255, 0.14)',
           backdropFilter: 'blur(16px)',
           boxShadow: '0 10px 30px rgba(0,0,0,0.7)',
           zIndex: 10,
+          maxWidth: 'calc(100% - 1.5rem)',
         }}
       >
         <button
@@ -766,16 +796,19 @@ export default function Archive3DScene({
         <div
           style={{
             position: 'absolute',
-            bottom: '4.8rem',
-            left: 'clamp(1rem, 3vw, 2rem)',
+            bottom: '4.6rem',
+            left: '1rem',
+            right: '1rem',
+            margin: '0 auto',
             maxWidth: '380px',
-            width: 'calc(100% - 2rem)',
-            padding: '1.25rem',
+            width: 'auto',
+            padding: '1.15rem',
             borderRadius: '18px',
-            background: 'rgba(8, 10, 22, 0.92)',
+            background: 'rgba(8, 10, 22, 0.95)',
             border: '1px solid rgba(217, 70, 239, 0.45)',
-            backdropFilter: 'blur(20px)',
-            boxShadow: '0 15px 40px rgba(0,0,0,0.8), 0 0 35px rgba(217, 70, 239, 0.2)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            boxShadow: '0 15px 40px rgba(0,0,0,0.85), 0 0 35px rgba(217, 70, 239, 0.2)',
             zIndex: 15,
             animation: 'fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           }}

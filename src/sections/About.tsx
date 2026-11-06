@@ -23,7 +23,7 @@ export default function About() {
         >
           <span className="editorial-badge magenta">
             <Sparkles size={11} color="var(--neon-magenta)" />
-            ОБ АРТИСТЕ // БИОГРАФИЯ И ГЕНЕЗИС ЗВУКА
+            ОБ АРТИСТЕ // ГЕНЕЗИС ЗВУКА
           </span>
           <h2 className="editorial-title">Архитектор ночного звучания</h2>
         </motion.div>
@@ -51,7 +51,7 @@ export default function About() {
                 marginBottom: '1.75rem',
               }}
             >
-              Фарход Мусульмонов (Narvent) определяет атмосферный авангард современного вейв-фонка и ноктюрнального синтвейва.
+              Фарход Мусулмонов (Narvent) — автор мировых хитов «Memory Reboot» и «Fainted», создатель кинематографичного синтвейва.
             </div>
 
             <p
@@ -99,7 +99,7 @@ export default function About() {
                   letterSpacing: '0.12em',
                 }}
               >
-                — NARVENT (ФАРХОД МУСУЛЬМОНОВ)
+                — NARVENT (ФАРХОД МУСУЛМОНОВ)
               </div>
             </div>
 
@@ -169,8 +169,8 @@ export default function About() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: '1.25rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(140px, 20vw, 220px), 1fr))',
+                gap: 'clamp(0.85rem, 1.8vw, 1.25rem)',
               }}
             >
               {artist.achievements.map((item, idx) => (

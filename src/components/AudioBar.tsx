@@ -130,6 +130,7 @@ export default function AudioBar() {
       {/* Embedded Spotify Official Drawer */}
       {showSpotifyEmbed && (
         <div
+          className="spotify-embed-drawer"
           style={{
             position: 'fixed',
             bottom: 'calc(4.75rem + var(--safe-bottom, 0px))',
@@ -204,6 +205,14 @@ export default function AudioBar() {
             left: 50% !important;
             transform: translateX(-50%) !important;
             bottom: calc(0.85rem + var(--safe-bottom, 0px)) !important;
+          }
+          .spotify-embed-drawer {
+            right: 1rem !important;
+            left: 1rem !important;
+            margin: 0 auto !important;
+            max-width: 380px !important;
+            width: auto !important;
+            bottom: calc(4.25rem + var(--safe-bottom, 0px)) !important;
           }
         }
       `}</style>

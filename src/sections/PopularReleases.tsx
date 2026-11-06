@@ -8,21 +8,20 @@ import ReleaseModal from '../components/ReleaseModal';
 export default function PopularReleases() {
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
-  // Подтверждённый порядок прослушиваний и факты
-  const rankingMeta: Record<string, { streams: string; highlight: string; streamOrder: number }> = {
-    'memory-reboot': { streams: '310,000,000+ стримов', highlight: 'Золотая сертификация RIAA (США) • Пик #13 Billboard Hot Dance', streamOrder: 310 },
-    'insomnia': { streams: '120,000,000+ стримов', highlight: '13-трековый концептуальный студийный альбом, эталон жанра wave phonk', streamOrder: 120 },
-    'fainted': { streams: '85,000,000+ стримов', highlight: 'Культовый феномен ночного дрифт-вейва и вирусных автомобильных эдитов', streamOrder: 85 },
-    'her-eyes': { streams: '65,000,000+ стримов', highlight: 'Мелодичный атмосферный синтвейв, ставший мировым трендом', streamOrder: 65 },
-    'distant-echoes': { streams: '45,000,000+ стримов', highlight: 'Мощный совместный сингл с продюсерами VXLLAIN и VØJ', streamOrder: 45 },
-    'euphoria': { streams: '35,000,000+ стримов', highlight: 'Энергичный коллаборационный хит с VØJ и KoruSe', streamOrder: 35 },
-    'fade-into-darkness': { streams: '25,000,000+ стримов', highlight: 'Глубокий ночной атмосферный сингл в стилистике dark electronic', streamOrder: 25 },
+  // Подтверждённый порядок ключевых синглов
+  const rankingMeta: Record<string, { highlight: string; streamOrder: number }> = {
+    'memory-reboot': { highlight: 'Золотая сертификация RIAA (США) • Пик #13 Billboard Hot Dance', streamOrder: 310 },
+    'fainted': { highlight: 'Культовый мировой феномен ночной эстетики и вирусных автомобильных эдитов', streamOrder: 85 },
+    'her-eyes': { highlight: 'Мелодичный атмосферный синтвейв, ставший мировым трендом', streamOrder: 65 },
+    'distant-echoes': { highlight: 'Совместный релиз с продюсерами VXLLAIN и VØJ', streamOrder: 45 },
+    'euphoria': { highlight: 'Коллаборационный сингл с VØJ и KoruSe', streamOrder: 35 },
+    'fade-into-darkness': { highlight: 'Глубокий ночной атмосферный сингл в стилистике dark electronic', streamOrder: 25 },
   };
 
   const rankedTracks = useMemo(() => {
     const popularKeys = Object.keys(rankingMeta);
     return releases
-      .filter((r) => popularKeys.includes(r.id))
+      .filter((r) => popularKeys.includes(r.id) && r.type === 'single')
       .sort((a, b) => (rankingMeta[b.id]?.streamOrder || 0) - (rankingMeta[a.id]?.streamOrder || 0));
   }, []);
 
@@ -46,7 +45,7 @@ export default function PopularReleases() {
         >
           <span className="editorial-badge">
             <Trophy size={11} color="var(--electric-blue)" />
-            ГЛОБАЛЬНЫЕ ДОСТИЖЕНИЯ // ВЕРИФИЦИРОВАННЫЕ МЕТРИКИ
+            МИРОВЫЕ СИНГЛЫ // SPOTIFY
           </span>
           <div
             style={{
@@ -58,9 +57,9 @@ export default function PopularReleases() {
             }}
           >
             <div>
-              <h2 className="editorial-title">Главные треки и хиты</h2>
+              <h2 className="editorial-title">Главные синглы и хиты</h2>
               <p className="editorial-subtitle">
-                Сертифицированные рекорды и определяющие произведения, сформировавшие современную волну dark synthwave и wave phonk во всем мире.
+                Определяющие синглы и сертифицированные мировые релизы, сформировавшие современное звучание атмосферного кинематографичного синтвейва.
               </p>
             </div>
 
@@ -72,7 +71,7 @@ export default function PopularReleases() {
                 letterSpacing: '0.08em',
               }}
             >
-              [ОТСОРТИРОВАНО ПО ПОДТВЕРЖДЕННОМУ ОБЪЕМУ СТРИМОВ]
+              [ОФИЦИАЛЬНЫЕ СИНГЛЫ // SPOTIFY ВЕРИФИКАЦИЯ]
             </div>
           </div>
         </motion.div>
@@ -94,20 +93,7 @@ export default function PopularReleases() {
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: index * 0.06 }}
                 onClick={() => setSelectedRelease(release)}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'clamp(35px, 5vw, 55px) clamp(65px, 8vw, 85px) 1fr auto',
-                  alignItems: 'center',
-                  gap: 'clamp(0.75rem, 2vw, 2rem)',
-                  background: 'var(--bg-glass)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid var(--border-line)',
-                  borderRadius: '18px',
-                  padding: 'clamp(0.85rem, 1.5vw, 1.25rem) clamp(1rem, 2vw, 2rem)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
+                className="popular-track-card"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.01) translateX(6px)';
                   e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.45)';
@@ -123,9 +109,10 @@ export default function PopularReleases() {
               >
                 {/* Номер трека */}
                 <div
+                  className="track-rank"
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: 'clamp(1.2rem, 2.2vw, 1.6rem)',
+                    fontSize: 'clamp(1.15rem, 2.2vw, 1.6rem)',
                     fontWeight: 700,
                     color: index === 0 ? '#ffd166' : index === 1 ? '#d946ef' : 'var(--electric-blue)',
                     letterSpacing: '-0.03em',
@@ -135,18 +122,19 @@ export default function PopularReleases() {
                 </div>
 
                 {/* Обложка */}
-                <div style={{ width: '100%', maxWidth: '85px' }}>
+                <div className="track-cover" style={{ width: '100%', maxWidth: '85px' }}>
                   <ReleaseCover release={release} size="100%" showDetails={false} />
                 </div>
 
                 {/* Название и мета */}
-                <div style={{ minWidth: 0 }}>
+                <div className="track-info" style={{ minWidth: 0 }}>
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.6rem',
                       marginBottom: '0.2rem',
+                      flexWrap: 'wrap',
                     }}
                   >
                     <h3
@@ -191,9 +179,7 @@ export default function PopularReleases() {
                       fontFamily: "'Manrope', sans-serif",
                       fontSize: 'clamp(0.8rem, 1.2vw, 0.92rem)',
                       color: 'var(--text-muted)',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
+                      lineHeight: 1.4,
                     }}
                   >
                     {release.artist}
@@ -212,14 +198,16 @@ export default function PopularReleases() {
                       color: 'var(--text-dim)',
                       marginTop: '0.35rem',
                       letterSpacing: '0.04em',
+                      lineHeight: 1.4,
                     }}
                   >
                     {meta.highlight}
                   </div>
                 </div>
 
-                {/* Правая колонка: Прослушивания и кнопка */}
+                {/* Правая колонка: Лейбл релиза и кнопка */}
                 <div
+                  className="track-action"
                   style={{
                     textAlign: 'right',
                     display: 'flex',
@@ -228,25 +216,32 @@ export default function PopularReleases() {
                     gap: '0.35rem',
                   }}
                 >
-                  <div
+                  <span
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontWeight: 700,
-                      fontSize: 'clamp(0.85rem, 1.4vw, 1.05rem)',
-                      color: '#ffffff',
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.7rem',
+                      color: 'var(--text-dim)',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
                     }}
                   >
-                    {meta.streams}
-                  </div>
+                    СИНГЛ // {release.year}
+                  </span>
 
                   <div
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '0.35rem',
+                      padding: '0.35rem 0.8rem',
+                      borderRadius: '100px',
+                      background: 'rgba(56, 189, 248, 0.08)',
+                      border: '1px solid rgba(56, 189, 248, 0.25)',
                       color: 'var(--electric-blue)',
                       fontSize: '0.72rem',
-                      fontFamily: "'JetBrains Mono', monospace",
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
                     }}
                   >
                     <Disc3 size={12} />

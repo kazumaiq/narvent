@@ -278,7 +278,7 @@ export const releases: Release[] = [
     type: 'single',
     releaseDate: '2024-01-01',
     year: 2024,
-    description: 'A melodic phonk fan-favorite that paved the way into the Insomnia era.',
+    description: 'A melodic synthwave fan-favorite that paved the way into the Insomnia era.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
       youtube: 'https://www.youtube.com/@NarventMusic',
@@ -295,7 +295,7 @@ export const releases: Release[] = [
     type: 'single',
     releaseDate: '2025-01-01',
     year: 2025,
-    description: 'A moody, atmospheric piece blending darkwave and phonk sensibilities.',
+    description: 'A moody, atmospheric electronic piece blending cinematic synthwave and darkwave.',
     links: {
       spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
       youtube: 'https://www.youtube.com/@NarventMusic',

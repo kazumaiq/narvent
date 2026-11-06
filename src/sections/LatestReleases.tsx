@@ -94,9 +94,6 @@ export default function LatestReleases() {
             onClick={() => setSelectedRelease(featured)}
             className="latest-featured-grid"
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 'clamp(1.5rem, 3.5vw, 3.5rem)',
               background: 'var(--bg-glass)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',

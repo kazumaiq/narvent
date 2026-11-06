@@ -35,7 +35,7 @@ export default function SocialUniverse() {
         >
           <span className="editorial-badge">
             <Sparkles size={11} color="var(--electric-blue)" />
-            ОФИЦИАЛЬНЫЕ ПЛОЩАДКИ // ВЕРИФИЦИРОВАННЫЕ КАНАЛЫ
+            ОФИЦИАЛЬНЫЕ ПЛОЩАДКИ // КАНАЛЫ
           </span>
           <h2 className="editorial-title">Социальные сети и стриминг</h2>
           <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>

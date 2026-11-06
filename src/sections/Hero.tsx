@@ -80,21 +80,22 @@ export default function Hero() {
             style={{
               position: 'relative',
               zIndex: 3,
-              transform: `translate3d(${mousePos.x * 12}px, ${mousePos.y * 12}px, 0)`,
-              transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              minWidth: 0,
+              width: '100%',
+              maxWidth: '100%',
             }}
           >
             {/* Микро-бейдж */}
             <div className="editorial-badge magenta" style={{ marginBottom: '1.25rem' }}>
               <Radio size={12} color="var(--neon-magenta)" className="pulse-dot" />
-              <span>ОФИЦИАЛЬНЫЙ САЙТ АРТИСТА // VOLUME100</span>
+              <span>ОФИЦИАЛЬНЫЙ САЙТ АРТИСТА</span>
             </div>
 
             {/* Заголовок NARVENT */}
             <h1
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(3.2rem, 8vw, 6.4rem)',
+                fontSize: 'clamp(2.8rem, 8vw, 6.4rem)',
                 fontWeight: 800,
                 letterSpacing: '-0.04em',
                 lineHeight: 0.92,
@@ -106,11 +107,6 @@ export default function Hero() {
             >
               NARVENT
             </h1>
-
-            {/* Mobile 3D Artifact Display */}
-            <div className="mobile-only" style={{ width: '100%', height: '300px', margin: '1rem 0 1.5rem 0' }}>
-              <CosmicResonator3D />
-            </div>
 
             {/* Лаконичный подзаголовок БЕЗ ВОДЫ */}
             <h2
@@ -125,21 +121,34 @@ export default function Hero() {
                 maxWidth: '580px',
               }}
             >
-              Атмосферный вейв-фонк и кинематографичный синтвейв.
+              Кинематографичный синтвейв и электронная музыка.
             </h2>
 
             <p
               style={{
-                fontSize: 'clamp(0.9rem, 1.3vw, 1.02rem)',
+                fontSize: 'clamp(0.88rem, 1.3vw, 1.02rem)',
                 color: 'var(--text-muted)',
                 lineHeight: 1.6,
                 maxWidth: '540px',
-                marginBottom: '1.75rem',
+                marginBottom: '1.25rem',
                 fontWeight: 400,
               }}
             >
-              Фарход Мусульмонов (Самарканд) — создатель мирового феномена <em>«Memory Reboot»</em>. Звуковые полотна ночных автострад, пульсирующего суб-баса и космического тумана.
+              Фарход Мусулмонов (более известный как Narvent) — автор вирусных мировых хитов «Memory Reboot» и «Fainted». Эстетика ночных дорог, бесконечной скорости и воспоминаний в неоновом тумане.
             </p>
+
+            {/* Mobile 3D Artifact Centerpiece */}
+            <div
+              className="mobile-only"
+              style={{
+                width: '100%',
+                height: 'clamp(190px, 28vh, 240px)',
+                margin: '0.5rem 0 1.25rem 0',
+                position: 'relative',
+              }}
+            >
+              <CosmicResonator3D />
+            </div>
 
             {/* Интерактивный виджет ПОСЛЕДНЕГО РЕЛИЗА прямо в Hero */}
             {latestRelease && (
@@ -263,9 +272,10 @@ export default function Hero() {
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '0.9rem',
+                gap: '0.65rem',
                 alignItems: 'center',
-                marginBottom: '2.5rem',
+                marginBottom: '2rem',
+                width: '100%',
               }}
             >
               <button
@@ -273,19 +283,19 @@ export default function Hero() {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.65rem',
-                  padding: '0.85rem 1.85rem',
+                  gap: '0.55rem',
+                  padding: '0.75rem 1.4rem',
                   borderRadius: '100px',
                   background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.5) 0%, rgba(217, 70, 239, 0.45) 100%)',
                   border: '1px solid rgba(217, 70, 239, 0.55)',
                   boxShadow: '0 8px 30px rgba(99, 102, 241, 0.3), 0 0 25px rgba(217, 70, 239, 0.25)',
                   color: '#ffffff',
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.86rem',
+                  fontSize: '0.84rem',
                   fontWeight: 600,
                   letterSpacing: '0.04em',
                   cursor: 'pointer',
-                  minHeight: '46px',
+                  minHeight: '44px',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
                 onMouseEnter={(e) => {
@@ -297,7 +307,7 @@ export default function Hero() {
                   e.currentTarget.style.boxShadow = '0 8px 30px rgba(99, 102, 241, 0.3), 0 0 25px rgba(217, 70, 239, 0.25)';
                 }}
               >
-                <Disc3 size={17} />
+                <Disc3 size={16} />
                 <span>3D ДИСКОГРАФИЯ</span>
               </button>
 
@@ -306,17 +316,17 @@ export default function Hero() {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.65rem',
-                  padding: '0.85rem 1.65rem',
+                  gap: '0.55rem',
+                  padding: '0.75rem 1.35rem',
                   borderRadius: '100px',
                   background: 'rgba(255, 255, 255, 0.04)',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   color: '#ffffff',
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.86rem',
+                  fontSize: '0.84rem',
                   fontWeight: 500,
                   cursor: 'pointer',
-                  minHeight: '46px',
+                  minHeight: '44px',
                   transition: 'all 0.25s ease',
                 }}
                 onMouseEnter={(e) => {
@@ -328,7 +338,7 @@ export default function Hero() {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
                 }}
               >
-                <Play size={15} />
+                <Play size={14} />
                 <span>ТОП ТРЕКИ</span>
               </button>
 
@@ -339,16 +349,16 @@ export default function Hero() {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.85rem 1.4rem',
+                  gap: '0.45rem',
+                  padding: '0.75rem 1.25rem',
                   borderRadius: '100px',
                   background: 'rgba(29, 185, 84, 0.12)',
                   border: '1px solid rgba(29, 185, 84, 0.35)',
                   color: '#1ed760',
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.86rem',
+                  fontSize: '0.84rem',
                   fontWeight: 600,
-                  minHeight: '46px',
+                  minHeight: '44px',
                   transition: 'all 0.25s ease',
                 }}
                 onMouseEnter={(e) => {
@@ -361,29 +371,20 @@ export default function Hero() {
                 }}
               >
                 <span>SPOTIFY</span>
-                <ExternalLink size={14} />
+                <ExternalLink size={13} />
               </a>
             </div>
 
-            {/* Достижения артиста — параллакс карточки */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-                gap: '0.85rem',
-                maxWidth: '600px',
-              }}
-            >
+            {/* Достижения артиста — Золото RIAA и #13 Billboard */}
+            <div className="hero-stats-grid">
               {[
-                { label: '310M+', sub: '«Memory Reboot»', badge: 'Мировой хит' },
-                { label: 'ЗОЛОТО RIAA', sub: 'Сертификация США', badge: 'Официально' },
+                { label: 'GOLD RIAA', sub: 'Сертификация США', badge: 'Официально' },
                 { label: '#13 BILLBOARD', sub: 'Hot Dance / Elec', badge: 'Чарт США' },
-                { label: '3.2M+', sub: 'Слушателей / мес', badge: 'Spotify' },
               ].map((stat, idx) => (
                 <div
                   key={idx}
                   style={{
-                    padding: '0.85rem 1rem',
+                    padding: '0.85rem 1.15rem',
                     borderRadius: '12px',
                     background: 'rgba(10, 12, 22, 0.65)',
                     border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -401,9 +402,9 @@ export default function Hero() {
                   <div
                     style={{
                       fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 'clamp(1rem, 1.6vw, 1.3rem)',
+                      fontSize: 'clamp(1rem, 1.6vw, 1.25rem)',
                       fontWeight: 800,
-                      color: '#ffffff',
+                      color: idx === 0 ? '#ffd166' : 'var(--electric-blue)',
                       letterSpacing: '-0.02em',
                       lineHeight: 1.1,
                       marginBottom: '2px',
