@@ -117,7 +117,7 @@ export const releases: Release[] = [
   // === EPs ===
   {
     id: 'recall-ep',
-    coverImage: '/covers/recall-ep.svg',
+    coverImage: '/covers/recall-ep.jpg',
     title: 'Recall',
     artist: 'Narvent',
     type: 'ep',
@@ -148,7 +148,7 @@ export const releases: Release[] = [
   },
   {
     id: 'ascend-ep',
-    coverImage: '/covers/ascend-ep.svg',
+    coverImage: '/covers/ascend-ep.jpg',
     title: 'Ascend',
     artist: 'Narvent & MAXTERX',
     featuring: ['MAXTERX'],
@@ -163,7 +163,7 @@ export const releases: Release[] = [
   },
   {
     id: 'ocean-blue-ep',
-    coverImage: '/covers/ocean-blue-ep.svg',
+    coverImage: '/covers/ocean-blue-ep.jpg',
     title: 'Ocean Blue',
     artist: 'Narvent',
     type: 'ep',
@@ -205,7 +205,7 @@ export const releases: Release[] = [
   },
   {
     id: 'in-our-minds-ep',
-    coverImage: '/covers/in-our-minds-ep.svg',
+    coverImage: '/covers/in-our-minds-ep.jpg',
     title: 'In Our Minds',
     artist: 'Narvent, DVRST & Telicity',
     featuring: ['DVRST', 'Telicity'],
@@ -321,7 +321,7 @@ export const releases: Release[] = [
   },
   {
     id: 'euphoria',
-    coverImage: '/covers/euphoria.svg',
+    coverImage: '/covers/euphoria.jpg',
     title: 'Euphoria',
     artist: 'VØJ, Narvent & KoruSe',
     featuring: ['VØJ', 'KoruSe'],
@@ -394,7 +394,7 @@ export const releases: Release[] = [
   },
   {
     id: 'hear-me',
-    coverImage: '/covers/hear-me.svg',
+    coverImage: '/covers/hear-me.jpg',
     title: 'HEAR ME',
     artist: 'VØJ, Narvent & The Scandalous Playaz',
     featuring: ['VØJ', 'The Scandalous Playaz'],
@@ -466,7 +466,7 @@ export const releases: Release[] = [
   },
   {
     id: 'no-dress',
-    coverImage: '/covers/no-dress.svg',
+    coverImage: '/covers/no-dress.jpg',
     title: 'No Dress',
     artist: 'Narvent',
     type: 'single',
@@ -494,7 +494,7 @@ export const releases: Release[] = [
   },
   {
     id: 'obliterate',
-    coverImage: '/covers/obliterate.svg',
+    coverImage: '/covers/obliterate.jpg',
     title: 'Obliterate',
     artist: 'Narvent & FORBIDDEN',
     featuring: ['FORBIDDEN'],
