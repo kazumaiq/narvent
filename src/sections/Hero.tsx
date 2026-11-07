@@ -143,7 +143,7 @@ export default function Hero() {
             textAlign: 'center',
             margin: 0,
             position: 'relative',
-            zIndex: 5,
+            zIndex: 6,
             marginBottom: 'clamp(-0.9rem, -2.2vw, -2.1rem)',
             mixBlendMode: 'difference',
             userSelect: 'none',
@@ -154,79 +154,88 @@ export default function Hero() {
           NARVENT
         </motion.h1>
 
-        {/* CENTRAL VISUAL ARTWORK & 3D PORTAL FRAME */}
+        {/* OUTER STAGE WRAPPER (Unclipped so the 3D Black Hole Singularity never gets cut off by overflow:hidden) */}
         <motion.div
           style={{
             y: stageY,
             position: 'relative',
             width: '100%',
-            maxWidth: '940px',
-            height: 'clamp(330px, 50vh, 500px)',
-            background: '#060712',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 35px 90px rgba(0, 0, 0, 0.9)',
-            overflow: 'hidden',
+            maxWidth: '960px',
+            height: 'clamp(340px, 52vh, 510px)',
             zIndex: 3,
           }}
         >
-          {/* Animated Background Artwork with Clip-Path Transition */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeRelease.id}
-              initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
-              animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              <img
-                src={activeRelease.coverImage}
-                alt={activeRelease.title}
-                width={940}
-                height={500}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center 35%',
-                  filter: ' saturate(1.15) contrast(1.08)',
-                  transform: `scale(1.04) translate3d(${mousePos.x * -10}px, ${mousePos.y * -10}px, 0)`,
-                  transition: 'transform 0.35s ease-out',
-                }}
-              />
-              {/* Multi-stop editorial vignette so artwork & 3D resonator blend seamlessly */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background:
-                    'linear-gradient(90deg, rgba(4, 5, 14, 0.82) 0%, rgba(4, 5, 14, 0.32) 48%, rgba(4, 5, 14, 0.78) 100%), linear-gradient(180deg, rgba(2, 2, 6, 0.45) 0%, transparent 35%, rgba(2, 2, 6, 0.92) 100%)',
-                }}
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Interactive 3D Cosmic Resonator Overlaid in Right/Center of Stage */}
+          {/* Clipped Artwork Backdrop Frame */}
           <div
             style={{
               position: 'absolute',
-              top: '-6%',
-              right: '-4%',
-              width: 'clamp(240px, 48%, 460px)',
-              height: '112%',
-              zIndex: 2,
-              opacity: 0.92,
+              inset: 0,
+              background: '#060712',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 35px 90px rgba(0, 0, 0, 0.9)',
+              overflow: 'hidden',
+              zIndex: 1,
+            }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeRelease.id}
+                initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.08 }}
+                animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <img
+                  src={activeRelease.coverImage}
+                  alt={activeRelease.title}
+                  width={960}
+                  height={510}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 35%',
+                    filter: 'saturate(1.15) contrast(1.08)',
+                    transform: `scale(1.04) translate3d(${mousePos.x * -10}px, ${mousePos.y * -10}px, 0)`,
+                    transition: 'transform 0.35s ease-out',
+                  }}
+                />
+                {/* Deep vignette blending artwork into the 3D Black Hole Singularity */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                      'radial-gradient(circle at 72% 50%, rgba(2, 2, 6, 0.86) 0%, rgba(4, 5, 14, 0.42) 48%, rgba(4, 5, 14, 0.85) 100%), linear-gradient(180deg, rgba(2, 2, 6, 0.48) 0%, transparent 35%, rgba(2, 2, 6, 0.92) 100%)',
+                  }}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* UNCLIPPED 3D RELATIVISTIC BLACK HOLE SINGULARITY LAYER */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '0%',
+              transform: 'translateY(-50%)',
+              width: 'clamp(260px, 56%, 540px)',
+              height: 'clamp(280px, 114%, 560px)',
+              zIndex: 3,
+              pointerEvents: 'auto',
             }}
           >
             <CosmicResonator3D />
           </div>
 
-          {/* Left Stage Content: Active Artwork Era Details & Play Circle */}
+          {/* Stage Foreground UI: Coordinates, Play Trigger, Era Switcher */}
           <div
             style={{
               position: 'relative',
@@ -248,14 +257,14 @@ export default function Hero() {
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.66rem',
                 letterSpacing: '0.16em',
-                color: 'rgba(255, 255, 255, 0.7)',
+                color: 'rgba(255, 255, 255, 0.72)',
                 textTransform: 'uppercase',
               }}
             >
               <span>
                 0{activeIndex + 1} / 0{showcaseReleases.length} // {formatReleaseDate(activeRelease.releaseDate, lang)}
               </span>
-              <span style={{ color: 'var(--neon-magenta)' }}>+ ×</span>
+              <span style={{ color: 'var(--neon-magenta)' }}>SINGULARITY // +×</span>
             </div>
 
             {/* Bottom-Left Stage Overlay: Play Circle + Monumental Release Title */}
@@ -324,7 +333,7 @@ export default function Hero() {
                       style={{
                         fontFamily: 'var(--font-main)',
                         fontSize: '0.84rem',
-                        color: 'rgba(255, 255, 255, 0.75)',
+                        color: 'rgba(255, 255, 255, 0.78)',
                         marginTop: '0.25rem',
                       }}
                     >
@@ -427,7 +436,6 @@ export default function Hero() {
             gap: '0.6rem',
           }}
         >
-          {/* Boxed Telemetry Readout (like 117D 04H 34M 34S box on martingarrix.com) */}
           <div
             style={{
               display: 'inline-flex',
@@ -463,7 +471,6 @@ export default function Hero() {
             </span>
           </div>
 
-          {/* Solid White Split Button [ СЛУШАТЬ | → ] */}
           <button
             onClick={() => setSelectedRelease(activeRelease)}
             className="mg-split-btn"
