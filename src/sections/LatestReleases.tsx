@@ -1,24 +1,144 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Play } from 'lucide-react';
+import { Play, ArrowRight } from 'lucide-react';
 import { getLatestReleases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
-import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
+import { RevealText, RevealImage, ParallaxWatermark, PlusCrossMatrix } from '../components/CinematicReveal';
 
 export default function LatestReleases() {
   const { t, lang } = useLanguage();
-  const latestReleases = getLatestReleases().slice(0, 7);
+  // Top 6 newest releases arranged in Martin Garrix's 2-column staggered gallery
+  const latestReleases = getLatestReleases().slice(0, 6);
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
-  const featured = latestReleases[0];
-  const rest = latestReleases.slice(1);
+
+  const leftColReleases = latestReleases.filter((_, idx) => idx % 2 === 0);
+  const rightColReleases = latestReleases.filter((_, idx) => idx % 2 === 1);
 
   const getTypeLabel = (type: Release['type']) => {
     if (type === 'album') return t.latest.album;
     if (type === 'ep') return t.latest.ep;
     return t.latest.single;
   };
+
+  const renderGalleryCard = (release: Release, absoluteIndex: number, isRightCol: boolean) => (
+    <article
+      key={release.id}
+      onClick={() => setSelectedRelease(release)}
+      className="mg-artwork-card"
+    >
+      <RevealImage
+        direction={isRightCol ? 'right' : 'left'}
+        parallax={isRightCol ? -16 : 16}
+      >
+        <div style={{ position: 'relative', width: '100%' }}>
+          <ReleaseCover release={release} size="100%" priority={absoluteIndex < 2} />
+
+          {/* Top Architectural Telemetry Bar Over Artwork */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              padding: 'clamp(0.85rem, 2vw, 1.35rem)',
+              background: 'linear-gradient(180deg, rgba(2, 2, 6, 0.78) 0%, transparent 100%)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.68rem',
+              fontWeight: 600,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              zIndex: 2,
+            }}
+          >
+            <span style={{ color: '#ffffff' }}>
+              0{absoluteIndex + 1} // {getTypeLabel(release.type)}
+            </span>
+            <span style={{ color: 'var(--electric-blue)' }}>
+              {formatReleaseDate(release.releaseDate, lang)}
+            </span>
+          </div>
+
+          {/* Bottom Martin Garrix Overlay: Play Circle + Bold Uppercase Title + Artist + Listen */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: 'clamp(2.5rem, 5vw, 4rem) clamp(1rem, 2.4vw, 1.75rem) clamp(1.1rem, 2.4vw, 1.75rem)',
+              background:
+                'linear-gradient(180deg, transparent 0%, rgba(2, 2, 6, 0.82) 55%, rgba(2, 2, 6, 0.96) 100%)',
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              zIndex: 2,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0 }}>
+              <div className="mg-artwork-play-circle">
+                <Play size={18} fill="currentColor" />
+              </div>
+
+              <div style={{ minWidth: 0 }}>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.15rem, 2.2vw, 1.75rem)',
+                    fontWeight: 900,
+                    color: '#ffffff',
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1.02,
+                    textTransform: 'uppercase',
+                    margin: '0 0 0.3rem 0',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {release.title}
+                </h3>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-main)',
+                    fontSize: '0.84rem',
+                    color: 'rgba(255, 255, 255, 0.78)',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  — {release.artist}
+                  {release.featuring ? ` & ${release.featuring.join(', ')}` : ''}
+                </div>
+              </div>
+            </div>
+
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.66rem',
+                fontWeight: 700,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.32)',
+                background: 'rgba(2, 2, 6, 0.65)',
+                padding: '0.42rem 0.75rem',
+                flexShrink: 0,
+              }}
+            >
+              {t.latest.listenRelease}
+            </span>
+          </div>
+        </div>
+      </RevealImage>
+    </article>
+  );
 
   return (
     <section
@@ -30,310 +150,97 @@ export default function LatestReleases() {
       }}
     >
       {/* Drifting Kinetic Background Watermark */}
-      <ParallaxWatermark text="RELEASES // 2026" top="6%" speed={-110} opacity={0.032} />
+      <ParallaxWatermark text="LATEST RELEASES // 2026" top="4%" speed={-110} opacity={0.032} />
+
+      {/* Left Margin Rotated Vertical Label (Exact Martin Garrix Layout) */}
+      <div
+        className="desktop-only mg-vertical-rail"
+        style={{
+          position: 'absolute',
+          top: '8rem',
+          left: 'clamp(0.6rem, 1.8vw, 1.5rem)',
+          zIndex: 3,
+        }}
+      >
+        <span>+ ×</span>
+        <span>{t.latest.badge} // 2025—2026</span>
+      </div>
 
       <div className="container">
-        {/* Section Header */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            gap: '1.5rem',
-            marginBottom: 'clamp(3rem, 6vh, 4.5rem)',
-          }}
-        >
+        {/* Martin Garrix Split Header: Giant Pure Grotesque Title Left + Subtitle Right */}
+        <div className="mg-section-header">
           <div>
             <div className="editorial-kicker">
-              <span>02 // {t.latest.badge}</span>
+              <span>+× // 02 — {t.latest.badge}</span>
             </div>
             <h2 className="editorial-title">
-              <RevealText
-                text={t.latest.title}
-                serifWord={lang === 'ru' ? 'релизы' : 'Releases'}
-              />
+              <RevealText text={t.latest.title} />
             </h2>
-            <p className="editorial-subtitle">{t.latest.subtitle}</p>
           </div>
 
-          <a href="#archive" className="btn-editorial">
-            <span>{t.latest.viewAll3D}</span>
-            <ArrowUpRight size={15} />
-          </a>
+          <p className="editorial-subtitle" style={{ margin: 0 }}>
+            {t.latest.subtitle}
+          </p>
         </div>
 
-        {/* Flagship Newest Release — Asymmetric Editorial Spread */}
-        {featured && (
-          <div
-            onClick={() => setSelectedRelease(featured)}
-            className="latest-featured-spread"
-            style={{ marginBottom: 'clamp(4rem, 8vh, 6.5rem)' }}
-          >
-            {/* Left Column: Large Artwork with Clip-Path Reveal & Scroll Parallax */}
-            <div style={{ position: 'relative' }}>
-              <RevealImage direction="left" parallax={18}>
-                <ReleaseCover release={featured} size="100%" priority />
-              </RevealImage>
-
-              {/* Editorial Index Stamp */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  left: '1rem',
-                  background: 'rgba(2, 2, 6, 0.85)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(217, 70, 239, 0.5)',
-                  padding: '0.35rem 0.75rem',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.66rem',
-                  fontWeight: 600,
-                  color: '#ffffff',
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  zIndex: 2,
-                }}
-              >
-                01 // {t.latest.newReleaseBadge}
-              </div>
-            </div>
-
-            {/* Right Column: Monumental Typography & Metadata */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                gap: '1.1rem',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                <span style={{ color: 'var(--neon-magenta)', fontWeight: 600 }}>
-                  {getTypeLabel(featured.type)}
-                </span>
-                <span style={{ color: 'rgba(255,255,255,0.22)' }}>//</span>
-                <span style={{ color: 'var(--electric-blue)', fontWeight: 600 }}>
-                  {formatReleaseDate(featured.releaseDate, lang)}
-                </span>
-                {featured.trackCount ? (
-                  <>
-                    <span style={{ color: 'rgba(255,255,255,0.22)' }}>//</span>
-                    <span style={{ color: 'var(--text-muted)' }}>
-                      {featured.trackCount} {t.latest.tracksSuffix}
-                    </span>
-                  </>
-                ) : null}
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(2.1rem, 4.6vw, 4rem)',
-                  fontWeight: 900,
-                  color: '#ffffff',
-                  lineHeight: 0.96,
-                  letterSpacing: '-0.04em',
-                  textTransform: 'uppercase',
-                  margin: 0,
-                }}
-              >
-                <RevealText text={featured.title} />
-              </h3>
-
-              <div
-                style={{
-                  fontFamily: 'var(--font-ui)',
-                  fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-                  fontWeight: 600,
-                  color: '#e2e8f0',
-                }}
-              >
-                {featured.artist}
-                {featured.featuring && (
-                  <span style={{ color: 'var(--electric-blue)' }}>
-                    {' '}
-                    {t.latest.featWith} {featured.featuring.join(', ')}
-                  </span>
-                )}
-              </div>
-
-              {featured.description && (
-                <p
-                  style={{
-                    fontFamily: 'var(--font-main)',
-                    fontSize: 'clamp(0.9rem, 1.25vw, 1.02rem)',
-                    color: 'var(--text-muted)',
-                    lineHeight: 1.65,
-                    maxWidth: '520px',
-                    margin: 0,
-                  }}
-                >
-                  {featured.description}
-                </p>
-              )}
-
-              <div style={{ marginTop: '0.65rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <span className="btn-editorial primary">
-                  <Play size={14} fill="currentColor" />
-                  <span>{t.latest.listenRelease}</span>
-                </span>
-              </div>
-            </div>
+        {/* Martin Garrix 2-Column Asymmetric Staggered Gallery with Central Vertical Crosshair Line */}
+        <div className="mg-gallery-wrapper">
+          {/* Left Column (01, 03, 05) */}
+          <div className="mg-gallery-col-left">
+            {leftColReleases.map((rel, i) => renderGalleryCard(rel, i * 2, false))}
           </div>
-        )}
 
-        {/* Staggered Asymmetric Editorial Release Grid (Chronological Newest-First) */}
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '2rem',
-              paddingBottom: '0.85rem',
-              borderBottom: '1px solid var(--border-line)',
-            }}
-          >
+          {/* Center Vertical Hairline with Crosshairs */}
+          <div className="mg-gallery-divider" aria-hidden="true">
             <span
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.7rem',
-                color: 'var(--text-muted)',
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.9rem',
+                fontWeight: 900,
+                color: 'var(--neon-magenta)',
+                marginBottom: '0.75rem',
               }}
             >
-              {t.latest.otherReleases} // 02—0{rest.length + 1}
+              ×
             </span>
+            <div className="mg-gallery-divider-line" />
             <span
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.68rem',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.9rem',
+                fontWeight: 900,
                 color: 'var(--electric-blue)',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
+                marginTop: '0.75rem',
               }}
             >
-              2025—2026
+              +
             </span>
           </div>
 
-          <div className="editorial-releases-grid">
-            {rest.map((release, index) => (
-              <motion.article
-                key={release.id}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.7, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => setSelectedRelease(release)}
-                className="editorial-release-card"
-                style={{
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                {/* Top Index & Date Bar */}
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.68rem',
-                    letterSpacing: '0.14em',
-                    textTransform: 'uppercase',
-                    paddingBottom: '0.6rem',
-                    marginBottom: '0.75rem',
-                    borderBottom: '1px solid var(--border-line)',
-                  }}
-                >
-                  <span style={{ color: 'var(--text-dim)', fontWeight: 600 }}>
-                    0{index + 2} // {getTypeLabel(release.type)}
-                  </span>
-                  <span style={{ color: 'var(--electric-blue)', fontWeight: 500 }}>
-                    {formatReleaseDate(release.releaseDate, lang)}
-                  </span>
-                </div>
-
-                {/* Large Cover with Clip-Path Reveal */}
-                <RevealImage
-                  direction="up"
-                  delay={(index % 3) * 0.06}
-                  parallax={index % 2 === 0 ? 10 : -10}
-                  style={{ marginBottom: '1.1rem' }}
-                >
-                  <ReleaseCover release={release} size="100%" />
-                </RevealImage>
-
-                {/* Title & Artist + Listen Button */}
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    gap: '0.85rem',
-                  }}
-                >
-                  <div style={{ minWidth: 0 }}>
-                    <h4
-                      style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(1.15rem, 1.9vw, 1.5rem)',
-                        fontWeight: 800,
-                        color: '#ffffff',
-                        letterSpacing: '-0.025em',
-                        lineHeight: 1.1,
-                        textTransform: 'uppercase',
-                        margin: '0 0 0.3rem 0',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {release.title}
-                    </h4>
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-main)',
-                        fontSize: '0.84rem',
-                        color: 'var(--text-muted)',
-                        margin: 0,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {release.artist}
-                      {release.featuring && (
-                        <span style={{ color: 'var(--electric-blue)' }}>
-                          {' '}
-                          ft. {release.featuring.join(', ')}
-                        </span>
-                      )}
-                    </p>
-                  </div>
-
-                  <span className="btn-editorial listen-pill" style={{ flexShrink: 0 }}>
-                    {t.latest.listenRelease}
-                  </span>
-                </div>
-              </motion.article>
-            ))}
+          {/* Right Column Staggered Down (02, 04, 06) */}
+          <div className="mg-gallery-col-right">
+            {rightColReleases.map((rel, i) => renderGalleryCard(rel, i * 2 + 1, true))}
           </div>
+        </div>
+
+        {/* Bottom Centered CTA Bar + "+ ×" Matrix */}
+        <div
+          style={{
+            marginTop: 'clamp(3.5rem, 7vh, 5.5rem)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '2rem',
+          }}
+        >
+          <a href="#archive" className="mg-split-btn">
+            <span className="mg-split-label">{t.latest.viewAll3D}</span>
+            <span className="mg-split-arrow">
+              <ArrowRight size={15} />
+            </span>
+          </a>
+
+          <PlusCrossMatrix rows={1} cols={11} style={{ opacity: 0.7 }} />
         </div>
       </div>
 

@@ -1,32 +1,32 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Disc3, Globe } from 'lucide-react';
+import { X, Disc3, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { lang, setLang, t } = useLanguage();
 
   const navItems = [
-    { label: t.nav.home, href: '#home' },
-    { label: t.nav.latest, href: '#latest' },
-    { label: t.nav.popular, href: '#popular' },
-    { label: t.nav.archive, href: '#archive' },
-    { label: t.nav.about, href: '#about' },
-    { label: t.nav.socials, href: '#socials' },
+    { index: '01', label: t.nav.home, href: '#home' },
+    { index: '02', label: t.nav.latest, href: '#latest' },
+    { index: '03', label: t.nav.popular, href: '#popular' },
+    { index: '04', label: t.nav.archive, href: '#archive' },
+    { index: '05', label: t.nav.about, href: '#about' },
+    { index: '06', label: t.nav.socials, href: '#socials' },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (href: string) => {
-    setMobileMenuOpen(false);
+    setMenuOpen(false);
     const id = href.replace('#', '');
     const element = document.getElementById(id);
     if (element) {
@@ -36,44 +36,39 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Floating Pill Navigation */}
+      {/* Martin Garrix Inspired Edge-to-Edge Architectural Header */}
       <header
         style={{
           position: 'fixed',
-          top: 'calc(0.75rem + var(--safe-top, 0px))',
-          left: '1rem',
-          right: '1rem',
-          margin: '0 auto',
-          maxWidth: '920px',
+          top: 0,
+          left: 0,
+          right: 0,
           zIndex: 90,
-          pointerEvents: 'none',
+          paddingTop: 'calc(0.9rem + var(--safe-top, 0px))',
+          paddingBottom: '0.9rem',
+          background: scrolled ? 'rgba(2, 2, 6, 0.86)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid transparent',
+          transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
       >
         <div
+          className="container-wide"
           style={{
-            pointerEvents: 'auto',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0.42rem 0.65rem 0.42rem 1.15rem',
-            borderRadius: '100px',
-            background: scrolled
-              ? 'rgba(6, 7, 18, 0.94)'
-              : 'rgba(10, 11, 28, 0.82)',
-            backdropFilter: 'blur(24px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(24px) saturate(160%)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            boxShadow: '0 12px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(99, 102, 241, 0.1)',
-            transition: 'all 0.3s ease',
+            gap: '1rem',
           }}
         >
-          {/* Logo */}
+          {/* Left Corner: Geometric +× Emblem & NARVENT Brand */}
           <button
             onClick={() => scrollToSection('#home')}
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.45rem',
+              gap: '0.75rem',
               cursor: 'pointer',
               background: 'none',
               border: 'none',
@@ -81,10 +76,28 @@ export default function Navigation() {
             }}
           >
             <span
+              aria-hidden="true"
               style={{
-                fontFamily: "var(--font-display)",
-                fontSize: '1.15rem',
-                fontWeight: 800,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '2px',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.2rem, 2vw, 1.55rem)',
+                fontWeight: 900,
+                color: '#ffffff',
+                lineHeight: 1,
+                letterSpacing: '-0.05em',
+              }}
+            >
+              <span>+</span>
+              <span style={{ color: 'var(--neon-magenta)' }}>×</span>
+            </span>
+
+            <span
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(0.95rem, 1.5vw, 1.2rem)',
+                fontWeight: 900,
                 letterSpacing: '-0.03em',
                 color: '#ffffff',
               }}
@@ -93,13 +106,13 @@ export default function Navigation() {
             </span>
           </button>
 
-          {/* Desktop Links */}
+          {/* Center Desktop Navigation Links */}
           <nav
             className="desktop-only"
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.15rem',
+              gap: 'clamp(1rem, 2vw, 1.85rem)',
             }}
           >
             {navItems.map((item) => (
@@ -107,25 +120,21 @@ export default function Navigation() {
                 key={item.href}
                 onClick={() => scrollToSection(item.href)}
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: 'var(--font-ui)',
                   fontSize: '0.74rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  color: 'var(--text-muted)',
-                  padding: '0.42rem 0.75rem',
-                  borderRadius: '100px',
-                  transition: 'all 0.2s',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255, 255, 255, 0.72)',
+                  padding: '0.35rem 0',
+                  transition: 'color 0.2s ease',
                   cursor: 'pointer',
-                  background: 'none',
-                  border: 'none',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.72)';
                 }}
               >
                 {item.label}
@@ -133,38 +142,33 @@ export default function Navigation() {
             ))}
           </nav>
 
-          {/* Controls: Language Switcher + 3D CTA (Desktop) */}
+          {/* Right Corner: Language Switcher + Martin Garrix Style "= MENU" Trigger */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.5rem',
+              gap: 'clamp(0.65rem, 1.5vw, 1.25rem)',
             }}
           >
-            {/* Language Switcher [ RU | EN ] */}
+            {/* Sharp Architectural Language Switcher [ RU / EN ] */}
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                padding: '2px',
-                borderRadius: '100px',
-                background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                background: 'rgba(2, 2, 6, 0.65)',
               }}
             >
               <button
                 onClick={() => setLang('ru')}
                 style={{
-                  padding: '0.28rem 0.6rem',
-                  borderRadius: '100px',
-                  border: 'none',
-                  background: lang === 'ru' ? 'rgba(217, 70, 239, 0.32)' : 'transparent',
-                  color: lang === 'ru' ? '#ffffff' : 'rgba(255, 255, 255, 0.5)',
-                  boxShadow: lang === 'ru' ? '0 0 12px rgba(217, 70, 239, 0.3)' : 'none',
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  padding: '0.32rem 0.55rem',
+                  background: lang === 'ru' ? '#ffffff' : 'transparent',
+                  color: lang === 'ru' ? '#020206' : 'rgba(255, 255, 255, 0.6)',
+                  fontFamily: 'var(--font-mono)',
                   fontSize: '0.68rem',
                   fontWeight: 700,
-                  letterSpacing: '0.05em',
+                  letterSpacing: '0.08em',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
@@ -174,16 +178,13 @@ export default function Navigation() {
               <button
                 onClick={() => setLang('en')}
                 style={{
-                  padding: '0.28rem 0.6rem',
-                  borderRadius: '100px',
-                  border: 'none',
-                  background: lang === 'en' ? 'rgba(99, 102, 241, 0.32)' : 'transparent',
-                  color: lang === 'en' ? '#ffffff' : 'rgba(255, 255, 255, 0.5)',
-                  boxShadow: lang === 'en' ? '0 0 12px rgba(99, 102, 241, 0.3)' : 'none',
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  padding: '0.32rem 0.55rem',
+                  background: lang === 'en' ? '#ffffff' : 'transparent',
+                  color: lang === 'en' ? '#020206' : 'rgba(255, 255, 255, 0.6)',
+                  fontFamily: 'var(--font-mono)',
                   fontSize: '0.68rem',
                   fontWeight: 700,
-                  letterSpacing: '0.05em',
+                  letterSpacing: '0.08em',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
@@ -192,212 +193,227 @@ export default function Navigation() {
               </button>
             </div>
 
-            {/* 3D Archive CTA (Desktop) */}
+            {/* Martin Garrix Style "= MENU" Trigger */}
             <button
-              onClick={() => scrollToSection('#archive')}
-              className="desktop-only"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={t.nav.openMenu}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.45rem 1.05rem',
-                borderRadius: '100px',
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(217, 70, 239, 0.3))',
-                border: '1px solid rgba(217, 70, 239, 0.45)',
-                color: '#ffffff',
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
+                gap: '0.6rem',
                 cursor: 'pointer',
-                transition: 'all 0.25s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 0 20px rgba(217, 70, 239, 0.35)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = 'none';
+                padding: '0.35rem 0',
+                color: '#ffffff',
               }}
             >
-              <Disc3 size={13} />
-              <span>{lang === 'ru' ? '3D ДИСКОГРАФИЯ' : '3D ARCHIVE'}</span>
-            </button>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              className="mobile-only"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                color: '#ffffff',
-                cursor: 'pointer',
-              }}
-              aria-label={t.nav.openMenu}
-            >
-              {mobileMenuOpen ? <X size={17} /> : <Menu size={17} />}
+              <span
+                aria-hidden="true"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '5px',
+                  width: '22px',
+                }}
+              >
+                <span
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '3px',
+                    background: '#ffffff',
+                    transition: 'transform 0.25s ease',
+                    transform: menuOpen ? 'translateY(4px) rotate(45deg)' : 'none',
+                  }}
+                />
+                <span
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '3px',
+                    background: '#ffffff',
+                    transition: 'transform 0.25s ease',
+                    transform: menuOpen ? 'translateY(-4px) rotate(-45deg)' : 'none',
+                  }}
+                />
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(0.8rem, 1.3vw, 1rem)',
+                  fontWeight: 900,
+                  letterSpacing: '-0.02em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {lang === 'ru' ? 'МЕНЮ' : 'MENU'}
+              </span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer Menu */}
+      {/* Full-Screen Architectural Overlay Menu */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -15, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -15, scale: 0.98 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, clipPath: 'inset(0% 0% 100% 0%)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
+            exit={{ opacity: 0, clipPath: 'inset(0% 0% 100% 0%)' }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'fixed',
-              top: 'calc(4.5rem + var(--safe-top, 0px))',
-              left: '1rem',
-              right: '1rem',
-              margin: '0 auto',
-              maxWidth: '450px',
+              inset: 0,
               zIndex: 89,
-              background: 'rgba(8, 9, 24, 0.97)',
-              backdropFilter: 'blur(32px)',
-              WebkitBackdropFilter: 'blur(32px)',
-              border: '1px solid rgba(217, 70, 239, 0.35)',
-              borderRadius: '24px',
-              padding: '1.25rem',
-              boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95), 0 0 35px rgba(217, 70, 239, 0.15)',
+              background: 'rgba(2, 2, 6, 0.97)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.5rem',
+              justifyContent: 'space-between',
+              padding: 'clamp(5.5rem, 12vh, 8rem) clamp(1.25rem, 5vw, 4rem) clamp(2.5rem, 6vh, 4rem)',
             }}
           >
-            {/* Language Switcher inside Mobile Drawer */}
             <div
+              className="container-wide"
               style={{
-                display: 'flex',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '2.5rem',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '0.4rem 0.6rem',
-                marginBottom: '0.4rem',
-                borderRadius: '12px',
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                width: '100%',
+                margin: 'auto 0',
               }}
             >
-              <span
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  fontSize: '0.8rem',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  color: 'var(--text-muted)',
-                  fontWeight: 600,
-                }}
-              >
-                <Globe size={14} />
-                <span>{lang === 'ru' ? 'Язык сайта' : 'Language'}</span>
-              </span>
+              {/* Monumental Navigation List */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {navItems.map((item, idx) => (
+                  <motion.button
+                    key={item.href}
+                    initial={{ opacity: 0, x: -24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: idx * 0.05 }}
+                    onClick={() => scrollToSection(item.href)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      gap: '1.25rem',
+                      textAlign: 'left',
+                      padding: '0.6rem 0',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        color: 'var(--neon-magenta)',
+                        fontWeight: 600,
+                        letterSpacing: '0.14em',
+                      }}
+                    >
+                      {item.index} //
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.5rem, 3.8vw, 3rem)',
+                        fontWeight: 900,
+                        color: '#ffffff',
+                        letterSpacing: '-0.03em',
+                        textTransform: 'uppercase',
+                        lineHeight: 1.05,
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Right Column: Quick 3D Portal & Streaming Links */}
               <div
                 style={{
-                  display: 'inline-flex',
-                  gap: '4px',
-                  background: 'rgba(0, 0, 0, 0.4)',
-                  padding: '3px',
-                  borderRadius: '100px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1.5rem',
+                  padding: '2rem',
+                  border: '1px solid rgba(255, 255, 255, 0.14)',
+                  background: 'rgba(10, 11, 24, 0.65)',
                 }}
               >
-                <button
-                  onClick={() => setLang('ru')}
+                <div
                   style={{
-                    padding: '0.3rem 0.85rem',
-                    borderRadius: '100px',
-                    border: 'none',
-                    background: lang === 'ru' ? 'rgba(217, 70, 239, 0.4)' : 'transparent',
-                    color: lang === 'ru' ? '#ffffff' : 'rgba(255, 255, 255, 0.5)',
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.7rem',
+                    letterSpacing: '0.18em',
+                    color: 'var(--electric-blue)',
+                    textTransform: 'uppercase',
                   }}
                 >
-                  RU
-                </button>
-                <button
-                  onClick={() => setLang('en')}
+                  +× // INTERACTIVE EXPERIENCE
+                </div>
+
+                <div
                   style={{
-                    padding: '0.3rem 0.85rem',
-                    borderRadius: '100px',
-                    border: 'none',
-                    background: lang === 'en' ? 'rgba(99, 102, 241, 0.4)' : 'transparent',
-                    color: lang === 'en' ? '#ffffff' : 'rgba(255, 255, 255, 0.5)',
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.25rem, 2.2vw, 1.85rem)',
+                    fontWeight: 900,
+                    color: '#ffffff',
+                    lineHeight: 1.1,
+                    textTransform: 'uppercase',
                   }}
                 >
-                  EN
+                  {t.nav.open3D}
+                </div>
+
+                <button
+                  onClick={() => scrollToSection('#archive')}
+                  className="mg-split-btn"
+                  style={{ alignSelf: 'flex-start' }}
+                >
+                  <span className="mg-split-label">
+                    <Disc3 size={15} />
+                    <span>{t.nav.archive}</span>
+                  </span>
+                  <span className="mg-split-arrow">
+                    <ArrowUpRight size={16} />
+                  </span>
                 </button>
               </div>
             </div>
 
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                style={{
-                  textAlign: 'left',
-                  padding: '0.8rem 1.1rem',
-                  borderRadius: '12px',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.92rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  color: '#ffffff',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <span>{item.label}</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>→</span>
-              </button>
-            ))}
-
-            <button
-              onClick={() => scrollToSection('#archive')}
+            {/* Bottom Menu Bar */}
+            <div
+              className="container-wide"
               style={{
                 display: 'flex',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                marginTop: '0.5rem',
-                padding: '0.85rem',
-                borderRadius: '14px',
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.55), rgba(217, 70, 239, 0.5))',
-                border: '1px solid rgba(217, 70, 239, 0.6)',
-                color: '#ffffff',
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.9rem',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                boxShadow: '0 8px 25px rgba(217, 70, 239, 0.3)',
+                paddingTop: '1.5rem',
+                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.7rem',
+                color: 'var(--text-dim)',
+                letterSpacing: '0.12em',
               }}
             >
-              <Disc3 size={16} />
-              <span>{t.nav.open3D}</span>
-            </button>
+              <span>NARVENT // OFFICIAL PLATFORM</span>
+              <button
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  color: '#ffffff',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                }}
+              >
+                <X size={15} />
+                <span>{t.modal.close}</span>
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

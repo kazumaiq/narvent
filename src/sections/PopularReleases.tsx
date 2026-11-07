@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Play } from 'lucide-react';
+import { Play, ArrowRight } from 'lucide-react';
 import { releases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
@@ -11,7 +11,6 @@ export default function PopularReleases() {
   const { t, lang } = useLanguage();
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
-  // Confirmed order of essential Narvent singles
   const rankingMeta: Record<string, { streamOrder: number }> = {
     'memory-reboot': { streamOrder: 310 },
     'fainted': { streamOrder: 85 },
@@ -39,19 +38,35 @@ export default function PopularReleases() {
       {/* Drifting Kinetic Background Watermark */}
       <ParallaxWatermark text="ESSENTIAL HITS // RIAA GOLD" top="10%" speed={95} opacity={0.03} />
 
+      {/* Left Margin Rotated Vertical Label */}
+      <div
+        className="desktop-only mg-vertical-rail"
+        style={{
+          position: 'absolute',
+          top: '8rem',
+          left: 'clamp(0.6rem, 1.8vw, 1.5rem)',
+          zIndex: 3,
+        }}
+      >
+        <span>+ ×</span>
+        <span>{t.popular.badge} // TOP 05</span>
+      </div>
+
       <div className="container">
-        {/* Section Header */}
-        <div style={{ marginBottom: 'clamp(3rem, 6vh, 4.5rem)' }}>
-          <div className="editorial-kicker magenta">
-            <span>03 // {t.popular.badge}</span>
+        {/* Martin Garrix Split Header */}
+        <div className="mg-section-header">
+          <div>
+            <div className="editorial-kicker magenta">
+              <span>+× // 03 — {t.popular.badge}</span>
+            </div>
+            <h2 className="editorial-title">
+              <RevealText text={t.popular.title} />
+            </h2>
           </div>
-          <h2 className="editorial-title">
-            <RevealText
-              text={t.popular.title}
-              serifWord={lang === 'ru' ? 'хиты' : 'Hits'}
-            />
-          </h2>
-          <p className="editorial-subtitle">{t.popular.subtitle}</p>
+
+          <p className="editorial-subtitle" style={{ margin: 0 }}>
+            {t.popular.subtitle}
+          </p>
         </div>
 
         {/* Architectural Editorial Tracklist */}
@@ -76,7 +91,7 @@ export default function PopularReleases() {
                     fontSize: 'clamp(1.35rem, 2.8vw, 2.35rem)',
                     fontWeight: 900,
                     color: isTop ? '#ffffff' : 'transparent',
-                    WebkitTextStroke: isTop ? '0px' : '1.25px rgba(255, 255, 255, 0.42)',
+                    WebkitTextStroke: isTop ? '0px' : '1.25px rgba(255, 255, 255, 0.45)',
                     letterSpacing: '-0.04em',
                     lineHeight: 1,
                   }}
@@ -106,7 +121,7 @@ export default function PopularReleases() {
                       style={{
                         fontFamily: 'var(--font-display)',
                         fontSize: 'clamp(1.1rem, 2.2vw, 1.65rem)',
-                        fontWeight: 800,
+                        fontWeight: 900,
                         color: '#ffffff',
                         letterSpacing: '-0.03em',
                         textTransform: 'uppercase',
@@ -124,11 +139,11 @@ export default function PopularReleases() {
                         style={{
                           fontFamily: 'var(--font-mono)',
                           fontSize: '0.62rem',
-                          fontWeight: 600,
+                          fontWeight: 700,
                           letterSpacing: '0.14em',
                           textTransform: 'uppercase',
-                          color: 'var(--neon-magenta)',
-                          border: '1px solid rgba(217, 70, 239, 0.45)',
+                          color: '#020206',
+                          background: '#ffffff',
                           padding: '0.18rem 0.55rem',
                         }}
                       >
@@ -145,7 +160,7 @@ export default function PopularReleases() {
                       fontWeight: 500,
                     }}
                   >
-                    {release.artist}
+                    — {release.artist}
                     {release.featuring && (
                       <span style={{ color: 'var(--electric-blue)' }}>
                         {' '}
@@ -170,7 +185,7 @@ export default function PopularReleases() {
                   )}
                 </div>
 
-                {/* Right Column: Exact Date & Listen Action */}
+                {/* Right Column: Exact Date & Split Listen CTA */}
                 <div
                   className="track-action"
                   style={{
@@ -193,9 +208,14 @@ export default function PopularReleases() {
                     {t.popular.singleTag} // {formatReleaseDate(release.releaseDate, lang)}
                   </span>
 
-                  <span className="btn-editorial listen-pill">
-                    <Play size={11} fill="currentColor" />
-                    <span>{t.popular.listen}</span>
+                  <span className="mg-split-btn dark" style={{ minHeight: '38px' }}>
+                    <span className="mg-split-label" style={{ padding: '0 0.9rem', fontSize: '0.66rem' }}>
+                      <Play size={11} fill="currentColor" />
+                      <span>{t.popular.listen}</span>
+                    </span>
+                    <span className="mg-split-arrow" style={{ width: '34px' }}>
+                      <ArrowRight size={13} />
+                    </span>
                   </span>
                 </div>
               </motion.div>

@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import { coverManifest } from '../data/coverManifest';
-import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
+import { RevealText, RevealImage, ParallaxWatermark, PlusCrossMatrix } from '../components/CinematicReveal';
 
 export default function About() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
 
   const achievements = [
     {
@@ -35,23 +35,38 @@ export default function About() {
       {/* Drifting Kinetic Background Watermark */}
       <ParallaxWatermark text="ARCHITECT // SOUND" top="8%" speed={90} opacity={0.03} />
 
+      {/* Left Margin Rotated Vertical Label */}
+      <div
+        className="desktop-only mg-vertical-rail"
+        style={{
+          position: 'absolute',
+          top: '8rem',
+          left: 'clamp(0.6rem, 1.8vw, 1.5rem)',
+          zIndex: 3,
+        }}
+      >
+        <span>+ ×</span>
+        <span>{t.about.badge} // NARVENT</span>
+      </div>
+
       <div className="container">
-        {/* Section Header */}
-        <div style={{ marginBottom: 'clamp(3rem, 6vh, 4.5rem)' }}>
-          <div className="editorial-kicker magenta">
-            <span>05 // {t.about.badge}</span>
+        {/* Martin Garrix Split Header */}
+        <div className="mg-section-header">
+          <div>
+            <div className="editorial-kicker magenta">
+              <span>+× // 05 — {t.about.badge}</span>
+            </div>
+            <h2 className="editorial-title">
+              <RevealText text={t.about.title} />
+            </h2>
           </div>
-          <h2 className="editorial-title">
-            <RevealText
-              text={t.about.title}
-              serifWord={lang === 'ru' ? 'звучания' : 'Sound'}
-            />
-          </h2>
+
+          <PlusCrossMatrix rows={2} cols={6} />
         </div>
 
         {/* Asymmetric Two-Column Editorial Spread */}
         <div className="about-editorial-grid">
-          {/* Left Column: Concise Biography & Editorial Quote */}
+          {/* Left Column: Concise Biography & Architectural Manifesto Block (No italic/serif) */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -59,12 +74,13 @@ export default function About() {
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontFamily: 'var(--font-ui)',
-                fontSize: 'clamp(1.25rem, 2.3vw, 1.85rem)',
-                fontWeight: 600,
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.15rem, 2vw, 1.65rem)',
+                fontWeight: 800,
                 color: '#ffffff',
-                lineHeight: 1.35,
-                letterSpacing: '-0.02em',
+                lineHeight: 1.25,
+                letterSpacing: '-0.025em',
+                textTransform: 'uppercase',
                 marginBottom: '1.5rem',
               }}
             >
@@ -87,7 +103,7 @@ export default function About() {
               {t.about.bio}
             </motion.p>
 
-            {/* High-Contrast Editorial Quote in Cormorant Garamond Italic */}
+            {/* Architectural Manifesto Block (Pure Grotesque, Zero Cursive/Serif) */}
             <motion.blockquote
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -95,19 +111,20 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 position: 'relative',
-                borderLeft: '2px solid var(--neon-magenta)',
-                padding: '0.75rem 0 0.75rem 1.5rem',
+                borderLeft: '3px solid var(--neon-magenta)',
+                background: 'rgba(10, 11, 24, 0.65)',
+                padding: '1.35rem 1.5rem',
                 margin: 0,
               }}
             >
               <div
                 style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: 'clamp(1.35rem, 2.4vw, 1.95rem)',
-                  fontStyle: 'italic',
-                  fontWeight: 600,
-                  color: '#f8fafc',
-                  lineHeight: 1.3,
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: 'clamp(1.05rem, 1.7vw, 1.35rem)',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  lineHeight: 1.38,
+                  letterSpacing: '-0.015em',
                   marginBottom: '0.65rem',
                 }}
               >
@@ -130,7 +147,6 @@ export default function About() {
 
           {/* Right Column: Asymmetric Artwork Diptych + Architectural Milestones */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {/* Asymmetric Overlapping Visual Diptych with Clip-Path Reveal & Differential Parallax */}
             <div
               style={{
                 display: 'grid',
@@ -144,7 +160,6 @@ export default function About() {
                 parallax={16}
                 style={{
                   aspectRatio: '1 / 1',
-                  borderRadius: '4px',
                   border: '1px solid var(--border-strong)',
                   boxShadow: '0 24px 60px rgba(0, 0, 0, 0.75)',
                 }}
@@ -165,7 +180,6 @@ export default function About() {
                 parallax={-18}
                 style={{
                   aspectRatio: '1 / 1',
-                  borderRadius: '4px',
                   border: '1px solid var(--border-strong)',
                   boxShadow: '0 24px 60px rgba(0, 0, 0, 0.75)',
                   marginBottom: '1.25rem',

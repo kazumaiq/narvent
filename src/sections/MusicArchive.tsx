@@ -59,82 +59,81 @@ export default function MusicArchive() {
       <ParallaxWatermark text="DISCOGRAPHY // 2019—2026" top="5%" speed={-100} opacity={0.03} />
 
       <div className="container-wide">
-        {/* Section Header */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            gap: '1.5rem',
-            marginBottom: '2.5rem',
-          }}
-        >
+        {/* Martin Garrix Split Header */}
+        <div className="mg-section-header">
           <div>
             <div className="editorial-kicker">
-              <span>04 // {t.archive.badge}</span>
+              <span>+× // 04 — {t.archive.badge}</span>
             </div>
             <h2 className="editorial-title">
-              <RevealText
-                text={t.archive.title}
-                serifWord={lang === 'ru' ? 'Дискография' : 'Discography'}
-              />
+              <RevealText text={t.archive.title} />
             </h2>
-            <p className="editorial-subtitle">{t.archive.subtitle}</p>
           </div>
 
-          {/* View Mode Toggle (3D / Grid) */}
           <div
             style={{
-              display: 'inline-flex',
-              border: '1px solid var(--border-strong)',
-              background: 'rgba(8, 9, 22, 0.8)',
-              flexShrink: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '1rem',
             }}
           >
-            <button
-              onClick={() => setViewMode('3d')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.65rem 1.15rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 600,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                background: viewMode === '3d' ? '#ffffff' : 'transparent',
-                color: viewMode === '3d' ? '#020206' : 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease',
-              }}
-            >
-              <Box size={14} />
-              <span>{t.archive.view3D}</span>
-            </button>
+            <p className="editorial-subtitle" style={{ margin: 0 }}>
+              {t.archive.subtitle}
+            </p>
 
-            <button
-              onClick={() => setViewMode('grid')}
+            {/* View Mode Toggle (3D / Grid) */}
+            <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.65rem 1.15rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 600,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                background: viewMode === 'grid' ? '#ffffff' : 'transparent',
-                color: viewMode === 'grid' ? '#020206' : 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease',
+                display: 'inline-flex',
+                border: '1px solid var(--border-strong)',
+                background: 'rgba(8, 9, 22, 0.8)',
               }}
             >
-              <Grid3X3 size={14} />
-              <span>{t.archive.viewGrid}</span>
-            </button>
+              <button
+                onClick={() => setViewMode('3d')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  padding: '0.6rem 1.15rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  background: viewMode === '3d' ? '#ffffff' : 'transparent',
+                  color: viewMode === '3d' ? '#020206' : 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease',
+                }}
+              >
+                <Box size={14} />
+                <span>{t.archive.view3D}</span>
+              </button>
+
+              <button
+                onClick={() => setViewMode('grid')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  padding: '0.6rem 1.15rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  background: viewMode === 'grid' ? '#ffffff' : 'transparent',
+                  color: viewMode === 'grid' ? '#020206' : 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease',
+                }}
+              >
+                <Grid3X3 size={14} />
+                <span>{t.archive.viewGrid}</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -143,7 +142,6 @@ export default function MusicArchive() {
           style={{
             marginBottom: '2.25rem',
             padding: '0.85rem 0',
-            borderTop: '1px solid var(--border-strong)',
             borderBottom: '1px solid var(--border-line)',
             display: 'flex',
             flexWrap: 'wrap',
@@ -152,7 +150,6 @@ export default function MusicArchive() {
             gap: '1rem',
           }}
         >
-          {/* Category Filters (Horizontal touch scroll on narrow screens) */}
           <div
             className="scroll-touch-x"
             style={{
@@ -176,11 +173,11 @@ export default function MusicArchive() {
                     textTransform: 'uppercase',
                     padding: '0.5rem 0.95rem',
                     transition: 'all 0.25s ease',
-                    background: isActive ? 'rgba(217, 70, 239, 0.2)' : 'transparent',
+                    background: isActive ? '#ffffff' : 'transparent',
                     border: isActive
-                      ? '1px solid var(--neon-magenta)'
-                      : '1px solid rgba(255, 255, 255, 0.1)',
-                    color: isActive ? '#ffffff' : 'var(--text-muted)',
+                      ? '1px solid #ffffff'
+                      : '1px solid rgba(255, 255, 255, 0.14)',
+                    color: isActive ? '#020206' : 'var(--text-muted)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -194,7 +191,7 @@ export default function MusicArchive() {
                     style={{
                       fontFamily: 'var(--font-mono)',
                       fontSize: '0.64rem',
-                      color: isActive ? 'var(--electric-blue)' : 'var(--text-dim)',
+                      opacity: 0.75,
                     }}
                   >
                     [{f.count}]
@@ -204,7 +201,6 @@ export default function MusicArchive() {
             })}
           </div>
 
-          {/* Search Input */}
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center', flexGrow: 1, maxWidth: '280px' }}>
             <Search
               size={14}
@@ -231,7 +227,7 @@ export default function MusicArchive() {
                 width: '100%',
                 transition: 'border-color 0.2s',
               }}
-              onFocus={(e) => (e.target.style.borderColor = 'var(--neon-magenta)')}
+              onFocus={(e) => (e.target.style.borderColor = '#ffffff')}
               onBlur={(e) => (e.target.style.borderColor = 'var(--border-strong)')}
             />
           </div>

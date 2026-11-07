@@ -77,18 +77,20 @@ export default function SocialUniverse() {
       <ParallaxWatermark text="PLATFORMS // STREAMING" top="12%" speed={-85} opacity={0.028} />
 
       <div className="container">
-        {/* Section Header */}
-        <div style={{ marginBottom: 'clamp(3rem, 6vh, 4.5rem)' }}>
-          <div className="editorial-kicker">
-            <span>06 // {t.socials.badge}</span>
+        {/* Martin Garrix Split Header */}
+        <div className="mg-section-header">
+          <div>
+            <div className="editorial-kicker">
+              <span>+× // 06 — {t.socials.badge}</span>
+            </div>
+            <h2 className="editorial-title">
+              <RevealText text={t.socials.title} />
+            </h2>
           </div>
-          <h2 className="editorial-title">
-            <RevealText
-              text={t.socials.title}
-              serifWord={lang === 'ru' ? 'стриминг' : 'Streaming'}
-            />
-          </h2>
-          <p className="editorial-subtitle">{t.socials.subtitle}</p>
+
+          <p className="editorial-subtitle" style={{ margin: 0 }}>
+            {t.socials.subtitle}
+          </p>
         </div>
 
         {/* Architectural Platform Grid */}
@@ -167,7 +169,7 @@ export default function SocialUniverse() {
                     style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)',
-                      fontWeight: 800,
+                      fontWeight: 900,
                       color: '#ffffff',
                       letterSpacing: '-0.025em',
                       textTransform: 'uppercase',

@@ -15,24 +15,21 @@ export default function AudioBar() {
 
   return (
     <>
-      {/* Floating Audio Controller */}
+      {/* Architectural Audio Controller Bar */}
       <div
         className="audio-controller-bar"
         style={{
           position: 'fixed',
-          bottom: 'calc(1.25rem + var(--safe-bottom, 0px))',
-          right: '1.5rem',
+          bottom: 'calc(0.9rem + var(--safe-bottom, 0px))',
+          right: 'clamp(1rem, 4vw, 3.5rem)',
           zIndex: 40,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.65rem',
-          background: 'rgba(6, 7, 18, 0.88)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          border: '1px solid var(--border-line)',
-          padding: '0.45rem 0.75rem',
-          borderRadius: '100px',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.7)',
+          display: 'inline-flex',
+          alignItems: 'stretch',
+          background: 'rgba(4, 5, 14, 0.92)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.22)',
+          boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85)',
         }}
       >
         {/* Ambient Soundscape Toggle */}
@@ -41,62 +38,22 @@ export default function AudioBar() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.35rem 0.75rem',
-            borderRadius: '100px',
-            background: isPlayingAmbient
-              ? 'rgba(217, 70, 239, 0.22)'
-              : 'rgba(255, 255, 255, 0.04)',
-            border: isPlayingAmbient
-              ? '1px solid rgba(217, 70, 239, 0.45)'
-              : '1px solid transparent',
-            color: isPlayingAmbient ? 'var(--neon-magenta)' : 'var(--text-muted)',
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.72rem',
-            fontWeight: 600,
-            letterSpacing: '0.06em',
-            transition: 'all 0.3s ease',
+            gap: '0.45rem',
+            padding: '0.42rem 0.85rem',
+            background: isPlayingAmbient ? '#ffffff' : 'transparent',
+            color: isPlayingAmbient ? '#020206' : 'rgba(255, 255, 255, 0.78)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.66rem',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            transition: 'all 0.2s ease',
             cursor: 'pointer',
           }}
           title={isPlayingAmbient ? 'Выключить атмосферный звук' : 'Включить атмосферный звук'}
         >
-          {isPlayingAmbient ? (
-            <>
-              <Volume2 size={14} />
-              <span>{t.audioBar.soundOn}</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
-                <span
-                  style={{
-                    width: '2px',
-                    height: '8px',
-                    background: 'var(--neon-magenta)',
-                    animation: 'iridescentPulse 0.8s infinite alternate',
-                  }}
-                />
-                <span
-                  style={{
-                    width: '2px',
-                    height: '12px',
-                    background: 'var(--neon-magenta)',
-                    animation: 'iridescentPulse 1.2s infinite alternate',
-                  }}
-                />
-                <span
-                  style={{
-                    width: '2px',
-                    height: '6px',
-                    background: 'var(--neon-magenta)',
-                    animation: 'iridescentPulse 0.6s infinite alternate',
-                  }}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <VolumeX size={14} />
-              <span>{t.audioBar.ambient}</span>
-            </>
-          )}
+          {isPlayingAmbient ? <Volume2 size={13} /> : <VolumeX size={13} />}
+          <span>{isPlayingAmbient ? t.audioBar.soundOn : t.audioBar.ambient}</span>
         </button>
 
         {/* Official Spotify Player Toggle */}
@@ -106,25 +63,21 @@ export default function AudioBar() {
             display: 'flex',
             alignItems: 'center',
             gap: '0.45rem',
-            padding: '0.35rem 0.8rem',
-            borderRadius: '100px',
-            background: showSpotifyEmbed
-              ? 'rgba(29, 185, 84, 0.22)'
-              : 'rgba(255, 255, 255, 0.04)',
-            border: showSpotifyEmbed
-              ? '1px solid rgba(29, 185, 84, 0.45)'
-              : '1px solid transparent',
-            color: showSpotifyEmbed ? '#1db954' : 'var(--text-muted)',
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.72rem',
-            fontWeight: 600,
-            letterSpacing: '0.06em',
-            transition: 'all 0.3s ease',
+            padding: '0.42rem 0.85rem',
+            borderLeft: '1px solid rgba(255, 255, 255, 0.18)',
+            background: showSpotifyEmbed ? 'var(--neon-magenta)' : 'transparent',
+            color: showSpotifyEmbed ? '#ffffff' : 'rgba(255, 255, 255, 0.78)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.66rem',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            transition: 'all 0.2s ease',
             cursor: 'pointer',
           }}
           title={t.audioBar.spotifyTitle}
         >
-          <Radio size={13} />
+          <Radio size={12} />
           <span>{t.audioBar.player}</span>
         </button>
       </div>
@@ -135,17 +88,16 @@ export default function AudioBar() {
           className="spotify-embed-drawer"
           style={{
             position: 'fixed',
-            bottom: 'calc(4.75rem + var(--safe-bottom, 0px))',
-            right: '1.5rem',
+            bottom: 'calc(3.75rem + var(--safe-bottom, 0px))',
+            right: 'clamp(1rem, 4vw, 3.5rem)',
             zIndex: 45,
             width: 'clamp(290px, 90vw, 360px)',
-            background: 'rgba(8, 9, 24, 0.95)',
-            backdropFilter: 'blur(30px)',
-            WebkitBackdropFilter: 'blur(30px)',
-            border: '1px solid var(--border-line)',
-            borderRadius: '20px',
+            background: 'rgba(6, 7, 18, 0.96)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
+            border: '1px solid rgba(255, 255, 255, 0.24)',
             padding: '1rem',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.85)',
+            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9)',
           }}
         >
           <div
@@ -162,9 +114,10 @@ export default function AudioBar() {
               <Disc3 size={15} color="#1db954" />
               <span
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.82rem',
-                  fontWeight: 600,
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.74rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
                   color: '#ffffff',
                 }}
               >
@@ -178,8 +131,6 @@ export default function AudioBar() {
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                background: 'none',
-                border: 'none',
               }}
               aria-label={t.audioBar.close}
             >
@@ -187,9 +138,8 @@ export default function AudioBar() {
             </button>
           </div>
 
-          {/* Memory Reboot — VØJ & Narvent (Spotify track ID) */}
           <iframe
-            style={{ borderRadius: '12px' }}
+            style={{ borderRadius: '8px' }}
             src="https://open.spotify.com/embed/track/5aN2OGGpaNjyYShsHHMPdj?utm_source=generator&theme=0"
             width="100%"
             height="152"
@@ -200,25 +150,6 @@ export default function AudioBar() {
           />
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 900px) {
-          .audio-controller-bar {
-            right: auto !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            bottom: calc(0.85rem + var(--safe-bottom, 0px)) !important;
-          }
-          .spotify-embed-drawer {
-            right: 1rem !important;
-            left: 1rem !important;
-            margin: 0 auto !important;
-            max-width: 380px !important;
-            width: auto !important;
-            bottom: calc(4.25rem + var(--safe-bottom, 0px)) !important;
-          }
-        }
-      `}</style>
     </>
   );
 }

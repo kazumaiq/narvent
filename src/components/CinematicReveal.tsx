@@ -8,12 +8,14 @@ interface RevealTextProps {
   style?: React.CSSProperties;
   delay?: number;
   stagger?: number;
-  /** Optional word index (or word substring) to render in high-contrast editorial serif italic */
-  serifWord?: string;
+  /** Optional word to highlight with hollow outline or accent color (never italic serif) */
+  accentWord?: string;
+  outlineWord?: string;
 }
 
 /**
- * Word-by-word masked rise animation inspired by martingarrix.com editorial headers.
+ * Word-by-word masked rise animation inspired by martingarrix.com headers.
+ * Uses pure geometric grotesque typography (Unbounded / Space Grotesk) — zero cursive/serif fonts.
  */
 export function RevealText({
   text,
@@ -22,10 +24,11 @@ export function RevealText({
   style,
   delay = 0,
   stagger = 0.055,
-  serifWord,
+  accentWord,
+  outlineWord,
 }: RevealTextProps) {
   const ref = useRef<HTMLElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: '-8% 0px' });
+  const inView = useInView(ref, { once: true, margin: '-6% 0px' });
   const reduceMotion = useReducedMotion();
   const words = text.split(' ');
 
@@ -37,13 +40,14 @@ export function RevealText({
         display: 'flex',
         flexWrap: 'wrap',
         columnGap: '0.28em',
-        rowGap: '0.06em',
+        rowGap: '0.08em',
         ...style,
       }}
     >
       {words.map((word, idx) => {
-        const isSerif =
-          serifWord && word.toLowerCase().replace(/[^a-zа-яё0-9]/gi, '') === serifWord.toLowerCase();
+        const cleanWord = word.toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
+        const isAccent = accentWord && cleanWord === accentWord.toLowerCase();
+        const isOutline = outlineWord && cleanWord === outlineWord.toLowerCase();
 
         return (
           <span
@@ -52,34 +56,35 @@ export function RevealText({
               display: 'inline-block',
               overflow: 'hidden',
               verticalAlign: 'bottom',
-              paddingBottom: '0.08em',
-              paddingRight: '0.08em',
+              paddingBottom: '0.06em',
+              paddingRight: '0.04em',
               maxWidth: '100%',
             }}
           >
             <motion.span
-              initial={reduceMotion ? { opacity: 1, y: 0 } : { y: '112%', rotate: 1.5, opacity: 0 }}
+              initial={reduceMotion ? { opacity: 1, y: 0 } : { y: '110%', opacity: 0 }}
               animate={
                 inView || reduceMotion
-                  ? { y: '0%', rotate: 0, opacity: 1 }
-                  : { y: '112%', rotate: 1.5, opacity: 0 }
+                  ? { y: '0%', opacity: 1 }
+                  : { y: '110%', opacity: 0 }
               }
               transition={{
-                duration: 0.85,
+                duration: 0.8,
                 delay: delay + idx * stagger,
                 ease: [0.16, 1, 0.3, 1],
               }}
               style={{
                 display: 'inline-block',
                 willChange: 'transform, opacity',
-                ...(isSerif
+                ...(isAccent
                   ? {
-                      fontFamily: 'var(--font-serif)',
-                      fontStyle: 'italic',
-                      fontWeight: 600,
-                      letterSpacing: '0em',
-                      fontSize: '1.12em',
-                      color: '#e9d5ff',
+                      color: 'var(--neon-magenta)',
+                    }
+                  : {}),
+                ...(isOutline
+                  ? {
+                      color: 'transparent',
+                      WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.78)',
                     }
                   : {}),
               }}
@@ -117,7 +122,7 @@ export function RevealImage({
 }: RevealImageProps) {
   const effectiveParallax = parallax !== undefined ? parallax : parallaxOffset;
   const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: '-8% 0px' });
+  const inView = useInView(ref, { once: true, margin: '-6% 0px' });
   const reduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -133,10 +138,10 @@ export function RevealImage({
 
   const initialClip =
     direction === 'up'
-      ? 'inset(92% 0% 0% 0%)'
+      ? 'inset(88% 0% 0% 0%)'
       : direction === 'left'
-      ? 'inset(0% 92% 0% 0%)'
-      : 'inset(0% 0% 0% 92%)';
+      ? 'inset(0% 88% 0% 0%)'
+      : 'inset(0% 0% 0% 88%)';
 
   return (
     <motion.div
@@ -161,7 +166,7 @@ export function RevealImage({
             : { clipPath: initialClip, scale: 1.08 }
         }
         transition={{
-          duration: 1.05,
+          duration: 1.0,
           delay,
           ease: [0.16, 1, 0.3, 1],
         }}
@@ -245,6 +250,61 @@ export function ParallaxWatermark({
       >
         {text}
       </motion.div>
+    </div>
+  );
+}
+
+/**
+ * Decorative "+ ×" geometric cross-grid motif inspired by martingarrix.com
+ */
+export function PlusCrossMatrix({
+  rows = 3,
+  cols = 7,
+  style,
+  className = '',
+}: {
+  rows?: number;
+  cols?: number;
+  style?: React.CSSProperties;
+  className?: string;
+}) {
+  const items: Array<'+' | '×'> = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      items.push((r + c) % 2 === 0 ? '+' : '×');
+    }
+  }
+
+  return (
+    <div
+      aria-hidden="true"
+      className={`mg-plus-cross-matrix ${className}`}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        gap: 'clamp(0.85rem, 1.8vw, 1.5rem)',
+        pointerEvents: 'none',
+        userSelect: 'none',
+        ...style,
+      }}
+    >
+      {items.map((sym, i) => (
+        <span
+          key={i}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(0.85rem, 1.4vw, 1.2rem)',
+            fontWeight: 900,
+            lineHeight: 1,
+            color: i % 5 === 0 ? 'rgba(217, 70, 239, 0.55)' : 'rgba(255, 255, 255, 0.25)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {sym}
+        </span>
+      ))}
     </div>
   );
 }
