@@ -200,3 +200,57 @@ export function TransitionMarquee({ text = 'SOUND ARCHIVE // SPOTIFY 3D EXPERIEN
     </div>
   );
 }
+
+/**
+ * FooterMarquee — Subtle technical transmission ticker above footer
+ */
+export function FooterMarquee() {
+  const items = [
+    'NARVENT // 2016—2026',
+    'ALL RIGHTS RESERVED',
+    'SPOTIFY VERIFIED ARTIST',
+    'WHITE ROSES ERA',
+    'MEMORY REBOOT // RIAA GOLD',
+    'CINEMATIC SYNTHWAVE',
+    'НОЧНОЙ ГОРОД',
+    'ЗВУКОВАЯ ВСЕЛЕННАЯ',
+  ];
+
+  return (
+    <div
+      className="marquee-container"
+      style={{
+        padding: '0.55rem 0',
+        background: '#020206',
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+      }}
+      aria-hidden="true"
+    >
+      <div className="marquee-row">
+        <div className="marquee-track slide-right">
+          {[...items, ...items].map((item, idx) => (
+            <div
+              key={`fm-${idx}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '1.5rem',
+                paddingRight: '1.5rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                fontWeight: 500,
+                color: 'var(--text-dim)',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}
+            >
+              <span>{item}</span>
+              <span style={{ color: 'var(--vivid-red)', opacity: 0.6 }}>✦</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
