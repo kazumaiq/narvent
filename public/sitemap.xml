@@ -3,61 +3,156 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://narvent.space/</loc>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://narvent.space/?lang=ru" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://narvent.space/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://narvent.space/" />
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.narventmusic.com/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.narventmusic.com/?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.narventmusic.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.narventmusic.com/" />
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://narvent.space/covers/memory-reboot-album.f50ffaeb59.jpg</image:loc>
-      <image:title>Narvent — Memory Reboot</image:title>
-      <image:caption>Official cover artwork for Memory Reboot by Narvent and VØJ</image:caption>
+      <image:loc>https://www.narventmusic.com/covers/recall-ep.c5bcdeac93.jpg</image:loc>
+      <image:title>Narvent — Recall (EP, 2026)</image:title>
+      <image:caption>Official cover artwork for Recall EP by Narvent</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://narvent.space/covers/white-roses.eeeb089c69.jpg</image:loc>
-      <image:title>Narvent — White Roses</image:title>
-      <image:caption>Official cover artwork for White Roses single</image:caption>
+      <image:loc>https://www.narventmusic.com/covers/genesis.8fcb248f21.jpg</image:loc>
+      <image:title>Narvent — Genesis (Album, 2026)</image:title>
+      <image:caption>Official album artwork for Genesis by Narvent</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://narvent.space/covers/genesis.8fcb248f21.jpg</image:loc>
-      <image:title>Narvent — Genesis</image:title>
-      <image:caption>Official album artwork for Genesis</image:caption>
+      <image:loc>https://www.narventmusic.com/covers/lights-flash-ep.72a40280c1.jpg</image:loc>
+      <image:title>Narvent &amp; Ogryzek — Lights Flash (EP, 2026)</image:title>
+      <image:caption>Official cover artwork for Lights Flash EP by Narvent and Ogryzek</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://narvent.space/covers/insomnia.cc5099e185.jpg</image:loc>
-      <image:title>Narvent — Insomnia</image:title>
-      <image:caption>Official album artwork for Insomnia</image:caption>
+      <image:loc>https://www.narventmusic.com/covers/hypnosis.db33b84e48.jpg</image:loc>
+      <image:title>REFLECT AFTER DARK &amp; Narvent — Hypnosis (2026)</image:title>
+      <image:caption>Official single cover artwork for Hypnosis</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/ocean-blue-ep.403cfac86d.jpg</image:loc>
+      <image:title>Narvent — Ocean Blue (EP, 2026)</image:title>
+      <image:caption>Official cover artwork for Ocean Blue EP by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/take-me-there.d1a7ce050d.jpg</image:loc>
+      <image:title>Narvent — Take Me There (2025)</image:title>
+      <image:caption>Official single cover artwork for Take Me There by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/way-back-home.15a6d4df68.jpg</image:loc>
+      <image:title>Narvent — Way Back Home (2025)</image:title>
+      <image:caption>Official single cover artwork for Way Back Home by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/no-dress.d6febf5f1d.jpg</image:loc>
+      <image:title>Narvent — No Dress (2025)</image:title>
+      <image:caption>Official single cover artwork for No Dress by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/broken-halo.6913ae3815.jpg</image:loc>
+      <image:title>Narvent &amp; fadevɇil — Broken Halo (2025)</image:title>
+      <image:caption>Official single cover artwork for Broken Halo</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/to-the-moon.fedfdda5d5.jpg</image:loc>
+      <image:title>Mainly, Narvent &amp; CYREX — To The Moon (2025)</image:title>
+      <image:caption>Official single cover artwork for To The Moon</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/fade-into-darkness.e31fe3a93d.jpg</image:loc>
+      <image:title>Narvent — Fade Into Darkness (2025)</image:title>
+      <image:caption>Official single cover artwork for Fade Into Darkness by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/white-roses.eeeb089c69.jpg</image:loc>
+      <image:title>Narvent — White Roses (2025)</image:title>
+      <image:caption>Official single cover artwork for White Roses by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/strange-memory.00213a74e0.jpg</image:loc>
+      <image:title>Narvent — Strange Memory (2025)</image:title>
+      <image:caption>Official single cover artwork for Strange Memory by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/avalanche.c64db0fc40.jpg</image:loc>
+      <image:title>Narvent &amp; PHUNK$ — Avalanche (2024)</image:title>
+      <image:caption>Official single cover artwork for Avalanche</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/insomnia.cc5099e185.jpg</image:loc>
+      <image:title>Narvent — Insomnia (Album, 2024)</image:title>
+      <image:caption>Official album artwork for Insomnia by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/her-eyes.ed7dfbe48c.jpg</image:loc>
+      <image:title>Narvent — Her Eyes (2024)</image:title>
+      <image:caption>Official single cover artwork for Her Eyes by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/calm-night.fd3b287a14.jpg</image:loc>
+      <image:title>Narvent &amp; Luneex — Calm Night (2024)</image:title>
+      <image:caption>Official single cover artwork for Calm Night</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/fainted.095514f648.jpg</image:loc>
+      <image:title>Narvent — Fainted (2023)</image:title>
+      <image:caption>Official single cover artwork for Fainted by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/distant-echoes.b0ef4a319d.jpg</image:loc>
+      <image:title>VXLLAIN, VØJ &amp; Narvent — Distant Echoes (2023)</image:title>
+      <image:caption>Official single cover artwork for Distant Echoes</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/memory-reboot-album.f50ffaeb59.jpg</image:loc>
+      <image:title>VØJ &amp; Narvent — Memory Reboot (Album, 2023)</image:title>
+      <image:caption>Official album artwork for Memory Reboot by VØJ and Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/memory-reboot.b690efdac4.jpg</image:loc>
+      <image:title>VØJ &amp; Narvent — Memory Reboot (RIAA Gold Single, 2023)</image:title>
+      <image:caption>Official cover artwork for RIAA Gold certified hit Memory Reboot by VØJ and Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/forever-in-this-world.2eda15c0db.jpg</image:loc>
+      <image:title>Narvent — Forever In This World (Album, 2020)</image:title>
+      <image:caption>Official album artwork for Forever In This World by Narvent</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.narventmusic.com/covers/endless-way.b139578e92.jpg</image:loc>
+      <image:title>Narvent — Endless Way (Debut Album, 2019)</image:title>
+      <image:caption>Official debut album artwork for Endless Way by Narvent</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://narvent.space/#latest</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.narventmusic.com/?lang=ru</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.narventmusic.com/?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.narventmusic.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.narventmusic.com/" />
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://narvent.space/#popular</loc>
-    <lastmod>2026-11-07</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://www.narventmusic.com/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.narventmusic.com/?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.narventmusic.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.narventmusic.com/" />
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://narvent.space/#archive</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.narventmusic.com/llms.txt</loc>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://narvent.space/#about</loc>
-    <lastmod>2026-11-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://narvent.space/#socials</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.narventmusic.com/llms-full.txt</loc>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

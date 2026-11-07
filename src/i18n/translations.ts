@@ -291,7 +291,7 @@ export const translations: Record<Language, Translations> = {
     footer: {
       tagline: 'Атмосферные звуковые ландшафты, погружающие в эстетику ночных дорог, бесконечной скорости и кинематографичного синтвейва.',
       backToTop: 'В НАЧАЛО',
-      copyright: `© ${new Date().getFullYear()} NARVENT (Фарход Мусулмонов). Официальная цифровая платформа.`,
+      copyright: `© ${new Date().getFullYear()} NARVENT (Фарход Мусулмонов) • narventmusic.com — Официальный сайт артиста.`,
       distribution: 'Дистрибуция через Believe Digital • Utopia Universe',
     },
     modal: {
@@ -459,7 +459,7 @@ export const translations: Record<Language, Translations> = {
     footer: {
       tagline: 'Atmospheric soundscapes immersing listeners into the aesthetics of night highways, infinite speed, and cinematic synthwave.',
       backToTop: 'BACK TO TOP',
-      copyright: `© ${new Date().getFullYear()} NARVENT (Farhod Musulmonov). Official Digital Platform.`,
+      copyright: `© ${new Date().getFullYear()} NARVENT (Farhod Musulmonov) • narventmusic.com — Official Artist Website.`,
       distribution: 'Distributed via Believe Digital • Utopia Universe',
     },
     modal: {

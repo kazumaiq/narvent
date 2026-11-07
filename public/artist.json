@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAt": "2026-11-08",
+  "officialWebsite": "https://www.narventmusic.com/",
+  "languages": {
+    "ru": "https://www.narventmusic.com/?lang=ru",
+    "en": "https://www.narventmusic.com/?lang=en"
+  },
+  "artist": {
+    "name": "Narvent",
+    "stylizedName": "NARVENT",
+    "localizedNames": {
+      "ru": "Нарвент",
+      "en": "Narvent"
+    },
+    "realName": {
+      "ru": "Фарход Мусулмонов",
+      "en": "Farhod Musulmonov"
+    },
+    "birthDate": "2005-07-19",
+    "genres": [
+      "Cinematic Synthwave",
+      "Electronic",
+      "Darkwave",
+      "Atmospheric Electronic"
+    ],
+    "distribution": "Believe Digital / Utopia",
+    "achievements": [
+      "RIAA Gold Certification (USA) — Memory Reboot (VØJ & Narvent)",
+      "Billboard Hot Dance/Electronic Songs Peak #13 — Memory Reboot"
+    ]
+  },
+  "verifiedProfiles": {
+    "website": "https://www.narventmusic.com/",
+    "spotify": "https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7",
+    "appleMusic": "https://music.apple.com/artist/narvent/1489292108",
+    "youtube": "https://www.youtube.com/@NarventMusic",
+    "soundcloud": "https://soundcloud.com/musicofnarvent",
+    "instagram": "https://instagram.com/narventof",
+    "tiktok": "https://www.tiktok.com/@narvent.music",
+    "telegram": "https://t.me/narventof",
+    "vk": "https://vk.com/narventmusic",
+    "linktree": "https://linktr.ee/narvent"
+  },
+  "featuredReleases": [
+    {
+      "id": "recall-ep",
+      "title": "Recall",
+      "artist": "Narvent",
+      "type": "ep",
+      "releaseDate": "2026-10-16",
+      "trackCount": 4,
+      "spotify": "https://open.spotify.com/album/12wOn3nOlQoc9zBvODvJk2",
+      "cover": "https://www.narventmusic.com/covers/recall-ep.c5bcdeac93.jpg"
+    },
+    {
+      "id": "genesis",
+      "title": "Genesis",
+      "artist": "Narvent",
+      "type": "album",
+      "releaseDate": "2026-08-14",
+      "trackCount": 17,
+      "spotify": "https://open.spotify.com/album/5cjILeRU7eHuZ5bhmkGSpe",
+      "cover": "https://www.narventmusic.com/covers/genesis.8fcb248f21.jpg"
+    },
+    {
+      "id": "insomnia",
+      "title": "Insomnia",
+      "artist": "Narvent",
+      "type": "album",
+      "releaseDate": "2024-08-09",
+      "trackCount": 15,
+      "spotify": "https://open.spotify.com/album/5vuvOiVlPukt9VFgOQdMuR",
+      "cover": "https://www.narventmusic.com/covers/insomnia.cc5099e185.jpg"
+    },
+    {
+      "id": "fainted",
+      "title": "Fainted",
+      "artist": "Narvent",
+      "type": "single",
+      "releaseDate": "2023-10-27",
+      "spotify": "https://open.spotify.com/track/0EzcI4IlhBezIzSiTrkr0e",
+      "cover": "https://www.narventmusic.com/covers/fainted.095514f648.jpg"
+    },
+    {
+      "id": "memory-reboot",
+      "title": "Memory Reboot",
+      "artist": "VØJ & Narvent",
+      "type": "single",
+      "releaseDate": "2023-01-13",
+      "spotify": "https://open.spotify.com/track/1Q68oodivzKjIDnPTXFy83",
+      "cover": "https://www.narventmusic.com/covers/memory-reboot.b690efdac4.jpg"
+    }
+  ]
+}

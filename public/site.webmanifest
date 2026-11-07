@@ -1,11 +1,14 @@
 {
-  "name": "NARVENT — Official Digital Experience",
+  "name": "NARVENT — Официальный сайт артиста | Official Artist Website",
   "short_name": "NARVENT",
-  "description": "Official interactive discography and music experience of Narvent (Farhod Musulmonov).",
+  "description": "Официальный сайт музыкального артиста Narvent (Фарход Мусулмонов / Farhod Musulmonov) — narventmusic.com. 3D-дискография и официальные релизы.",
+  "id": "https://www.narventmusic.com/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#020206",
   "theme_color": "#020206",
+  "lang": "ru",
   "icons": [
     {
       "src": "/favicon.svg",

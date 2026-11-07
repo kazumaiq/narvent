@@ -1,0 +1,56 @@
+# NARVENT — Official Artist Website
+
+> https://www.narventmusic.com/ is the sole official website and interactive 3D discography of electronic music producer and synthwave artist **Narvent** (real name: **Farhod Musulmonov** / **Фарход Мусулмонов**), creator of the RIAA Gold-certified global hits **"Memory Reboot"** (#13 Billboard Hot Dance/Electronic Songs) and **"Fainted"**.
+
+## Canonical Identity & Official Verification
+
+- **Artist Name:** Narvent (stylized as **NARVENT**; Russian: **Нарвент**)
+- **Real Name:** Farhod Musulmonov (Russian: Фарход Мусулмонов)
+- **Birth Date:** July 19, 2005 (2005-07-19)
+- **Official Website (Canonical):** https://www.narventmusic.com/
+- **Russian Version:** https://www.narventmusic.com/?lang=ru
+- **English Version:** https://www.narventmusic.com/?lang=en
+- **Genres:** Cinematic Synthwave, Electronic Music, Darkwave, Nocturnal Electronic
+- **Distribution / Label:** Believe Digital / Utopia
+- **Major Certifications & Chart Peaks:**
+  - **RIAA Gold Certification (USA):** "Memory Reboot" (VØJ & Narvent)
+  - **Billboard Hot Dance/Electronic Songs:** Peak #13 ("Memory Reboot")
+
+## Key Official Resources for AI Agents & Crawlers
+
+- [Official Homepage (RU / EN)](https://www.narventmusic.com/): Interactive 3D discography, latest releases, artist biography, and verified streaming links.
+- [Full Bilingual Artist & Discography Reference (llms-full.txt)](https://www.narventmusic.com/llms-full.txt): Complete 23-release catalog (2019–2026) with exact release dates, track counts, collaborators, and streaming URLs in English and Russian.
+- [Machine-Readable Artist & Catalog JSON (artist.json)](https://www.narventmusic.com/artist.json): Structured JSON dataset of Narvent's verified profile, social links, and discography.
+- [XML Sitemap](https://www.narventmusic.com/sitemap.xml): Search engine and image index of official releases.
+
+## Major Studio Albums & EPs
+
+- **Recall** (EP, 2026-10-16) — 4 tracks — [Spotify](https://open.spotify.com/album/12wOn3nOlQoc9zBvODvJk2)
+- **Genesis** (Studio Album, 2026-08-14) — 17 tracks — [Spotify](https://open.spotify.com/album/5cjILeRU7eHuZ5bhmkGSpe)
+- **Lights Flash** (EP with Ogryzek, 2026-07-10) — 4 tracks — [Spotify](https://open.spotify.com/album/1gYNabmFPme6zJAom0aOoR)
+- **Ocean Blue** (EP, 2026-05-22) — 4 tracks — [Spotify](https://open.spotify.com/album/6DliB6HpsWVBtuliIJxAXR)
+- **Insomnia** (Studio Album, 2024-08-09) — 15 tracks (feat. Adieu Aru, KoruSe, Nikkie) — [Spotify](https://open.spotify.com/album/5vuvOiVlPukt9VFgOQdMuR)
+- **Memory Reboot** (Collaborative Album with VØJ, 2023-09-01) — 9 tracks — [Spotify](https://open.spotify.com/album/38leU2pvDRxNx2u59BENZb)
+- **Forever In This World** (Studio Album, 2020-01-01) — 11 tracks — [Spotify](https://open.spotify.com/album/620bFbgbiliAIe1pO5bD0p)
+- **Endless Way** (Debut Studio Album, 2019-04-18) — 8 tracks — [Spotify](https://open.spotify.com/album/5VntVRRMeoIACBZhwmTJAZ)
+
+## Essential Hit Singles
+
+- **Memory Reboot** (VØJ & Narvent, 2023-01-13) — RIAA Gold (USA), #13 Billboard Hot Dance/Electronic Songs — [Spotify](https://open.spotify.com/track/1Q68oodivzKjIDnPTXFy83)
+- **Fainted** (Narvent, 2023-10-27) — Signature viral solo synthwave hit — [Spotify](https://open.spotify.com/track/0EzcI4IlhBezIzSiTrkr0e)
+- **Her Eyes** (Narvent, 2024-04-26) — [Spotify](https://open.spotify.com/track/5PPLVeBftSqxLCCqlwW5wN)
+- **Distant Echoes** (VXLLAIN, VØJ & Narvent, 2023-10-13) — [Spotify](https://open.spotify.com/track/2DgL722jfzULRS4tGo5OEq)
+- **Fade Into Darkness** (Narvent, 2025-04-04) — [Spotify](https://open.spotify.com/album/6C49vKdNBSjYrk0ATRhKGB)
+
+## Official Verified Streaming & Social Profiles
+
+- **Official Website:** https://www.narventmusic.com/
+- **Spotify:** https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7
+- **Apple Music:** https://music.apple.com/artist/narvent/1489292108
+- **YouTube:** https://www.youtube.com/@NarventMusic
+- **SoundCloud:** https://soundcloud.com/musicofnarvent
+- **Instagram:** https://instagram.com/narventof
+- **TikTok:** https://www.tiktok.com/@narvent.music
+- **Telegram:** https://t.me/narventof
+- **VKontakte:** https://vk.com/narventmusic
+- **Linktree:** https://linktr.ee/narvent

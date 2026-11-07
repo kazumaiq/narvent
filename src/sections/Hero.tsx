@@ -468,7 +468,7 @@ export default function Hero() {
           <a
             href="https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             className="btn-editorial listen-pill"
           >
             <span>{t.hero.ctaSpotify}</span>

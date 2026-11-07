@@ -115,7 +115,7 @@ export default function SocialUniverse() {
                 key={social.platform}
                 href={social.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
