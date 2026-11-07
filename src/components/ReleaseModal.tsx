@@ -249,6 +249,46 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                 </div>
               )}
 
+              {/* Интерактивный плеер Spotify API */}
+              <div style={{ marginTop: '1.25rem', marginBottom: '1.25rem' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    marginBottom: '0.65rem',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.68rem',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: '#1ed760',
+                    fontWeight: 700,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      background: '#1ed760',
+                      boxShadow: '0 0 8px #1ed760',
+                    }}
+                  />
+                  <span>SPOTIFY API // {lang === 'ru' ? 'ПЛЕЕР РЕЛИЗА' : 'RELEASE PLAYER'}</span>
+                </div>
+
+                <iframe
+                  style={{ borderRadius: '12px' }}
+                  src={`https://open.spotify.com/embed/track/${release.spotifyId || '1Q68oodivzKjIDnPTXFy83'}?utm_source=generator&theme=0`}
+                  width="100%"
+                  height="152"
+                  frameBorder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  title={`Spotify Player - ${release.title}`}
+                />
+              </div>
+
               {/* Кнопки стриминга: Официальный Spotify */}
               <div>
                 <div

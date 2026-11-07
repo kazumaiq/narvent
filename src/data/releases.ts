@@ -21,6 +21,8 @@ export interface Release {
   coverImage?: string;
   popular?: boolean;
   latest?: boolean;
+  spotifyId?: string;
+  spotifyUri?: string;
 }
 
 export const releases: Release[] = [
@@ -61,6 +63,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#0d0d2b', '#1a1a4e', '#2d1b69'],
     popular: true,
+    spotifyId: '0EzcI4IlhBezIzSiTrkr0e',
+    spotifyUri: 'spotify:track:0EzcI4IlhBezIzSiTrkr0e',
   },
   {
     id: 'memory-reboot-album',
@@ -79,6 +83,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#0a0520', '#1a0a40', '#4a1a8a'],
     popular: true,
+    spotifyId: '1Q68oodivzKjIDnPTXFy83',
+    spotifyUri: 'spotify:track:1Q68oodivzKjIDnPTXFy83',
   },
   {
     id: 'forever-in-this-world',
@@ -124,6 +130,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#0a0a1e', '#1e0a3e', '#3e1a5e'],
     latest: true,
+    spotifyId: '32H8ug3gbZiVz34u29WGMz',
+    spotifyUri: 'spotify:track:32H8ug3gbZiVz34u29WGMz',
   },
   {
     id: 'lights-flash-ep',
@@ -186,6 +194,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#0a0520', '#1a0a40', '#4a1a8a'],
     popular: true,
+    spotifyId: '1Q68oodivzKjIDnPTXFy83',
+    spotifyUri: 'spotify:track:1Q68oodivzKjIDnPTXFy83',
   },
   {
     id: 'fainted',
@@ -202,6 +212,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#0d0d2b', '#1a1a4e', '#2d1b69'],
     popular: true,
+    spotifyId: '0EzcI4IlhBezIzSiTrkr0e',
+    spotifyUri: 'spotify:track:0EzcI4IlhBezIzSiTrkr0e',
   },
   {
     id: 'distant-echoes',
@@ -217,6 +229,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#0a0a2e', '#1a1a4e', '#3a2a6e'],
     popular: true,
+    spotifyId: '2DgL722jfzULRS4tGo5OEq',
+    spotifyUri: 'spotify:track:2DgL722jfzULRS4tGo5OEq',
   },
   {
     id: 'her-eyes',
@@ -278,6 +292,8 @@ export const releases: Release[] = [
     },
     coverGradient: ['#1a0a3e', '#2a1a5e', '#4a2a8e'],
     popular: true,
+    spotifyId: '57rjpoEptJd51WyfEe3ieh',
+    spotifyUri: 'spotify:track:57rjpoEptJd51WyfEe3ieh',
   },
   {
     id: 'white-roses',

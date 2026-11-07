@@ -867,6 +867,27 @@ export default function Archive3DScene({
                 >
                   {activeRelease.artist}
                 </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginTop: '0.25rem' }}>
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      padding: '0.12rem 0.45rem',
+                      borderRadius: '100px',
+                      background: 'rgba(29, 185, 84, 0.15)',
+                      border: '1px solid rgba(29, 185, 84, 0.4)',
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.62rem',
+                      color: '#1ed760',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    <Disc3 size={9} color="#1ed760" />
+                    SPOTIFY API
+                  </span>
+                </div>
               </div>
             </div>
 
