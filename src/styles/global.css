@@ -157,6 +157,41 @@ button {
    MARTIN GARRIX STYLE SECTION HEADERS & VERTICAL RAIL
    ========================================================================== */
 
+/* Hero Architectural 2-Chamber Diptych Stage */
+.hero-diptych-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) 1px minmax(0, 1.06fr);
+  width: 100%;
+  max-width: 1080px;
+  min-height: clamp(390px, 52vh, 490px);
+  background: rgba(4, 5, 12, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 35px 95px rgba(0, 0, 0, 0.92);
+  position: relative;
+}
+
+.hero-diptych-divider {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  position: relative;
+}
+
+@media (max-width: 860px) {
+  .hero-diptych-stage {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: auto;
+  }
+  .hero-diptych-divider {
+    width: 100%;
+    height: 1px;
+  }
+}
+
+/* Martin Garrix Split Header */
 .mg-section-header {
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);

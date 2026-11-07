@@ -9,6 +9,14 @@ import { useLanguage } from '../context/LanguageContext';
 
 const HERO_SHOWCASE_IDS = ['recall-ep', 'memory-reboot', 'genesis', 'insomnia'];
 
+/** Subtle editorial accent colors harmonized to each release cover */
+const ERA_ACCENTS: Record<string, string> = {
+  'recall-ep': '#a855f7',
+  'memory-reboot': '#38bdf8',
+  genesis: '#cbd5e1',
+  insomnia: '#818cf8',
+};
+
 export default function Hero() {
   const { t, lang } = useLanguage();
 
@@ -18,31 +26,20 @@ export default function Hero() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const activeRelease = showcaseReleases[activeIndex] || releases[0];
+  const activeAccent = ERA_ACCENTS[activeRelease.id] || '#a855f7';
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
-  // Auto-cycle hero art installation every 6.5s
+  // Auto-cycle hero showcase every 7.5s
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % showcaseReleases.length);
-    }, 6500);
+    }, 7500);
     return () => clearInterval(timer);
   }, [showcaseReleases.length]);
 
-  // Smooth mouse parallax coordinates
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const nx = (e.clientX / window.innerWidth - 0.5) * 2;
-      const ny = (e.clientY / window.innerHeight - 0.5) * 2;
-      setMousePos({ x: nx, y: ny });
-    };
-    window.addEventListener('mousemove', onMove, { passive: true });
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
-
   const { scrollY } = useScroll();
-  const titleY = useTransform(scrollY, [0, 700], [0, -45]);
-  const stageY = useTransform(scrollY, [0, 700], [0, 35]);
+  const titleY = useTransform(scrollY, [0, 700], [0, -35]);
+  const stageY = useTransform(scrollY, [0, 700], [0, 28]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -58,29 +55,12 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        paddingTop: 'clamp(4.75rem, 9vh, 6.75rem)',
+        paddingTop: 'clamp(5.6rem, 11vh, 7.5rem)',
         paddingBottom: 'clamp(4.5rem, 8vh, 5.5rem)',
         zIndex: 2,
       }}
     >
-      {/* Subtle Cosmic Ambient Illumination (feathered well inside section bounds) */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '18%',
-          left: '50%',
-          width: 'clamp(300px, 55vw, 760px)',
-          height: 'clamp(300px, 55vw, 760px)',
-          borderRadius: '50%',
-          background:
-            'radial-gradient(circle, rgba(139, 92, 246, 0.14) 0%, rgba(217, 70, 239, 0.07) 38%, rgba(2, 2, 6, 0) 70%)',
-          transform: `translate3d(calc(-50% + ${mousePos.x * -22}px), ${mousePos.y * -22}px, 0)`,
-          transition: 'transform 0.4s ease-out',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Decorative Bottom-Left "+ ×" Geometric Cross-Grid Matrix (like martingarrix.com) */}
+      {/* Decorative Bottom-Left "+ ×" Geometric Cross-Grid Matrix */}
       <div
         className="desktop-only"
         style={{
@@ -90,7 +70,7 @@ export default function Hero() {
           zIndex: 1,
         }}
       >
-        <PlusCrossMatrix rows={5} cols={7} />
+        <PlusCrossMatrix rows={5} cols={6} />
       </div>
 
       {/* Main Centered Martin Garrix Style Art Installation Stage */}
@@ -108,7 +88,7 @@ export default function Hero() {
       >
         {/* Top Kicker Above Giant Title */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           style={{
@@ -121,20 +101,20 @@ export default function Hero() {
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: 'rgba(255, 255, 255, 0.6)',
-            marginBottom: '0.35rem',
+            marginBottom: '0.45rem',
           }}
         >
-          <span style={{ color: 'var(--neon-magenta)' }}>+×</span>
+          <span style={{ color: '#ffffff' }}>+×</span>
           <span>{t.hero.badge}</span>
-          <span style={{ color: 'var(--electric-blue)' }}>// 2026</span>
+          <span style={{ color: 'var(--text-dim)' }}>// 2026</span>
         </motion.div>
 
-        {/* MONUMENTAL OVERLAPPING DISPLAY TITLE (Overlaps top edge of visual frame like MARTY on martingarrix.com) */}
+        {/* MONUMENTAL OVERLAPPING DISPLAY TITLE */}
         <motion.h1
           style={{
             y: titleY,
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.35rem, 9.6vw, 8.6rem)',
+            fontSize: 'clamp(2.35rem, 9.4vw, 8.4rem)',
             fontWeight: 900,
             letterSpacing: '-0.045em',
             lineHeight: 0.86,
@@ -144,7 +124,7 @@ export default function Hero() {
             margin: 0,
             position: 'relative',
             zIndex: 6,
-            marginBottom: 'clamp(-0.9rem, -2.2vw, -2.1rem)',
+            marginBottom: 'clamp(-0.75rem, -1.8vw, -1.75rem)',
             mixBlendMode: 'difference',
             userSelect: 'none',
             pointerEvents: 'none',
@@ -154,237 +134,306 @@ export default function Hero() {
           NARVENT
         </motion.h1>
 
-        {/* OUTER STAGE WRAPPER (Unclipped so the 3D Black Hole Singularity never gets cut off by overflow:hidden) */}
-        <motion.div
-          style={{
-            y: stageY,
-            position: 'relative',
-            width: '100%',
-            maxWidth: '960px',
-            height: 'clamp(340px, 52vh, 510px)',
-            zIndex: 3,
-          }}
-        >
-          {/* Clipped Artwork Backdrop Frame */}
+        {/* ARCHITECTURAL 2-CHAMBER DIPTYCH STAGE (Left: Uncropped Editorial Cover & Info | Right: Pure Dark-Editorial 3D Black Hole) */}
+        <motion.div style={{ y: stageY }} className="hero-diptych-stage">
+          {/* LEFT CHAMBER: Editorial Release Presentation */}
           <div
             style={{
-              position: 'absolute',
-              inset: 0,
-              background: '#060712',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 35px 90px rgba(0, 0, 0, 0.9)',
+              position: 'relative',
+              padding: 'clamp(1.35rem, 2.8vw, 2.35rem)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              gap: '1.35rem',
               overflow: 'hidden',
-              zIndex: 1,
+              background: 'linear-gradient(160deg, rgba(10, 11, 22, 0.95) 0%, rgba(3, 3, 8, 0.98) 100%)',
             }}
           >
+            {/* Ultra-subtle blurred ambient backdrop from active cover */}
             <AnimatePresence mode="wait">
-              <motion.div
-                key={activeRelease.id}
-                initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.08 }}
-                animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              <motion.img
+                key={`bg-${activeRelease.id}`}
+                src={activeRelease.coverImage}
+                alt=""
+                aria-hidden="true"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.14 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7 }}
                 style={{
                   position: 'absolute',
                   inset: 0,
                   width: '100%',
                   height: '100%',
+                  objectFit: 'cover',
+                  filter: 'blur(36px) saturate(1.2)',
+                  transform: 'scale(1.2)',
+                  pointerEvents: 'none',
                 }}
-              >
-                <img
-                  src={activeRelease.coverImage}
-                  alt={activeRelease.title}
-                  width={960}
-                  height={510}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center 35%',
-                    filter: 'saturate(1.15) contrast(1.08)',
-                    transform: `scale(1.04) translate3d(${mousePos.x * -10}px, ${mousePos.y * -10}px, 0)`,
-                    transition: 'transform 0.35s ease-out',
-                  }}
-                />
-                {/* Deep vignette blending artwork into the 3D Black Hole Singularity */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background:
-                      'radial-gradient(circle at 72% 50%, rgba(2, 2, 6, 0.86) 0%, rgba(4, 5, 14, 0.42) 48%, rgba(4, 5, 14, 0.85) 100%), linear-gradient(180deg, rgba(2, 2, 6, 0.48) 0%, transparent 35%, rgba(2, 2, 6, 0.92) 100%)',
-                  }}
-                />
-              </motion.div>
+              />
             </AnimatePresence>
-          </div>
 
-          {/* UNCLIPPED 3D RELATIVISTIC BLACK HOLE SINGULARITY LAYER */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              right: '0%',
-              transform: 'translateY(-50%)',
-              width: 'clamp(260px, 56%, 540px)',
-              height: 'clamp(280px, 114%, 560px)',
-              zIndex: 3,
-              pointerEvents: 'auto',
-            }}
-          >
-            <CosmicResonator3D />
-          </div>
-
-          {/* Stage Foreground UI: Coordinates, Play Trigger, Era Switcher */}
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 4,
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: 'clamp(1.25rem, 3vw, 2.25rem)',
-              pointerEvents: 'none',
-            }}
-          >
-            {/* Top Corner Frame Coordinates */}
+            {/* Top Index & Release Date */}
             <div
               style={{
+                position: 'relative',
+                zIndex: 2,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.66rem',
                 letterSpacing: '0.16em',
-                color: 'rgba(255, 255, 255, 0.72)',
+                color: 'rgba(255, 255, 255, 0.65)',
                 textTransform: 'uppercase',
               }}
             >
               <span>
                 0{activeIndex + 1} / 0{showcaseReleases.length} // {formatReleaseDate(activeRelease.releaseDate, lang)}
               </span>
-              <span style={{ color: 'var(--neon-magenta)' }}>SINGULARITY // +×</span>
+              <span style={{ color: 'rgba(255, 255, 255, 0.4)' }}>+ ×</span>
             </div>
 
-            {/* Bottom-Left Stage Overlay: Play Circle + Monumental Release Title */}
+            {/* Center Uncropped 1:1 Cover + Play Trigger + Title */}
             <div
+              onClick={() => setSelectedRelease(activeRelease)}
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                maxWidth: '520px',
-                pointerEvents: 'auto',
+                position: 'relative',
+                zIndex: 2,
+                display: 'grid',
+                gridTemplateColumns: 'clamp(108px, 13vw, 156px) minmax(0, 1fr)',
+                gap: 'clamp(1rem, 2vw, 1.5rem)',
+                alignItems: 'center',
+                cursor: 'pointer',
               }}
             >
-              <div>
+              {/* Crisp 1:1 Square Artwork */}
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '1 / 1',
+                  position: 'relative',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  boxShadow: '0 20px 45px rgba(0, 0, 0, 0.85)',
+                  overflow: 'hidden',
+                  background: '#05060f',
+                }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeRelease.id}
+                    src={activeRelease.coverImage}
+                    alt={activeRelease.title}
+                    width={160}
+                    height={160}
+                    initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.08 }}
+                    animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                </AnimatePresence>
+              </div>
+
+              {/* Release Typography & Play Circle */}
+              <div style={{ minWidth: 0 }}>
                 <div
                   style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '0.68rem',
+                    fontSize: '0.64rem',
                     fontWeight: 600,
-                    letterSpacing: '0.18em',
-                    color: 'var(--electric-blue)',
+                    letterSpacing: '0.16em',
+                    color: 'var(--text-muted)',
                     textTransform: 'uppercase',
-                    marginBottom: '0.35rem',
+                    marginBottom: '0.45rem',
                   }}
                 >
                   {t.hero.subtitle}
                 </div>
 
                 <div
-                  onClick={() => setSelectedRelease(activeRelease)}
                   style={{
-                    display: 'flex',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.25rem, 2.4vw, 2.05rem)',
+                    fontWeight: 900,
+                    color: '#ffffff',
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1.02,
+                    textTransform: 'uppercase',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {activeRelease.title}
+                </div>
+
+                <div
+                  style={{
+                    fontFamily: 'var(--font-main)',
+                    fontSize: '0.84rem',
+                    color: 'rgba(255, 255, 255, 0.72)',
+                    marginTop: '0.3rem',
+                    marginBottom: '0.85rem',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  — {activeRelease.artist}
+                  {activeRelease.featuring ? ` ft. ${activeRelease.featuring.join(', ')}` : ''}
+                </div>
+
+                <button
+                  aria-label={t.hero.listen}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedRelease(activeRelease);
+                  }}
+                  style={{
+                    display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '1rem',
+                    gap: '0.6rem',
+                    padding: '0.45rem 0.95rem',
+                    border: '1px solid rgba(255, 255, 255, 0.32)',
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    color: '#ffffff',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.66rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
                     cursor: 'pointer',
                   }}
                 >
+                  <Play size={11} fill="currentColor" />
+                  <span>{t.hero.listen}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom Era Switcher Tabs */}
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.4rem',
+              }}
+            >
+              {showcaseReleases.map((rel, idx) => {
+                const isCurrent = idx === activeIndex;
+                return (
                   <button
-                    aria-label={t.hero.listen}
-                    className="mg-artwork-play-circle"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedRelease(activeRelease);
+                    key={rel.id}
+                    onClick={() => setActiveIndex(idx)}
+                    style={{
+                      padding: '0.34rem 0.65rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.6rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      background: isCurrent ? '#ffffff' : 'rgba(2, 2, 6, 0.65)',
+                      color: isCurrent ? '#020206' : 'rgba(255, 255, 255, 0.6)',
+                      border: isCurrent
+                        ? '1px solid #ffffff'
+                        : '1px solid rgba(255, 255, 255, 0.16)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
                     }}
                   >
-                    <Play size={18} fill="currentColor" />
+                    0{idx + 1} {rel.title}
                   </button>
+                );
+              })}
+            </div>
+          </div>
 
-                  <div style={{ minWidth: 0 }}>
-                    <div
-                      style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(1.25rem, 2.8vw, 2.2rem)',
-                        fontWeight: 900,
-                        color: '#ffffff',
-                        letterSpacing: '-0.03em',
-                        lineHeight: 1,
-                        textTransform: 'uppercase',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
-                    >
-                      {activeRelease.title}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: 'var(--font-main)',
-                        fontSize: '0.84rem',
-                        color: 'rgba(255, 255, 255, 0.78)',
-                        marginTop: '0.25rem',
-                      }}
-                    >
-                      — {activeRelease.artist}
-                      {activeRelease.featuring ? ` ft. ${activeRelease.featuring.join(', ')}` : ''}
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {/* ARCHITECTURAL HAIRLINE DIVIDER */}
+          <div className="hero-diptych-divider" aria-hidden="true" />
 
-              {/* Era Switcher Pills inside Stage */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '0.4rem',
-                }}
-              >
-                {showcaseReleases.map((rel, idx) => {
-                  const isCurrent = idx === activeIndex;
-                  return (
-                    <button
-                      key={rel.id}
-                      onClick={() => setActiveIndex(idx)}
-                      style={{
-                        padding: '0.32rem 0.65rem',
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.62rem',
-                        fontWeight: 600,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        background: isCurrent ? '#ffffff' : 'rgba(2, 2, 6, 0.65)',
-                        color: isCurrent ? '#020206' : 'rgba(255, 255, 255, 0.65)',
-                        border: isCurrent
-                          ? '1px solid #ffffff'
-                          : '1px solid rgba(255, 255, 255, 0.18)',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      0{idx + 1} {rel.title}
-                    </button>
-                  );
-                })}
-              </div>
+          {/* RIGHT CHAMBER: Pure Dark-Editorial 3D Gargantua Singularity Observatory */}
+          <div
+            style={{
+              position: 'relative',
+              minHeight: 'clamp(290px, 44vh, 460px)',
+              background:
+                'radial-gradient(circle at 50% 50%, rgba(12, 14, 28, 0.55) 0%, rgba(2, 2, 6, 0.98) 78%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {/* Top Telemetry Header inside 3D Chamber */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 'clamp(1rem, 2.2vw, 1.65rem)',
+                left: 'clamp(1rem, 2.2vw, 1.65rem)',
+                right: 'clamp(1rem, 2.2vw, 1.65rem)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.62rem',
+                letterSpacing: '0.18em',
+                color: 'rgba(255, 255, 255, 0.45)',
+                textTransform: 'uppercase',
+                pointerEvents: 'none',
+                zIndex: 3,
+              }}
+            >
+              <span>SINGULARITY // EVENT HORIZON</span>
+              <span>3D WEBGL</span>
+            </div>
+
+            {/* Interactive 3D Gargantua Black Hole (Monochrome Stark White + Era Accent) */}
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                inset: 0,
+                zIndex: 2,
+              }}
+            >
+              <CosmicResonator3D accentColor={activeAccent} />
+            </div>
+
+            {/* Bottom Corner Crosshairs & Interaction Hint */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 'clamp(0.85rem, 2vw, 1.35rem)',
+                left: 'clamp(1rem, 2.2vw, 1.65rem)',
+                right: 'clamp(1rem, 2.2vw, 1.65rem)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.6rem',
+                letterSpacing: '0.18em',
+                color: 'rgba(255, 255, 255, 0.35)',
+                textTransform: 'uppercase',
+                pointerEvents: 'none',
+                zIndex: 3,
+              }}
+            >
+              <span>+ ×</span>
+              <span>{lang === 'ru' ? 'ИНТЕРАКТИВНАЯ ОРБИТА' : 'DRAG TO ORBIT'}</span>
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Bottom Anchored Bar (Exact Martin Garrix Layout: Left Navigation/Stats + Right Boxed Telemetry & Split CTA) */}
+      {/* Bottom Anchored Bar */}
       <div
         className="container-wide"
         style={{
@@ -457,7 +506,7 @@ export default function Hero() {
             </span>
             <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
             <span>
-              <strong style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem', color: 'var(--neon-magenta)' }}>
+              <strong style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem', color: '#ffffff' }}>
                 GOLD
               </strong>{' '}
               <span style={{ color: 'var(--text-dim)', fontSize: '0.62rem' }}>RIAA</span>
