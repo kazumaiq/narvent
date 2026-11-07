@@ -18,6 +18,8 @@
   --vivid-purple: #8b5cf6;
   --neon-magenta: #d946ef;
   --hot-pink: #ec4899;
+  --vivid-red: #ff2a4b;
+  --vivid-red-glow: rgba(255, 42, 75, 0.45);
   
   --text-pure: #f8fafc;
   --text-muted: #94a3b8;
@@ -28,10 +30,12 @@
   --border-glow: rgba(99, 102, 241, 0.35);
   --border-magenta: rgba(217, 70, 239, 0.4);
 
-  /* Typography */
-  --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Typography System — Sora + Space Grotesk + IBM Plex Mono + Noto Sans JP */
+  --font-display: 'Sora', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ui: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-main: 'Space Grotesk', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-jp: 'Noto Sans JP', sans-serif;
 
   /* Layout */
   --max-w: 1440px;
@@ -168,34 +172,107 @@ button {
   border-color: rgba(217, 70, 239, 0.25);
 }
 
-.editorial-badge::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 8px currentColor;
-  flex-shrink: 0;
-}
+/* Minimal clean badge without awkward dots */
 
 /* Section Title Typography */
 .editorial-title {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 6vw, 5rem);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.0;
   color: #ffffff;
 }
 
 .editorial-subtitle {
-  font-family: var(--font-main);
+  font-family: var(--font-ui);
   font-size: clamp(0.95rem, 1.6vw, 1.15rem);
   color: var(--text-muted);
   max-width: 580px;
   line-height: 1.65;
   font-weight: 400;
   margin-top: 1rem;
+}
+
+/* ==========================================================================
+   ANIMATED MARQUEE TICKER SYSTEM
+   ========================================================================== */
+
+.marquee-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #020206;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  user-select: none;
+  z-index: 3;
+}
+
+.marquee-container.hero-variant {
+  padding: 1.5rem 0;
+  background: linear-gradient(180deg, #020206 0%, #050610 50%, #020206 100%);
+  border-top: 1px solid rgba(255, 42, 75, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.marquee-row {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  white-space: nowrap;
+}
+
+.marquee-row:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track.slide-left {
+  animation: marqueeLeft 34s linear infinite;
+}
+
+.marquee-track.slide-right {
+  animation: marqueeRight 40s linear infinite;
+}
+
+.marquee-track.slide-left-fast {
+  animation: marqueeLeft 26s linear infinite;
+}
+
+.marquee-track.slide-left-slow {
+  animation: marqueeLeft 48s linear infinite;
+}
+
+@keyframes marqueeLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
 }
 
 /* Editorial Line Dividers */

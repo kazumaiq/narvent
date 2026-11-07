@@ -52,55 +52,35 @@ export default function Hero() {
       <div
         style={{
           position: 'absolute',
-          top: '10%',
-          right: '5%',
-          width: 'clamp(300px, 45vw, 650px)',
-          height: 'clamp(300px, 45vw, 650px)',
+          top: '15%',
+          right: '10%',
+          width: 'clamp(280px, 40vw, 550px)',
+          height: 'clamp(280px, 40vw, 550px)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(217, 70, 239, 0.16) 0%, rgba(56, 189, 248, 0.1) 40%, transparent 70%)',
-          filter: 'blur(70px)',
-          transform: `translate3d(${mousePos.x * -25}px, ${mousePos.y * -25}px, 0)`,
+          background: 'radial-gradient(circle, rgba(217, 70, 239, 0.12) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%)',
+          filter: 'blur(80px)',
+          transform: `translate3d(${mousePos.x * -20}px, ${mousePos.y * -20}px, 0)`,
           transition: 'transform 0.4s ease-out',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Cinematic Night Highway Light Streaks (Inspired by Narvent's White Roses Aesthetic) */}
+      {/* Subtle Central Ambient Glow — Soft and fully contained, no hard edges or cutoffs */}
       <div
         style={{
           position: 'absolute',
-          inset: 0,
+          top: '35%',
+          left: '20%',
+          width: 'clamp(260px, 35vw, 500px)',
+          height: 'clamp(260px, 35vw, 500px)',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)',
+          filter: 'blur(70px)',
+          transform: `translate3d(${mousePos.x * 12}px, ${mousePos.y * 12}px, 0)`,
+          transition: 'transform 0.5s ease-out',
           pointerEvents: 'none',
-          overflow: 'hidden',
-          zIndex: 0,
         }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-20%',
-            left: '-15%',
-            width: '130%',
-            height: '240px',
-            transform: `rotate(-14deg) translate3d(${mousePos.x * 15}px, ${mousePos.y * 10}px, 0)`,
-            background: 'linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.07) 35%, rgba(255, 107, 53, 0.08) 50%, rgba(217, 70, 239, 0.06) 65%, transparent 100%)',
-            filter: 'blur(12px)',
-            transition: 'transform 0.5s ease-out',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '25%',
-            right: '-10%',
-            width: '80%',
-            height: '1px',
-            transform: 'rotate(-20deg)',
-            background: 'linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.3) 50%, transparent 100%)',
-            boxShadow: '0 0 15px rgba(56, 189, 248, 0.4)',
-          }}
-        />
-      </div>
+      />
 
       <motion.div
         className="container-wide"
@@ -133,8 +113,8 @@ export default function Hero() {
             {/* Заголовок NARVENT */}
             <h1
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(2.8rem, 8vw, 6.4rem)',
+                fontFamily: "var(--font-display)",
+                fontSize: 'clamp(3rem, 8.5vw, 6.6rem)',
                 fontWeight: 800,
                 letterSpacing: '-0.04em',
                 lineHeight: 0.92,
@@ -147,10 +127,10 @@ export default function Hero() {
               NARVENT
             </h1>
 
-            {/* Лаконичный подзаголовок БЕЗ ВОДЫ */}
+            {/* Лаконичный подзаголовок */}
             <h2
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "var(--font-ui)",
                 fontSize: 'clamp(1.15rem, 2.2vw, 1.7rem)',
                 fontWeight: 600,
                 color: '#e2e8f0',
@@ -165,6 +145,7 @@ export default function Hero() {
 
             <p
               style={{
+                fontFamily: "var(--font-main)",
                 fontSize: 'clamp(0.88rem, 1.3vw, 1.02rem)',
                 color: 'var(--text-muted)',
                 lineHeight: 1.6,

@@ -39,11 +39,13 @@ export const releases: Release[] = [
     tracks: ['The Running Man', 'Override', 'Arcade', 'Supersonic', 'Genesis'],
     description: 'A massive 17-track project showcasing Narvent\'s evolution in cinematic synthwave production.',
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/5cjILeRU7eHuZ5bhmkGSpe',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0a0a2e', '#1a0a3e', '#3a1a6e'],
     latest: true,
+    spotifyId: '5cjILeRU7eHuZ5bhmkGSpe',
+    spotifyUri: 'spotify:track:5cjILeRU7eHuZ5bhmkGSpe',
   },
   {
     id: 'insomnia',
@@ -58,12 +60,12 @@ export const releases: Release[] = [
     featuring: ['Adieu Aru', 'KoruSe', 'Nikkie'],
     description: 'A deeply atmospheric journey through sleepless nights, featuring collaborations with Adieu Aru, KoruSe, and Nikkie.',
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/5vuvOiVlPukt9VFgOQdMuR',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0d0d2b', '#1a1a4e', '#2d1b69'],
     popular: true,
-    spotifyId: '0EzcI4IlhBezIzSiTrkr0e',
+    spotifyId: '5vuvOiVlPukt9VFgOQdMuR',
     spotifyUri: 'spotify:track:0EzcI4IlhBezIzSiTrkr0e',
   },
   {
@@ -96,9 +98,11 @@ export const releases: Release[] = [
     year: 2020,
     description: 'An early full-length exploration of Narvent\'s atmospheric electronic soundscapes.',
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/620bFbgbiliAIe1pO5bD0p',
     },
     coverGradient: ['#0a1a2a', '#1a2a4a', '#2a3a6a'],
+    spotifyId: '620bFbgbiliAIe1pO5bD0p',
+    spotifyUri: 'spotify:track:620bFbgbiliAIe1pO5bD0p',
   },
   {
     id: 'endless-way',
@@ -110,9 +114,11 @@ export const releases: Release[] = [
     year: 2019,
     description: 'Narvent\'s debut full-length album establishing his signature sound.',
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/5VntVRRMeoIACBZhwmTJAZ',
     },
     coverGradient: ['#0d1b2a', '#1b2838', '#2a3f5f'],
+    spotifyId: '5VntVRRMeoIACBZhwmTJAZ',
+    spotifyUri: 'spotify:track:5VntVRRMeoIACBZhwmTJAZ',
   },
 
   // === EPs (Official Spotify) ===
@@ -125,7 +131,7 @@ export const releases: Release[] = [
     releaseDate: '2026-10-01',
     year: 2026,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/track/32H8ug3gbZiVz34u29WGMz',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#0a0a1e', '#1e0a3e', '#3e1a5e'],
@@ -143,10 +149,12 @@ export const releases: Release[] = [
     releaseDate: '2026-01-01',
     year: 2026,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/1gYNabmFPme6zJAom0aOoR',
     },
     coverGradient: ['#1a0a2e', '#2e1a4e', '#4e2a7e'],
     latest: true,
+    spotifyId: '1gYNabmFPme6zJAom0aOoR',
+    spotifyUri: 'spotify:track:1gYNabmFPme6zJAom0aOoR',
   },
   {
     id: 'ascend-ep',
@@ -158,10 +166,12 @@ export const releases: Release[] = [
     releaseDate: '2026-01-01',
     year: 2026,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/track/79TIKepunB7lx9JAjkTRTI',
     },
     coverGradient: ['#0a0a2a', '#1a1a4a', '#2a2a6a'],
     latest: true,
+    spotifyId: '79TIKepunB7lx9JAjkTRTI',
+    spotifyUri: 'spotify:track:79TIKepunB7lx9JAjkTRTI',
   },
   {
     id: 'ocean-blue-ep',
@@ -172,9 +182,11 @@ export const releases: Release[] = [
     releaseDate: '2026-01-01',
     year: 2026,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/6DliB6HpsWVBtuliIJxAXR',
     },
     coverGradient: ['#0a1a3e', '#1a2a5e', '#2a4a8e'],
+    spotifyId: '6DliB6HpsWVBtuliIJxAXR',
+    spotifyUri: 'spotify:track:6DliB6HpsWVBtuliIJxAXR',
   },
 
   // === SINGLES (Official Spotify) ===
@@ -242,11 +254,13 @@ export const releases: Release[] = [
     year: 2024,
     description: 'A melodic synthwave fan-favorite that paved the way into the Insomnia era.',
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/track/5PPLVeBftSqxLCCqlwW5wN',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#1a0a2a', '#2a1a4a', '#4a2a7a'],
     popular: true,
+    spotifyId: '5PPLVeBftSqxLCCqlwW5wN',
+    spotifyUri: 'spotify:track:5PPLVeBftSqxLCCqlwW5wN',
   },
   {
     id: 'fade-into-darkness',
@@ -258,11 +272,13 @@ export const releases: Release[] = [
     year: 2025,
     description: 'A moody, atmospheric electronic piece blending cinematic synthwave and darkwave.',
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/track/5asNvDgwLVYxDJAaF7tgeT',
     },
     coverGradient: ['#0a0a1a', '#1a0a2a', '#2a1a4a'],
     popular: true,
     latest: true,
+    spotifyId: '5asNvDgwLVYxDJAaF7tgeT',
+    spotifyUri: 'spotify:track:5asNvDgwLVYxDJAaF7tgeT',
   },
   {
     id: 'way-back-home',
@@ -273,10 +289,12 @@ export const releases: Release[] = [
     releaseDate: '2025-01-01',
     year: 2025,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/7ge38c7frs9KDfHOIZ6sfP',
     },
     coverGradient: ['#0d1a2d', '#1a2a4d', '#2a4a7d'],
     latest: true,
+    spotifyId: '7ge38c7frs9KDfHOIZ6sfP',
+    spotifyUri: 'spotify:track:7ge38c7frs9KDfHOIZ6sfP',
   },
   {
     id: 'euphoria',
@@ -320,10 +338,12 @@ export const releases: Release[] = [
     releaseDate: '2026-01-01',
     year: 2026,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/63RPB5EA18fWnNWaTVwQks',
     },
     coverGradient: ['#0a0a20', '#1a0a40', '#3a1a60'],
     latest: true,
+    spotifyId: '63RPB5EA18fWnNWaTVwQks',
+    spotifyUri: 'spotify:track:63RPB5EA18fWnNWaTVwQks',
   },
   {
     id: 'calm-night',
@@ -335,9 +355,11 @@ export const releases: Release[] = [
     releaseDate: '2024-01-01',
     year: 2024,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/37Gc376ZWd8p8CFICbVldw',
     },
     coverGradient: ['#0a1a2e', '#1a2a4e', '#2a3a6e'],
+    spotifyId: '37Gc376ZWd8p8CFICbVldw',
+    spotifyUri: 'spotify:track:37Gc376ZWd8p8CFICbVldw',
   },
   {
     id: 'avalanche',
@@ -348,10 +370,12 @@ export const releases: Release[] = [
     releaseDate: '2024-01-01',
     year: 2024,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/2dHwCyRsuqQbrKkBC39Xxb',
       appleMusic: 'https://music.apple.com/artist/narvent/1489292108',
     },
     coverGradient: ['#1a1a2e', '#2a2a4e', '#3a3a6e'],
+    spotifyId: '2dHwCyRsuqQbrKkBC39Xxb',
+    spotifyUri: 'spotify:track:2dHwCyRsuqQbrKkBC39Xxb',
   },
   {
     id: 'broken-halo',
@@ -363,10 +387,12 @@ export const releases: Release[] = [
     releaseDate: '2025-01-01',
     year: 2025,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/2autig9HMFHISEzt9k5jsB',
     },
     coverGradient: ['#1a0a1a', '#2a1a2a', '#4a2a4a'],
     latest: true,
+    spotifyId: '2autig9HMFHISEzt9k5jsB',
+    spotifyUri: 'spotify:track:2autig9HMFHISEzt9k5jsB',
   },
   {
     id: 'to-the-moon',
@@ -378,10 +404,12 @@ export const releases: Release[] = [
     releaseDate: '2025-01-01',
     year: 2025,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/30QrUFnaHKtSQKRSZVjks3',
     },
     coverGradient: ['#0a1a3a', '#1a2a5a', '#2a3a7a'],
     latest: true,
+    spotifyId: '30QrUFnaHKtSQKRSZVjks3',
+    spotifyUri: 'spotify:track:30QrUFnaHKtSQKRSZVjks3',
   },
   {
     id: 'strange-memory',
@@ -392,10 +420,12 @@ export const releases: Release[] = [
     releaseDate: '2025-01-01',
     year: 2025,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/6pjBRH3ddp5UpgILOmstEr',
     },
     coverGradient: ['#0a0a2e', '#1a1a3e', '#2a2a5e'],
     latest: true,
+    spotifyId: '6pjBRH3ddp5UpgILOmstEr',
+    spotifyUri: 'spotify:track:6pjBRH3ddp5UpgILOmstEr',
   },
   {
     id: 'no-dress',
@@ -406,10 +436,12 @@ export const releases: Release[] = [
     releaseDate: '2025-01-01',
     year: 2025,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/0NOusyee4TSX71hyM8XpkW',
     },
     coverGradient: ['#0d0a1a', '#1d1a2a', '#3d2a4a'],
     latest: true,
+    spotifyId: '0NOusyee4TSX71hyM8XpkW',
+    spotifyUri: 'spotify:track:0NOusyee4TSX71hyM8XpkW',
   },
   {
     id: 'take-me-there',
@@ -420,10 +452,12 @@ export const releases: Release[] = [
     releaseDate: '2025-01-01',
     year: 2025,
     links: {
-      spotify: 'https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7',
+      spotify: 'https://open.spotify.com/album/2Ve6wUN0jtCUXv9PiDtdCE',
     },
     coverGradient: ['#1a0a2e', '#2a1a3e', '#4a2a5e'],
     latest: true,
+    spotifyId: '2Ve6wUN0jtCUXv9PiDtdCE',
+    spotifyUri: 'spotify:track:2Ve6wUN0jtCUXv9PiDtdCE',
   },
 ];
 

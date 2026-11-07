@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import Loader from './components/Loader';
 import Navigation from './components/Navigation';
@@ -14,6 +14,7 @@ import MusicArchive from './sections/MusicArchive';
 import About from './sections/About';
 import SocialUniverse from './sections/SocialUniverse';
 import Footer from './sections/Footer';
+import { HeroMarquee, TransitionMarquee } from './components/MarqueeTicker';
 
 function ScrollGradientOverlay() {
   const [hue, setHue] = useState(240);
@@ -45,29 +46,21 @@ function ScrollGradientOverlay() {
   );
 }
 
-function SectionDivider({ variant = 'default' }: { variant?: 'default' | 'glow' }) {
+/** Soft animated spacer between sections — subtle gradient fade, no dots/lines */
+function SectionSpacer() {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.8 }}
       style={{
         width: '100%',
-        padding: 'clamp(1.5rem, 3vh, 3rem) 0',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: 'clamp(3rem, 6vh, 5rem)',
         position: 'relative',
         zIndex: 2,
       }}
-    >
-      <div
-        style={{
-          width: 'clamp(50px, 8vw, 100px)',
-          height: '1px',
-          background: variant === 'glow'
-            ? 'linear-gradient(90deg, transparent, rgba(217, 70, 239, 0.45), transparent)'
-            : 'linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.35), transparent)',
-        }}
-      />
-    </div>
+    />
   );
 }
 
@@ -117,23 +110,29 @@ export default function App() {
           <main style={{ position: 'relative', zIndex: 2 }}>
             {/* 01. ГЛАВНАЯ */}
             <Hero />
-            <SectionDivider />
+
+            {/* 3-ROW ANIMATED MARQUEE TICKER (EDITORIAL BROADCAST) */}
+            <HeroMarquee />
+            <SectionSpacer />
 
             {/* 02. НОВЫЕ РЕЛИЗЫ */}
             <LatestReleases />
-            <SectionDivider variant="glow" />
+            <SectionSpacer />
 
             {/* 03. ПОПУЛЯРНОЕ */}
             <PopularReleases />
-            <SectionDivider />
+            <SectionSpacer />
+
+            {/* TRANSITION TICKER TO 3D ARCHIVE */}
+            <TransitionMarquee />
 
             {/* 04. 3D АРХИВ */}
             <MusicArchive />
-            <SectionDivider variant="glow" />
+            <SectionSpacer />
 
             {/* 05. ОБ АРТИСТЕ */}
             <About />
-            <SectionDivider />
+            <SectionSpacer />
 
             {/* 06. СОЦИАЛЬНЫЕ СЕТИ */}
             <SocialUniverse />

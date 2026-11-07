@@ -29,7 +29,7 @@ export default function BackgroundScene() {
     container.appendChild(renderer.domElement);
 
     // --- Subtle Stardust (Subtle glowing embers) ---
-    const starCount = 1200;
+    const starCount = 900;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(starCount * 3);
     const colors = new Float32Array(starCount * 3);
@@ -37,15 +37,15 @@ export default function BackgroundScene() {
     const colorPalette = [
       new THREE.Color('#38bdf8'), // Electric blue
       new THREE.Color('#818cf8'), // Indigo
-      new THREE.Color('#c084fc'), // Purple
-      new THREE.Color('#f472b6'), // Pink
+      new THREE.Color('#a78bfa'), // Light purple
+      new THREE.Color('#e2e8f0'), // Near-white
       new THREE.Color('#ffffff'), // White
     ];
 
     for (let i = 0; i < starCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 240;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 240;
-      positions[i * 3 + 2] = -120 + Math.random() * 200;
+      positions[i * 3] = (Math.random() - 0.5) * 280;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 280;
+      positions[i * 3 + 2] = -150 + Math.random() * 250;
 
       const col = colorPalette[Math.floor(Math.random() * colorPalette.length)];
       colors[i * 3] = col.r;
@@ -56,14 +56,15 @@ export default function BackgroundScene() {
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    // Particle sprite
+    // Particle sprite — soft round glow, no hard purple center
     const canvas = document.createElement('canvas');
     canvas.width = 32;
     canvas.height = 32;
     const ctx = canvas.getContext('2d')!;
     const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
     grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.3, 'rgba(168,85,247,0.6)');
+    grad.addColorStop(0.25, 'rgba(255,255,255,0.5)');
+    grad.addColorStop(0.6, 'rgba(200,210,255,0.15)');
     grad.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 32, 32);
@@ -71,11 +72,11 @@ export default function BackgroundScene() {
     const texture = new THREE.CanvasTexture(canvas);
 
     const material = new THREE.PointsMaterial({
-      size: 1.6,
+      size: 1.3,
       vertexColors: true,
       map: texture,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.45,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -117,11 +118,11 @@ export default function BackgroundScene() {
       mouse.x += (mouse.tx - mouse.x) * 0.05;
       mouse.y += (mouse.ty - mouse.y) * 0.05;
 
-      camera.position.x = mouse.x * 4;
-      camera.position.y = mouse.y * 3 - (scrollY * 0.02);
+      camera.position.x = mouse.x * 6;
+      camera.position.y = mouse.y * 4 - (scrollY * 0.035);
 
-      points.rotation.y = elapsed * 0.015;
-      points.rotation.x = elapsed * 0.008;
+      points.rotation.y = elapsed * 0.012 + mouse.x * 0.02;
+      points.rotation.x = elapsed * 0.006 + mouse.y * 0.01;
 
       renderer.render(scene, camera);
     };
