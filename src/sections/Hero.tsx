@@ -65,6 +65,43 @@ export default function Hero() {
         }}
       />
 
+      {/* Cinematic Night Highway Light Streaks (Inspired by Narvent's White Roses Aesthetic) */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+          zIndex: 0,
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-20%',
+            left: '-15%',
+            width: '130%',
+            height: '240px',
+            transform: `rotate(-14deg) translate3d(${mousePos.x * 15}px, ${mousePos.y * 10}px, 0)`,
+            background: 'linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.07) 35%, rgba(255, 107, 53, 0.08) 50%, rgba(217, 70, 239, 0.06) 65%, transparent 100%)',
+            filter: 'blur(12px)',
+            transition: 'transform 0.5s ease-out',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '25%',
+            right: '-10%',
+            width: '80%',
+            height: '1px',
+            transform: 'rotate(-20deg)',
+            background: 'linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.3) 50%, transparent 100%)',
+            boxShadow: '0 0 15px rgba(56, 189, 248, 0.4)',
+          }}
+        />
+      </div>
+
       <motion.div
         className="container-wide"
         style={{

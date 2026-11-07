@@ -32,18 +32,19 @@ export default function CosmicResonator3D() {
     container.appendChild(renderer.domElement);
 
     // --- Lights ---
-    const ambientLight = new THREE.AmbientLight(0x0f172a, 1.8);
+    // --- Lights (Infused with Narvent's White Roses color scheme: Cyan + Amber + Magenta) ---
+    const ambientLight = new THREE.AmbientLight(0x0a0e20, 1.9);
     scene.add(ambientLight);
 
-    const cyanPoint = new THREE.PointLight(0x38bdf8, 5, 25);
+    const cyanPoint = new THREE.PointLight(0x00f0ff, 5.5, 26);
     cyanPoint.position.set(-5, 4, 6);
     scene.add(cyanPoint);
 
-    const magentaPoint = new THREE.PointLight(0xd946ef, 6, 25);
-    magentaPoint.position.set(5, -4, 6);
-    scene.add(magentaPoint);
+    const amberPoint = new THREE.PointLight(0xff6b35, 4.5, 24);
+    amberPoint.position.set(5, -4, 6);
+    scene.add(amberPoint);
 
-    const coreLight = new THREE.PointLight(0x818cf8, 4, 15);
+    const coreLight = new THREE.PointLight(0xd946ef, 5, 18);
     coreLight.position.set(0, 0, 0);
     scene.add(coreLight);
 
@@ -91,12 +92,12 @@ export default function CosmicResonator3D() {
     const ringGroup = new THREE.Group();
     scene.add(ringGroup);
 
-    // Outer Ring (Cyan)
+    // Outer Ring (Neon Cyan)
     const ring1Geo = new THREE.TorusGeometry(3.8, 0.038, 16, 120);
     const ring1Mat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
+      color: 0x00f0ff,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
     });
     const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
