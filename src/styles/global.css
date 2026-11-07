@@ -41,11 +41,11 @@
   --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
-  /* Responsive Typography Scale Tokens */
-  --fs-display: clamp(2.55rem, 8.2vw, 7.2rem);
-  --fs-h1: clamp(2.15rem, 5.8vw, 5.1rem);
-  --fs-h2: clamp(1.75rem, 4.4vw, 3.8rem);
-  --fs-h3: clamp(1.2rem, 2.4vw, 2rem);
+  /* Responsive Typography Scale Tokens (Calibrated for wide Unbounded glyphs) */
+  --fs-display: clamp(2.05rem, 5.6vw, 5.1rem);
+  --fs-h1: clamp(1.65rem, 4.2vw, 3.7rem);
+  --fs-h2: clamp(1.35rem, 3.2vw, 2.75rem);
+  --fs-h3: clamp(1.1rem, 2vw, 1.75rem);
   --fs-body: clamp(0.92rem, 1.25vw, 1.06rem);
   --fs-nav: 0.78rem;
   --fs-meta: 0.7rem;

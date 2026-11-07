@@ -52,7 +52,9 @@ export function RevealText({
               display: 'inline-block',
               overflow: 'hidden',
               verticalAlign: 'bottom',
-              paddingBottom: '0.06em',
+              paddingBottom: '0.08em',
+              paddingRight: '0.08em',
+              maxWidth: '100%',
             }}
           >
             <motion.span
