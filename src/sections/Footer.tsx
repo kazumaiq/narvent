@@ -96,7 +96,19 @@ export default function Footer() {
           }}
         >
           <div>{t.footer.copyright}</div>
-          <div>{t.footer.distribution}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+            <span>{t.footer.distribution}</span>
+            <span style={{ opacity: 0.35 }}>•</span>
+            <a href="/about" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+              ABOUT
+            </a>
+            <a href="/contact" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+              CONTACT
+            </a>
+            <a href="/privacy" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+              PRIVACY
+            </a>
+          </div>
         </div>
       </div>
     </footer>
