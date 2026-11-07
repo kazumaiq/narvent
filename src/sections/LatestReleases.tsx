@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Sparkles, Disc3, ChevronRight, ChevronLeft, Calendar, Music } from 'lucide-react';
+import { ArrowUpRight, Play } from 'lucide-react';
 import { getLatestReleases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
+import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
 
 export default function LatestReleases() {
   const { t, lang } = useLanguage();
@@ -12,12 +13,11 @@ export default function LatestReleases() {
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
   const featured = latestReleases[0];
   const rest = latestReleases.slice(1);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const scrollList = (dir: 'left' | 'right') => {
-    if (!scrollContainerRef.current) return;
-    const amount = 320;
-    scrollContainerRef.current.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+  const getTypeLabel = (type: Release['type']) => {
+    if (type === 'album') return t.latest.album;
+    if (type === 'ep') return t.latest.ep;
+    return t.latest.single;
   };
 
   return (
@@ -25,191 +25,158 @@ export default function LatestReleases() {
       id="latest"
       style={{
         position: 'relative',
-        padding: 'clamp(5rem, 10vh, 9rem) 0',
+        padding: 'clamp(5rem, 11vh, 9.5rem) 0',
         zIndex: 2,
       }}
     >
+      {/* Drifting Kinetic Background Watermark */}
+      <ParallaxWatermark text="RELEASES // 2026" top="6%" speed={-110} opacity={0.032} />
+
       <div className="container">
-        {/* Заголовок секции */}
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: '3.5rem' }}
+        {/* Section Header */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            gap: '1.5rem',
+            marginBottom: 'clamp(3rem, 6vh, 4.5rem)',
+          }}
         >
-          <span className="editorial-badge">
-            <Sparkles size={11} color="var(--electric-blue)" />
-            {t.latest.badge}
-          </span>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              gap: '1.5rem',
-            }}
-          >
-            <div>
-              <h2 className="editorial-title">{t.latest.title}</h2>
-              <p className="editorial-subtitle">
-                {t.latest.subtitle}
-              </p>
+          <div>
+            <div className="editorial-kicker">
+              <span>02 // {t.latest.badge}</span>
             </div>
-
-            <a
-              href="#archive"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                color: 'var(--electric-blue)',
-                letterSpacing: '0.04em',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#ffffff';
-                e.currentTarget.style.transform = 'translateX(4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--electric-blue)';
-                e.currentTarget.style.transform = 'translateX(0)';
-              }}
-            >
-              <span>{t.latest.viewAll3D}</span>
-              <ChevronRight size={15} />
-            </a>
+            <h2 className="editorial-title">
+              <RevealText
+                text={t.latest.title}
+                serifWord={lang === 'ru' ? 'релизы' : 'Releases'}
+              />
+            </h2>
+            <p className="editorial-subtitle">{t.latest.subtitle}</p>
           </div>
-        </motion.div>
 
-        {/* Главный флагманский свежий релиз */}
+          <a href="#archive" className="btn-editorial">
+            <span>{t.latest.viewAll3D}</span>
+            <ArrowUpRight size={15} />
+          </a>
+        </div>
+
+        {/* Flagship Newest Release — Asymmetric Editorial Spread */}
         {featured && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          <div
             onClick={() => setSelectedRelease(featured)}
-            className="latest-featured-grid"
-            style={{
-              background: 'var(--bg-glass)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-              border: '1px solid var(--border-line)',
-              borderRadius: '24px',
-              padding: 'clamp(1.25rem, 2.5vw, 2.25rem)',
-              cursor: 'pointer',
-              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-              marginBottom: '3.5rem',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-              e.currentTarget.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(217, 70, 239, 0.15)';
-              e.currentTarget.style.transform = 'translateY(-4px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-line)';
-              e.currentTarget.style.boxShadow = 'none';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
+            className="latest-featured-spread"
+            style={{ marginBottom: 'clamp(4rem, 8vh, 6.5rem)' }}
           >
-            {/* Обложка */}
-            <div style={{ borderRadius: '18px', overflow: 'hidden', position: 'relative' }}>
-              <ReleaseCover release={featured} size="100%" />
+            {/* Left Column: Large Artwork with Clip-Path Reveal & Scroll Parallax */}
+            <div style={{ position: 'relative' }}>
+              <RevealImage direction="left" parallax={18}>
+                <ReleaseCover release={featured} size="100%" priority />
+              </RevealImage>
+
+              {/* Editorial Index Stamp */}
               <div
                 style={{
                   position: 'absolute',
                   top: '1rem',
                   left: '1rem',
-                  background: 'rgba(217, 70, 239, 0.9)',
-                  padding: '0.35rem 0.9rem',
-                  borderRadius: '100px',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
+                  background: 'rgba(2, 2, 6, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(217, 70, 239, 0.5)',
+                  padding: '0.35rem 0.75rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.66rem',
+                  fontWeight: 600,
                   color: '#ffffff',
-                  letterSpacing: '0.06em',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  boxShadow: '0 4px 15px rgba(217, 70, 239, 0.4)',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  zIndex: 2,
                 }}
               >
-                <Sparkles size={11} />
-                {t.latest.newReleaseBadge}
+                01 // {t.latest.newReleaseBadge}
               </div>
             </div>
 
-            {/* Описание и метаданные */}
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.85rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.74rem',
-                    color: 'var(--electric-blue)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.12em',
-                    fontWeight: 600,
-                  }}
-                >
-                  {featured.type === 'album' ? t.latest.album : featured.type === 'ep' ? t.latest.ep : t.latest.single}
+            {/* Right Column: Monumental Typography & Metadata */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                gap: '1.1rem',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                <span style={{ color: 'var(--neon-magenta)', fontWeight: 600 }}>
+                  {getTypeLabel(featured.type)}
                 </span>
-                <span style={{ color: 'var(--text-dim)', fontSize: '0.75rem' }}>•</span>
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.74rem',
-                    color: 'var(--text-dim)',
-                  }}
-                >
+                <span style={{ color: 'rgba(255,255,255,0.22)' }}>//</span>
+                <span style={{ color: 'var(--electric-blue)', fontWeight: 600 }}>
                   {formatReleaseDate(featured.releaseDate, lang)}
                 </span>
+                {featured.trackCount ? (
+                  <>
+                    <span style={{ color: 'rgba(255,255,255,0.22)' }}>//</span>
+                    <span style={{ color: 'var(--text-muted)' }}>
+                      {featured.trackCount} {t.latest.tracksSuffix}
+                    </span>
+                  </>
+                ) : null}
               </div>
 
               <h3
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: 'clamp(1.8rem, 3.8vw, 3rem)',
-                  fontWeight: 800,
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(2.1rem, 4.6vw, 4rem)',
+                  fontWeight: 900,
                   color: '#ffffff',
-                  lineHeight: 1.05,
-                  letterSpacing: '-0.03em',
+                  lineHeight: 0.96,
+                  letterSpacing: '-0.04em',
+                  textTransform: 'uppercase',
                   margin: 0,
                 }}
               >
-                {featured.title}
+                <RevealText text={featured.title} />
               </h3>
 
-              <p
+              <div
                 style={{
-                  fontFamily: "'Manrope', sans-serif",
-                  fontSize: 'clamp(0.92rem, 1.4vw, 1.05rem)',
-                  color: 'var(--text-muted)',
-                  lineHeight: 1.6,
-                  maxWidth: '480px',
-                  margin: 0,
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
+                  fontWeight: 600,
+                  color: '#e2e8f0',
                 }}
               >
                 {featured.artist}
                 {featured.featuring && (
                   <span style={{ color: 'var(--electric-blue)' }}>
-                    {' '}{t.latest.featWith} {featured.featuring.join(', ')}
+                    {' '}
+                    {t.latest.featWith} {featured.featuring.join(', ')}
                   </span>
                 )}
-              </p>
+              </div>
 
               {featured.description && (
                 <p
                   style={{
-                    fontFamily: "'Manrope', sans-serif",
-                    fontSize: '0.88rem',
-                    color: 'var(--text-dim)',
-                    lineHeight: 1.6,
+                    fontFamily: 'var(--font-main)',
+                    fontSize: 'clamp(0.9rem, 1.25vw, 1.02rem)',
+                    color: 'var(--text-muted)',
+                    lineHeight: 1.65,
+                    maxWidth: '520px',
                     margin: 0,
                   }}
                 >
@@ -217,280 +184,154 @@ export default function LatestReleases() {
                 </p>
               )}
 
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '1rem',
-                  alignItems: 'center',
-                  marginTop: '0.5rem',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.74rem',
-                    color: 'var(--text-muted)',
-                  }}
-                >
-                  <Music size={13} color="var(--electric-blue)" />
-                  {featured.trackCount ? `${featured.trackCount} ${t.latest.tracksSuffix}` : t.latest.officialMaster}
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.74rem',
-                    color: 'var(--text-muted)',
-                  }}
-                >
-                  <Calendar size={13} color="var(--neon-magenta)" />
-                  {featured.year} {t.latest.yearSuffix}
-                </div>
-              </div>
-
-              <div style={{ marginTop: '0.75rem' }}>
-                <span
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.55rem',
-                    padding: '0.85rem 1.65rem',
-                    borderRadius: '100px',
-                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(217, 70, 239, 0.35) 100%)',
-                    border: '1px solid rgba(217, 70, 239, 0.45)',
-                    color: '#ffffff',
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '0.84rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    minHeight: '44px',
-                  }}
-                >
-                  <Disc3 size={15} />
-                  {t.latest.listenRelease}
+              <div style={{ marginTop: '0.65rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <span className="btn-editorial primary">
+                  <Play size={14} fill="currentColor" />
+                  <span>{t.latest.listenRelease}</span>
                 </span>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
-        {/* Горизонтальная карусель свежих релизов */}
+        {/* Staggered Asymmetric Editorial Release Grid (Chronological Newest-First) */}
         <div>
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: '1.25rem',
+              marginBottom: '2rem',
+              paddingBottom: '0.85rem',
+              borderBottom: '1px solid var(--border-line)',
             }}
           >
             <span
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.72rem',
-                color: 'var(--text-dim)',
-                letterSpacing: '0.12em',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.7rem',
+                color: 'var(--text-muted)',
+                letterSpacing: '0.16em',
                 textTransform: 'uppercase',
               }}
             >
-              {t.latest.otherReleases} // {rest.length}
+              {t.latest.otherReleases} // 02—0{rest.length + 1}
             </span>
-
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button
-                onClick={() => scrollList('left')}
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid var(--border-line)',
-                  color: 'var(--text-muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                }}
-                aria-label={t.latest.prev}
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                onClick={() => scrollList('right')}
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid var(--border-line)',
-                  color: 'var(--text-muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                }}
-                aria-label={t.latest.next}
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                color: 'var(--electric-blue)',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+              }}
+            >
+              2025—2026
+            </span>
           </div>
 
-          <div
-            ref={scrollContainerRef}
-            style={{
-              display: 'flex',
-              gap: '1.25rem',
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              scrollbarWidth: 'none',
-              paddingBottom: '0.75rem',
-            }}
-          >
+          <div className="editorial-releases-grid">
             {rest.map((release, index) => (
-              <motion.div
+              <motion.article
                 key={release.id}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.07 }}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.7, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setSelectedRelease(release)}
+                className="editorial-release-card"
                 style={{
-                  flexShrink: 0,
-                  width: 'clamp(230px, 28vw, 300px)',
-                  scrollSnapAlign: 'start',
-                  background: 'var(--bg-glass)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid var(--border-line)',
-                  borderRadius: '20px',
-                  padding: '1.1rem',
                   cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-                  e.currentTarget.style.boxShadow = '0 18px 40px rgba(0,0,0,0.65), 0 0 25px rgba(217,70,239,0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'var(--border-line)';
-                  e.currentTarget.style.boxShadow = 'none';
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
-                <div style={{ borderRadius: '14px', overflow: 'hidden', marginBottom: '0.9rem' }}>
-                  <ReleaseCover release={release} size="100%" />
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '0.35rem',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.68rem',
-                      color: 'var(--electric-blue)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.1em',
-                      fontWeight: 600,
-                    }}
-                  >
-                    {release.type === 'album' ? t.latest.album : release.type === 'ep' ? t.latest.ep : t.latest.single}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.68rem',
-                      color: 'var(--text-dim)',
-                    }}
-                  >
-                    {formatReleaseDate(release.releaseDate, lang)}
-                  </span>
-                </div>
-
-                <h4
-                  style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '1.15rem',
-                    fontWeight: 700,
-                    color: '#ffffff',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  {release.title}
-                </h4>
-
-                <p
-                  style={{
-                    fontFamily: "'Manrope', sans-serif",
-                    fontSize: '0.82rem',
-                    color: 'var(--text-muted)',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    margin: 0,
-                  }}
-                >
-                  {release.artist}
-                  {release.featuring && (
-                    <span style={{ color: 'var(--electric-blue)' }}>
-                      {' '}ft. {release.featuring.join(', ')}
-                    </span>
-                  )}
-                </p>
-
+                {/* Top Index & Date Bar */}
                 <div
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginTop: '0.85rem',
-                    paddingTop: '0.65rem',
-                    borderTop: '1px solid var(--border-line)',
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: 'var(--font-mono)',
                     fontSize: '0.68rem',
-                    color: 'var(--text-dim)',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    paddingBottom: '0.6rem',
+                    marginBottom: '0.75rem',
+                    borderBottom: '1px solid var(--border-line)',
                   }}
                 >
-                  <span>{release.trackCount ? `${release.trackCount} ${t.latest.tracksSuffix}` : (lang === 'ru' ? 'Сингл' : 'Single')}</span>
-                  <span style={{ color: 'var(--neon-magenta)', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                    {lang === 'ru' ? 'Слушать' : 'Listen'} <ExternalLink size={10} />
+                  <span style={{ color: 'var(--text-dim)', fontWeight: 600 }}>
+                    0{index + 2} // {getTypeLabel(release.type)}
+                  </span>
+                  <span style={{ color: 'var(--electric-blue)', fontWeight: 500 }}>
+                    {formatReleaseDate(release.releaseDate, lang)}
                   </span>
                 </div>
-              </motion.div>
+
+                {/* Large Cover with Clip-Path Reveal */}
+                <RevealImage
+                  direction="up"
+                  delay={(index % 3) * 0.06}
+                  parallax={index % 2 === 0 ? 10 : -10}
+                  style={{ marginBottom: '1.1rem' }}
+                >
+                  <ReleaseCover release={release} size="100%" />
+                </RevealImage>
+
+                {/* Title & Artist + Listen Button */}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    gap: '0.85rem',
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <h4
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.15rem, 1.9vw, 1.5rem)',
+                        fontWeight: 800,
+                        color: '#ffffff',
+                        letterSpacing: '-0.025em',
+                        lineHeight: 1.1,
+                        textTransform: 'uppercase',
+                        margin: '0 0 0.3rem 0',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {release.title}
+                    </h4>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-main)',
+                        fontSize: '0.84rem',
+                        color: 'var(--text-muted)',
+                        margin: 0,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {release.artist}
+                      {release.featuring && (
+                        <span style={{ color: 'var(--electric-blue)' }}>
+                          {' '}
+                          ft. {release.featuring.join(', ')}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+
+                  <span className="btn-editorial listen-pill" style={{ flexShrink: 0 }}>
+                    {t.latest.listenRelease}
+                  </span>
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>
@@ -500,14 +341,6 @@ export default function LatestReleases() {
         release={selectedRelease}
         onClose={() => setSelectedRelease(null)}
       />
-
-      <style>{`
-        @media (max-width: 900px) {
-          .latest-featured-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

@@ -1,20 +1,25 @@
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { coverManifest } from '../data/coverManifest';
+import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
 
 export default function About() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const achievements = [
     {
+      index: '01',
       value: t.about.riaaValue,
       label: t.about.riaaLabel,
       detail: t.about.riaaDetail,
+      accent: 'var(--neon-magenta)',
     },
     {
+      index: '02',
       value: t.about.billboardValue,
       label: t.about.billboardLabel,
       detail: t.about.billboardDetail,
+      accent: 'var(--electric-blue)',
     },
   ];
 
@@ -23,146 +28,204 @@ export default function About() {
       id="about"
       style={{
         position: 'relative',
-        padding: 'clamp(5rem, 10vh, 9rem) 0',
+        padding: 'clamp(5rem, 11vh, 9.5rem) 0',
         zIndex: 2,
       }}
     >
-      <div className="container">
-        {/* Заголовок секции */}
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: '4rem' }}
-        >
-          <span className="editorial-badge magenta">
-            <Sparkles size={11} color="var(--neon-magenta)" />
-            {t.about.badge}
-          </span>
-          <h2 className="editorial-title">{t.about.title}</h2>
-        </motion.div>
+      {/* Drifting Kinetic Background Watermark */}
+      <ParallaxWatermark text="ARCHITECT // SOUND" top="8%" speed={90} opacity={0.03} />
 
-        {/* Двухколоночная структура */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 35vw, 520px), 1fr))',
-            gap: 'clamp(2rem, 5vw, 4.5rem)',
-            alignItems: 'start',
-            marginBottom: '4.5rem',
-          }}
-        >
-          {/* Левая колонка: Биография и Философия */}
+      <div className="container">
+        {/* Section Header */}
+        <div style={{ marginBottom: 'clamp(3rem, 6vh, 4.5rem)' }}>
+          <div className="editorial-kicker magenta">
+            <span>05 // {t.about.badge}</span>
+          </div>
+          <h2 className="editorial-title">
+            <RevealText
+              text={t.about.title}
+              serifWord={lang === 'ru' ? 'звучания' : 'Sound'}
+            />
+          </h2>
+        </div>
+
+        {/* Asymmetric Two-Column Editorial Spread */}
+        <div className="about-editorial-grid">
+          {/* Left Column: Concise Biography & Editorial Quote */}
           <div>
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(1.35rem, 2.5vw, 1.95rem)',
+                fontFamily: 'var(--font-ui)',
+                fontSize: 'clamp(1.25rem, 2.3vw, 1.85rem)',
                 fontWeight: 600,
                 color: '#ffffff',
                 lineHeight: 1.35,
                 letterSpacing: '-0.02em',
-                marginBottom: '1.75rem',
+                marginBottom: '1.5rem',
               }}
             >
               {t.about.lead}
-            </div>
+            </motion.div>
 
-            <p
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.75, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontFamily: "'Manrope', sans-serif",
-                fontSize: '1rem',
+                fontFamily: 'var(--font-main)',
+                fontSize: 'clamp(0.95rem, 1.3vw, 1.06rem)',
                 color: 'var(--text-muted)',
-                lineHeight: 1.8,
-                marginBottom: '1.5rem',
-                fontWeight: 400,
-                whiteSpace: 'pre-line',
+                lineHeight: 1.75,
+                marginBottom: '2.25rem',
               }}
             >
               {t.about.bio}
-            </p>
+            </motion.p>
 
-            {/* Цитата артиста */}
-            <div
+            {/* High-Contrast Editorial Quote in Cormorant Garamond Italic */}
+            <motion.blockquote
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 position: 'relative',
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(217, 70, 239, 0.08) 100%)',
-                borderLeft: '3px solid var(--neon-magenta)',
-                padding: '1.25rem 1.5rem',
-                borderRadius: '0 16px 16px 0',
-                margin: '2rem 0',
+                borderLeft: '2px solid var(--neon-magenta)',
+                padding: '0.75rem 0 0.75rem 1.5rem',
+                margin: 0,
               }}
             >
               <div
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '1.15rem',
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(1.35rem, 2.4vw, 1.95rem)',
                   fontStyle: 'italic',
-                  color: '#ffffff',
-                  lineHeight: 1.5,
-                  marginBottom: '0.5rem',
+                  fontWeight: 600,
+                  color: '#f8fafc',
+                  lineHeight: 1.3,
+                  marginBottom: '0.65rem',
                 }}
               >
                 {t.about.quote}
               </div>
-              <div
+              <cite
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.72rem',
+                  fontStyle: 'normal',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
                   color: 'var(--neon-magenta)',
-                  letterSpacing: '0.12em',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
                 }}
               >
                 {t.about.quoteAuthor}
-              </div>
-            </div>
+              </cite>
+            </motion.blockquote>
           </div>
 
-          {/* Правая колонка: Матрица верифицированных достижений */}
-          <div>
+          {/* Right Column: Asymmetric Artwork Diptych + Architectural Milestones */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {/* Asymmetric Overlapping Visual Diptych with Clip-Path Reveal & Differential Parallax */}
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(140px, 20vw, 220px), 1fr))',
-                gap: 'clamp(0.85rem, 1.8vw, 1.25rem)',
+                gridTemplateColumns: '1.15fr 0.85fr',
+                gap: '1rem',
+                alignItems: 'end',
+              }}
+            >
+              <RevealImage
+                direction="left"
+                parallax={16}
+                style={{
+                  aspectRatio: '1 / 1',
+                  borderRadius: '4px',
+                  border: '1px solid var(--border-strong)',
+                  boxShadow: '0 24px 60px rgba(0, 0, 0, 0.75)',
+                }}
+              >
+                <img
+                  src={coverManifest['memory-reboot']}
+                  alt="Memory Reboot — Narvent & VØJ"
+                  width={420}
+                  height={420}
+                  decoding="async"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </RevealImage>
+
+              <RevealImage
+                direction="right"
+                delay={0.12}
+                parallax={-18}
+                style={{
+                  aspectRatio: '1 / 1',
+                  borderRadius: '4px',
+                  border: '1px solid var(--border-strong)',
+                  boxShadow: '0 24px 60px rgba(0, 0, 0, 0.75)',
+                  marginBottom: '1.25rem',
+                }}
+              >
+                <img
+                  src={coverManifest['genesis']}
+                  alt="Genesis — Narvent"
+                  width={340}
+                  height={340}
+                  decoding="async"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </RevealImage>
+            </div>
+
+            {/* Verified Achievements Architectural Grid */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                borderTop: '1px solid var(--border-strong)',
+                borderBottom: '1px solid var(--border-strong)',
               }}
             >
               {achievements.map((item, idx) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
+                  transition={{ duration: 0.6, delay: idx * 0.08 }}
                   style={{
-                    background: 'var(--bg-glass)',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    border: '1px solid var(--border-line)',
-                    borderRadius: '18px',
-                    padding: '1.5rem',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--border-line)';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    padding: '1.5rem 1.25rem',
+                    borderRight: idx === 0 ? '1px solid var(--border-line)' : 'none',
                   }}
                 >
                   <div
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)',
-                      fontWeight: 800,
-                      color: idx === 0 ? '#ffd166' : 'var(--electric-blue)',
-                      lineHeight: 1.1,
-                      marginBottom: '0.35rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.66rem',
+                      color: item.accent,
+                      letterSpacing: '0.16em',
+                      textTransform: 'uppercase',
+                      marginBottom: '0.5rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item.index} // {item.label}
+                  </div>
+
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.85rem, 3.2vw, 2.75rem)',
+                      fontWeight: 900,
+                      color: '#ffffff',
+                      letterSpacing: '-0.04em',
+                      lineHeight: 1,
+                      marginBottom: '0.5rem',
                     }}
                   >
                     {item.value}
@@ -170,22 +233,8 @@ export default function About() {
 
                   <div
                     style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.72rem',
-                      color: 'var(--electric-blue)',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      marginBottom: '0.6rem',
-                      fontWeight: 600,
-                    }}
-                  >
-                    {item.label}
-                  </div>
-
-                  <div
-                    style={{
-                      fontFamily: "'Manrope', sans-serif",
-                      fontSize: '0.82rem',
+                      fontFamily: 'var(--font-main)',
+                      fontSize: '0.84rem',
                       color: 'var(--text-muted)',
                       lineHeight: 1.5,
                     }}

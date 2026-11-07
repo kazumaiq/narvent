@@ -26,8 +26,6 @@ export default function ReleaseCover({
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
   const src = release.coverImage;
 
-  // State is compared against the *current* src, so when this instance is reused
-  // for another release, stale "failed"/"loaded" flags never carry over.
   const showImage = Boolean(src) && failedSrc !== src;
   const isLoaded = loadedSrc === src;
 
@@ -39,10 +37,10 @@ export default function ReleaseCover({
         width: typeof size === 'number' ? `${size}px` : size,
         aspectRatio: '1 / 1',
         position: 'relative',
-        borderRadius: '14px',
+        borderRadius: '4px',
         overflow: 'hidden',
-        boxShadow: '0 14px 40px rgba(0,0,0,0.6)',
-        background: '#0b0c1a',
+        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.75)',
+        background: '#080916',
         userSelect: 'none',
       }}
     >
@@ -53,7 +51,7 @@ export default function ReleaseCover({
           alt={`${release.title} — ${release.artist}`}
           width={640}
           height={640}
-          loading={priority ? 'eager' : 'lazy'}
+          loading="eager"
           decoding="async"
           onLoad={() => setLoadedSrc(src!)}
           onError={() => setFailedSrc(src!)}
@@ -65,7 +63,7 @@ export default function ReleaseCover({
             objectFit: 'cover',
             display: 'block',
             opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+            transition: 'opacity 0.45s ease, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         />
       ) : (
@@ -84,9 +82,9 @@ export default function ReleaseCover({
         >
           <div
             style={{
-              fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
+              fontFamily: 'var(--font-display)',
               fontSize: 'clamp(13px, 1.4rem, 20px)',
-              fontWeight: 700,
+              fontWeight: 800,
               color: 'rgba(255,255,255,0.85)',
               lineHeight: 1.15,
             }}
@@ -97,12 +95,12 @@ export default function ReleaseCover({
         </div>
       )}
 
-      {/* Subtle inner vignette */}
+      {/* Architectural hairline inner frame */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.08)',
+          boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
           borderRadius: 'inherit',
           pointerEvents: 'none',
         }}

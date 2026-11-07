@@ -12,9 +12,9 @@ export default function Footer() {
     <footer
       style={{
         position: 'relative',
-        padding: '5rem 0 3.5rem',
-        borderTop: '1px solid var(--border-line)',
-        background: 'linear-gradient(180deg, transparent 0%, #010104 100%)',
+        padding: '3.5rem 0 3rem',
+        borderTop: '1px solid var(--border-strong)',
+        background: 'linear-gradient(180deg, rgba(2, 2, 6, 0.5) 0%, #010104 100%)',
         zIndex: 2,
       }}
     >
@@ -25,17 +25,17 @@ export default function Footer() {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '2rem',
-            marginBottom: '3rem',
+            gap: '1.5rem',
+            marginBottom: '2.25rem',
           }}
         >
-          {/* Навигационные ссылки вместо дублирующего блока текста */}
+          {/* Compact Navigation Links — Zero redundant artist bio/NARVENT blocks */}
           <nav
             aria-label="Footer Navigation"
             style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: 'clamp(1rem, 2vw, 1.75rem)',
+              gap: 'clamp(1rem, 2.2vw, 2rem)',
               alignItems: 'center',
             }}
           >
@@ -51,10 +51,11 @@ export default function Footer() {
                 key={link.href}
                 href={link.href}
                 style={{
-                  fontFamily: "var(--font-ui, 'Space Grotesk', sans-serif)",
-                  fontSize: '0.82rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.06em',
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: '0.76rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
                   color: 'var(--text-muted)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease',
@@ -71,64 +72,31 @@ export default function Footer() {
             ))}
           </nav>
 
-          {/* Кнопка наверх */}
-          <button
-            onClick={scrollToTop}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.8rem 1.5rem',
-              borderRadius: '100px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid var(--border-line)',
-              color: '#ffffff',
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-              transition: 'all 0.25s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(217, 70, 239, 0.2)';
-              e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.borderColor = 'var(--border-line)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            <ArrowUp size={14} />
+          {/* Back to Top */}
+          <button onClick={scrollToTop} className="btn-editorial listen-pill">
+            <ArrowUp size={13} />
             <span>{t.footer.backToTop}</span>
           </button>
         </div>
 
-        {/* Копирайт и юридическая информация */}
+        {/* Copyright & Distribution */}
         <div
           style={{
-            paddingTop: '2rem',
+            paddingTop: '1.5rem',
             borderTop: '1px solid var(--border-line)',
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '1rem',
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.72rem',
+            gap: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.68rem',
+            letterSpacing: '0.08em',
             color: 'var(--text-dim)',
           }}
         >
-          <div>
-            {t.footer.copyright}
-          </div>
-
-          <div>
-            {t.footer.distribution}
-          </div>
+          <div>{t.footer.copyright}</div>
+          <div>{t.footer.distribution}</div>
         </div>
       </div>
     </footer>

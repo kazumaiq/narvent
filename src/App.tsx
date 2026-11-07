@@ -14,7 +14,7 @@ import MusicArchive from './sections/MusicArchive';
 import About from './sections/About';
 import SocialUniverse from './sections/SocialUniverse';
 import Footer from './sections/Footer';
-import { HeroMarquee, TransitionMarquee, FooterMarquee } from './components/MarqueeTicker';
+import { HeroMarquee, TransitionMarquee } from './components/MarqueeTicker';
 
 function ScrollGradientOverlay() {
   const [hue, setHue] = useState(240);
@@ -136,10 +136,6 @@ export default function App() {
 
             {/* 06. СОЦИАЛЬНЫЕ СЕТИ */}
             <SocialUniverse />
-            <SectionSpacer />
-
-            {/* SUBTLE FOOTER BROADCAST MARQUEE */}
-            <FooterMarquee />
 
             {/* ФУТЕР */}
             <Footer />

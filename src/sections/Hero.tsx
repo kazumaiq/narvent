@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Disc3, Play, ExternalLink, ArrowDown, Sparkles, Radio } from 'lucide-react';
+import { Disc3, Play, ArrowUpRight } from 'lucide-react';
 import CosmicResonator3D from '../scenes/CosmicResonator3D';
 import ReleaseModal from '../components/ReleaseModal';
-import { getLatestReleases, Release } from '../data/releases';
+import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
+import { getLatestReleases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Hero() {
@@ -24,10 +25,10 @@ export default function Hero() {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Parallax on scroll
+  // Differential scroll parallax (no hard opacity cutoffs)
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 800], [0, 150]);
-  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0.2]);
+  const contentY = useTransform(scrollY, [0, 900], [0, 95]);
+  const resonatorY = useTransform(scrollY, [0, 900], [0, -65]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -42,42 +43,28 @@ export default function Hero() {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        paddingTop: 'clamp(5rem, 10vh, 7.5rem)',
-        paddingBottom: 'clamp(3.5rem, 7vh, 5rem)',
+        paddingTop: 'clamp(5.5rem, 11vh, 8rem)',
+        paddingBottom: 'clamp(4rem, 8vh, 6.5rem)',
         zIndex: 2,
-        overflow: 'hidden',
+        /* No vertical overflow:hidden so radial atmospheric light never clips in a straight line */
       }}
     >
-      {/* Dynamic Background Parallax Nebula Glare */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '15%',
-          right: '10%',
-          width: 'clamp(280px, 40vw, 550px)',
-          height: 'clamp(280px, 40vw, 550px)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(217, 70, 239, 0.12) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%)',
-          filter: 'blur(80px)',
-          transform: `translate3d(${mousePos.x * -20}px, ${mousePos.y * -20}px, 0)`,
-          transition: 'transform 0.4s ease-out',
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Large Drifting Kinetic Background Watermark */}
+      <ParallaxWatermark text="NARVENT // SYNTHWAVE" top="14%" speed={-90} opacity={0.032} />
 
-      {/* Subtle Central Ambient Glow — Soft and fully contained, no hard edges or cutoffs */}
+      {/* Feathered Cosmic Nebula Illumination — smoothly fades to 0% well before section edges */}
       <div
         style={{
           position: 'absolute',
-          top: '35%',
-          left: '20%',
-          width: 'clamp(260px, 35vw, 500px)',
-          height: 'clamp(260px, 35vw, 500px)',
+          top: '8%',
+          right: '6%',
+          width: 'clamp(260px, 38vw, 520px)',
+          height: 'clamp(260px, 38vw, 520px)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)',
-          filter: 'blur(70px)',
-          transform: `translate3d(${mousePos.x * 12}px, ${mousePos.y * 12}px, 0)`,
-          transition: 'transform 0.5s ease-out',
+          background:
+            'radial-gradient(circle, rgba(217, 70, 239, 0.11) 0%, rgba(56, 189, 248, 0.05) 38%, rgba(2, 2, 6, 0) 70%)',
+          transform: `translate3d(${mousePos.x * -18}px, ${mousePos.y * -18}px, 0)`,
+          transition: 'transform 0.45s ease-out',
           pointerEvents: 'none',
         }}
       />
@@ -86,16 +73,12 @@ export default function Hero() {
         className="container-wide"
         style={{
           width: '100%',
-          y: heroY,
-          opacity: heroOpacity,
+          y: contentY,
         }}
       >
         <div className="hero-editorial-grid">
-          {/* Left Column: Личность артиста, Релизы, Достижения */}
-          <motion.div
-            initial={{ opacity: 0, x: -35 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          {/* Left Column: Monumental Typography + Featured Release Spotlight + Editorial CTAs */}
+          <div
             style={{
               position: 'relative',
               zIndex: 3,
@@ -104,103 +87,140 @@ export default function Hero() {
               maxWidth: '100%',
             }}
           >
-            {/* Микро-бейдж */}
-            <div className="editorial-badge magenta" style={{ marginBottom: '1.25rem' }}>
-              <Radio size={12} color="var(--neon-magenta)" className="pulse-dot" />
-              <span>{t.hero.badge}</span>
-            </div>
+            {/* Architectural Index Kicker */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="editorial-kicker magenta"
+            >
+              <span>01 // {t.hero.badge}</span>
+            </motion.div>
 
-            {/* Заголовок NARVENT */}
+            {/* Monumental Display Heading */}
             <h1
               style={{
-                fontFamily: "var(--font-display)",
-                fontSize: 'clamp(3rem, 8.5vw, 6.6rem)',
-                fontWeight: 800,
-                letterSpacing: '-0.04em',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--fs-display)',
+                fontWeight: 900,
+                letterSpacing: '-0.045em',
                 lineHeight: 0.92,
-                background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                margin: '0 0 1rem 0',
+                color: '#ffffff',
+                textTransform: 'uppercase',
+                margin: '0 0 1.15rem 0',
+                wordBreak: 'keep-all',
               }}
             >
-              NARVENT
+              <RevealText text="NARVENT" stagger={0.06} />
             </h1>
 
-            {/* Лаконичный подзаголовок */}
-            <h2
+            {/* High-Contrast Editorial Subtitle with Cormorant Garamond Italic Accent */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontFamily: "var(--font-ui)",
-                fontSize: 'clamp(1.15rem, 2.2vw, 1.7rem)',
-                fontWeight: 600,
+                fontFamily: 'var(--font-ui)',
+                fontSize: 'clamp(1.15rem, 2.3vw, 1.85rem)',
+                fontWeight: 500,
                 color: '#e2e8f0',
-                lineHeight: 1.3,
+                lineHeight: 1.32,
                 letterSpacing: '-0.02em',
-                marginBottom: '0.85rem',
-                maxWidth: '580px',
+                marginBottom: '1.75rem',
+                maxWidth: '620px',
               }}
             >
-              {t.hero.subtitle}
-            </h2>
+              {lang === 'ru' ? (
+                <>
+                  Кинематографичный{' '}
+                  <span className="editorial-serif-accent" style={{ color: '#f0abfc' }}>
+                    синтвейв
+                  </span>{' '}
+                  и ночная электронная музыка.
+                </>
+              ) : (
+                <>
+                  Cinematic{' '}
+                  <span className="editorial-serif-accent" style={{ color: '#f0abfc' }}>
+                    synthwave
+                  </span>{' '}
+                  &amp; nocturnal electronic music.
+                </>
+              )}
+            </motion.div>
 
-            {/* Mobile 3D Artifact Centerpiece */}
+            {/* Mobile 3D Cosmic Resonator */}
             <div
               className="mobile-only"
               style={{
                 width: '100%',
-                height: 'clamp(190px, 28vh, 240px)',
-                margin: '0.5rem 0 1.25rem 0',
+                height: 'clamp(210px, 30vh, 260px)',
+                margin: '0.25rem 0 1.5rem 0',
                 position: 'relative',
               }}
             >
               <CosmicResonator3D />
             </div>
 
-            {/* Интерактивный виджет ПОСЛЕДНЕГО РЕЛИЗА прямо в Hero */}
+            {/* Asymmetric Featured Release Editorial Spotlight */}
             {latestRelease && (
               <motion.div
-                whileHover={{ scale: 1.02 }}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setSelectedRelease(latestRelease)}
                 style={{
-                  display: 'flex',
+                  display: 'grid',
+                  gridTemplateColumns: 'clamp(72px, 10vw, 92px) minmax(0, 1fr) auto',
                   alignItems: 'center',
-                  gap: '1.1rem',
-                  padding: '0.85rem 1.25rem',
-                  borderRadius: '16px',
-                  background: 'rgba(15, 17, 30, 0.75)',
-                  border: '1px solid rgba(217, 70, 239, 0.35)',
-                  backdropFilter: 'blur(16px)',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 25px rgba(217, 70, 239, 0.15)',
-                  maxWidth: '520px',
-                  marginBottom: '2rem',
+                  gap: 'clamp(0.85rem, 2vw, 1.35rem)',
+                  padding: 'clamp(0.85rem, 1.8vw, 1.15rem)',
+                  background: 'rgba(8, 9, 22, 0.72)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.16)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.16)',
+                  borderLeft: '2px solid var(--neon-magenta)',
+                  maxWidth: '560px',
+                  marginBottom: '2.25rem',
                   cursor: 'pointer',
-                  transition: 'border-color 0.3s ease',
+                  transition: 'background 0.35s ease, border-color 0.35s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(18, 20, 44, 0.85)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(8, 9, 22, 0.72)';
                 }}
               >
-                {/* Обложка последнего релиза */}
-                <div
+                {/* Clip-Path Reveal Artwork */}
+                <RevealImage
+                  direction="left"
+                  parallax={0}
                   style={{
+                    width: '100%',
+                    aspectRatio: '1 / 1',
                     position: 'relative',
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '10px',
-                    overflow: 'hidden',
-                    flexShrink: 0,
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.6)',
+                    background: '#090a18',
                   }}
                 >
                   <img
                     src={latestRelease.coverImage}
                     alt={latestRelease.title}
-                    width={56}
-                    height={56}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    width={92}
+                    height={92}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
                   />
                   <div
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'rgba(0,0,0,0.25)',
+                      background: 'rgba(2, 2, 6, 0.28)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -208,45 +228,31 @@ export default function Hero() {
                   >
                     <Play size={18} color="#ffffff" fill="#ffffff" />
                   </div>
-                </div>
+                </RevealImage>
 
-                {/* Метаданные релиза */}
-                <div style={{ flexGrow: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2px' }}>
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: '0.68rem',
-                        fontWeight: 700,
-                        color: 'var(--neon-magenta)',
-                        letterSpacing: '0.12em',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {t.hero.latestReleaseTag} {latestRelease.year}
-                    </span>
-                    {latestRelease.trackCount && latestRelease.trackCount > 1 && (
-                      <>
-                        <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.7rem' }}>•</span>
-                        <span
-                          style={{
-                            fontFamily: "'JetBrains Mono', monospace",
-                            fontSize: '0.68rem',
-                            color: 'var(--text-dim)',
-                          }}
-                        >
-                          {latestRelease.trackCount} {t.hero.tracksCount}
-                        </span>
-                      </>
-                    )}
+                {/* Editorial Release Metadata */}
+                <div style={{ minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.66rem',
+                      fontWeight: 600,
+                      color: 'var(--neon-magenta)',
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      marginBottom: '0.25rem',
+                    }}
+                  >
+                    {t.hero.latestReleaseTag} // {formatReleaseDate(latestRelease.releaseDate, lang)}
                   </div>
                   <div
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '1.05rem',
-                      fontWeight: 700,
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
+                      fontWeight: 800,
                       color: '#ffffff',
-                      letterSpacing: '-0.01em',
+                      letterSpacing: '-0.02em',
+                      textTransform: 'uppercase',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -254,103 +260,46 @@ export default function Hero() {
                   >
                     {latestRelease.title}
                   </div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.68rem',
+                      color: 'var(--text-muted)',
+                      marginTop: '0.15rem',
+                    }}
+                  >
+                    {latestRelease.artist}
+                    {latestRelease.trackCount ? ` • ${latestRelease.trackCount} ${t.hero.tracksCount}` : ''}
+                  </div>
                 </div>
 
-                {/* Кнопка Слушать */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    padding: '0.45rem 0.85rem',
-                    borderRadius: '8px',
-                    background: 'rgba(217, 70, 239, 0.2)',
-                    border: '1px solid rgba(217, 70, 239, 0.4)',
-                    color: '#ffffff',
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    flexShrink: 0,
-                  }}
-                >
-                  <span>{t.hero.listen}</span>
-                </div>
+                {/* Listen Button */}
+                <span className="btn-editorial listen-pill" style={{ flexShrink: 0 }}>
+                  {t.hero.listen}
+                </span>
               </motion.div>
             )}
 
-            {/* Кнопки действий */}
-            <div
+            {/* Architectural Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '0.65rem',
+                gap: '0.75rem',
                 alignItems: 'center',
-                marginBottom: '2rem',
                 width: '100%',
               }}
             >
-              <button
-                onClick={() => scrollTo('archive')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.55rem',
-                  padding: '0.75rem 1.4rem',
-                  borderRadius: '100px',
-                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.5) 0%, rgba(217, 70, 239, 0.45) 100%)',
-                  border: '1px solid rgba(217, 70, 239, 0.55)',
-                  boxShadow: '0 8px 30px rgba(99, 102, 241, 0.3), 0 0 25px rgba(217, 70, 239, 0.25)',
-                  color: '#ffffff',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.84rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  cursor: 'pointer',
-                  minHeight: '44px',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(217, 70, 239, 0.45)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(99, 102, 241, 0.3), 0 0 25px rgba(217, 70, 239, 0.25)';
-                }}
-              >
-                <Disc3 size={16} />
+              <button onClick={() => scrollTo('archive')} className="btn-editorial primary">
+                <Disc3 size={15} />
                 <span>{t.hero.cta3D}</span>
               </button>
 
-              <button
-                onClick={() => scrollTo('popular')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.55rem',
-                  padding: '0.75rem 1.35rem',
-                  borderRadius: '100px',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  color: '#ffffff',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.84rem',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  minHeight: '44px',
-                  transition: 'all 0.25s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-                }}
-              >
-                <Play size={14} />
+              <button onClick={() => scrollTo('popular')} className="btn-editorial">
+                <Play size={13} />
                 <span>{t.hero.ctaPopular}</span>
               </button>
 
@@ -358,62 +307,39 @@ export default function Hero() {
                 href="https://open.spotify.com/artist/3QZtwiUoyaXbl1JssMPIQ7"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.75rem 1.25rem',
-                  borderRadius: '100px',
-                  background: 'rgba(29, 185, 84, 0.12)',
-                  border: '1px solid rgba(29, 185, 84, 0.35)',
-                  color: '#1ed760',
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.84rem',
-                  fontWeight: 600,
-                  minHeight: '44px',
-                  transition: 'all 0.25s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(29, 185, 84, 0.22)';
-                  e.currentTarget.style.boxShadow = '0 0 20px rgba(29, 185, 84, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(29, 185, 84, 0.12)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
+                className="btn-editorial"
               >
                 <span>{t.hero.ctaSpotify}</span>
-                <ExternalLink size={13} />
+                <ArrowUpRight size={14} />
               </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          {/* Right Column: 3D Квантовый Резонатор (Desktop) */}
-          <div
+          {/* Right Column: Interactive 3D Cosmic Resonator (Desktop) */}
+          <motion.div
             className="desktop-only"
             style={{
               position: 'relative',
               width: '100%',
-              height: 'clamp(520px, 60vh, 700px)',
+              height: 'clamp(500px, 62vh, 720px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transform: `translate3d(${mousePos.x * -18}px, ${mousePos.y * -18}px, 0)`,
-              transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              y: resonatorY,
+              transform: `translate3d(${mousePos.x * -16}px, ${mousePos.y * -16}px, 0)`,
+              transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             <CosmicResonator3D />
-          </div>
+          </motion.div>
         </div>
       </motion.div>
 
-      {/* Модальное окно релиза при клике */}
-      {selectedRelease && (
-        <ReleaseModal
-          release={selectedRelease}
-          onClose={() => setSelectedRelease(null)}
-        />
-      )}
+      {/* Release Modal */}
+      <ReleaseModal
+        release={selectedRelease}
+        onClose={() => setSelectedRelease(null)}
+      />
     </section>
   );
 }

@@ -1,14 +1,15 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Box, Grid3X3, Sparkles } from 'lucide-react';
-import { releases, Release } from '../data/releases';
+import { Search, Box, Grid3X3 } from 'lucide-react';
+import { releases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 import Archive3DScene from '../scenes/Archive3DScene';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
+import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
 
 export default function MusicArchive() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'all' | 'albums' | 'eps' | 'singles' | 'collaborations'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'3d' | 'grid'>('3d');
@@ -50,53 +51,113 @@ export default function MusicArchive() {
       style={{
         position: 'relative',
         minHeight: '100vh',
-        padding: 'clamp(5rem, 10vh, 8rem) 0 clamp(4rem, 8vh, 6rem)',
+        padding: 'clamp(5rem, 11vh, 9rem) 0 clamp(4rem, 8vh, 6rem)',
         zIndex: 3,
       }}
     >
-      <div className="container-wide">
-        {/* Заголовок секции */}
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ textAlign: 'center', marginBottom: '2.5rem' }}
-        >
-          <span className="editorial-badge magenta" style={{ margin: '0 auto 1.25rem' }}>
-            <Sparkles size={11} color="var(--neon-magenta)" />
-            <span>{t.archive.badge}</span>
-          </span>
-          <h2 className="editorial-title">{t.archive.title}</h2>
-          <p className="editorial-subtitle" style={{ margin: '0.75rem auto 0' }}>
-            {t.archive.subtitle}
-          </p>
-        </motion.div>
+      {/* Drifting Kinetic Background Watermark */}
+      <ParallaxWatermark text="DISCOGRAPHY // 2019—2026" top="5%" speed={-100} opacity={0.03} />
 
-        {/* Панель управления: Фильтры, Поиск и Переключатель вида */}
+      <div className="container-wide">
+        {/* Section Header */}
         <div
           style={{
-            maxWidth: '1240px',
-            margin: '0 auto 2.5rem',
-            background: 'var(--bg-glass)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid var(--border-line)',
-            borderRadius: '24px',
-            padding: '0.65rem 0.85rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            gap: '1.5rem',
+            marginBottom: '2.5rem',
+          }}
+        >
+          <div>
+            <div className="editorial-kicker">
+              <span>04 // {t.archive.badge}</span>
+            </div>
+            <h2 className="editorial-title">
+              <RevealText
+                text={t.archive.title}
+                serifWord={lang === 'ru' ? 'Дискография' : 'Discography'}
+              />
+            </h2>
+            <p className="editorial-subtitle">{t.archive.subtitle}</p>
+          </div>
+
+          {/* View Mode Toggle (3D / Grid) */}
+          <div
+            style={{
+              display: 'inline-flex',
+              border: '1px solid var(--border-strong)',
+              background: 'rgba(8, 9, 22, 0.8)',
+              flexShrink: 0,
+            }}
+          >
+            <button
+              onClick={() => setViewMode('3d')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '0.65rem 1.15rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                background: viewMode === '3d' ? '#ffffff' : 'transparent',
+                color: viewMode === '3d' ? '#020206' : 'var(--text-muted)',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease',
+              }}
+            >
+              <Box size={14} />
+              <span>{t.archive.view3D}</span>
+            </button>
+
+            <button
+              onClick={() => setViewMode('grid')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '0.65rem 1.15rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                background: viewMode === 'grid' ? '#ffffff' : 'transparent',
+                color: viewMode === 'grid' ? '#020206' : 'var(--text-muted)',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease',
+              }}
+            >
+              <Grid3X3 size={14} />
+              <span>{t.archive.viewGrid}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Architectural Filter & Search Toolbar */}
+        <div
+          style={{
+            marginBottom: '2.25rem',
+            padding: '0.85rem 0',
+            borderTop: '1px solid var(--border-strong)',
+            borderBottom: '1px solid var(--border-line)',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '0.85rem',
+            gap: '1rem',
           }}
         >
-          {/* Фильтры по категориям (горизонтальный скролл на мобильных) */}
+          {/* Category Filters (Horizontal touch scroll on narrow screens) */}
           <div
             className="scroll-touch-x"
             style={{
               display: 'flex',
-              gap: '0.35rem',
+              gap: '0.4rem',
               maxWidth: '100%',
               paddingBottom: '2px',
             }}
@@ -108,24 +169,22 @@ export default function MusicArchive() {
                   key={f.id}
                   onClick={() => setActiveFilter(f.id)}
                   style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: 'var(--font-ui)',
                     fontSize: '0.74rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    padding: '0.42rem 0.9rem',
-                    borderRadius: '100px',
+                    fontWeight: 700,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    padding: '0.5rem 0.95rem',
                     transition: 'all 0.25s ease',
-                    background: isActive
-                      ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.35))'
-                      : 'transparent',
+                    background: isActive ? 'rgba(217, 70, 239, 0.2)' : 'transparent',
                     border: isActive
-                      ? '1px solid rgba(217, 70, 239, 0.45)'
-                      : '1px solid transparent',
+                      ? '1px solid var(--neon-magenta)'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
                     color: isActive ? '#ffffff' : 'var(--text-muted)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.35rem',
+                    gap: '0.45rem',
                     whiteSpace: 'nowrap',
                     flexShrink: 0,
                   }}
@@ -133,121 +192,62 @@ export default function MusicArchive() {
                   <span>{f.label}</span>
                   <span
                     style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.65rem',
-                      opacity: isActive ? 1 : 0.6,
-                      color: isActive ? 'var(--electric-blue)' : 'inherit',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.64rem',
+                      color: isActive ? 'var(--electric-blue)' : 'var(--text-dim)',
                     }}
                   >
-                    {f.count}
+                    [{f.count}]
                   </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Поиск и переключатель 3D / Список */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', width: 'auto' }}>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-              <Search
-                size={14}
-                style={{
-                  position: 'absolute',
-                  left: '0.85rem',
-                  color: 'var(--text-dim)',
-                  pointerEvents: 'none',
-                }}
-              />
-              <input
-                type="text"
-                placeholder={t.archive.searchPlaceholder}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid var(--border-line)',
-                  borderRadius: '100px',
-                  padding: '0.42rem 0.85rem 0.42rem 2.2rem',
-                  fontFamily: "'Manrope', sans-serif",
-                  fontSize: '0.8rem',
-                  color: '#ffffff',
-                  outline: 'none',
-                  width: 'clamp(120px, 18vw, 200px)',
-                  transition: 'all 0.2s',
-                }}
-                onFocus={(e) => (e.target.style.borderColor = 'rgba(217, 70, 239, 0.5)')}
-                onBlur={(e) => (e.target.style.borderColor = 'var(--border-line)')}
-              />
-            </div>
-
-            {/* Переключатель вида */}
-            <div
+          {/* Search Input */}
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', flexGrow: 1, maxWidth: '280px' }}>
+            <Search
+              size={14}
               style={{
-                display: 'flex',
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid var(--border-line)',
-                borderRadius: '100px',
-                padding: '2px',
-                flexShrink: 0,
+                position: 'absolute',
+                left: '0.85rem',
+                color: 'var(--text-dim)',
+                pointerEvents: 'none',
               }}
-            >
-              <button
-                onClick={() => setViewMode('3d')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '100px',
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  background: viewMode === '3d' ? 'rgba(99, 102, 241, 0.4)' : 'transparent',
-                  color: viewMode === '3d' ? '#ffffff' : 'var(--text-dim)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-              >
-                <Box size={13} />
-                <span>{t.archive.view3D}</span>
-              </button>
-
-              <button
-                onClick={() => setViewMode('grid')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '100px',
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  background: viewMode === 'grid' ? 'rgba(99, 102, 241, 0.4)' : 'transparent',
-                  color: viewMode === 'grid' ? '#ffffff' : 'var(--text-dim)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-              >
-                <Grid3X3 size={13} />
-                <span>{t.archive.viewGrid}</span>
-              </button>
-            </div>
+            />
+            <input
+              type="text"
+              placeholder={t.archive.searchPlaceholder}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid var(--border-strong)',
+                padding: '0.5rem 0.85rem 0.5rem 2.25rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.76rem',
+                color: '#ffffff',
+                outline: 'none',
+                width: '100%',
+                transition: 'border-color 0.2s',
+              }}
+              onFocus={(e) => (e.target.style.borderColor = 'var(--neon-magenta)')}
+              onBlur={(e) => (e.target.style.borderColor = 'var(--border-strong)')}
+            />
           </div>
         </div>
 
-        {/* Интерактивное 3D-пространство или Каталог */}
+        {/* Interactive 3D Chrono-Helix OR Editorial Grid */}
         {viewMode === '3d' ? (
           <div
             style={{
               position: 'relative',
               width: '100%',
               height: 'clamp(480px, 72vh, 840px)',
-              background: 'radial-gradient(ellipse at 50% 50%, rgba(18, 16, 45, 0.45) 0%, rgba(4, 5, 14, 0.9) 100%)',
-              border: '1px solid var(--border-line)',
-              borderRadius: '28px',
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(18, 16, 45, 0.45) 0%, rgba(4, 5, 14, 0.92) 100%)',
+              border: '1px solid var(--border-strong)',
               overflow: 'hidden',
-              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(99, 102, 241, 0.08)',
+              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.85)',
             }}
           >
             <Archive3DScene
@@ -264,89 +264,106 @@ export default function MusicArchive() {
             transition={{ duration: 0.4 }}
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(145px, 20vw, 240px), 1fr))',
-              gap: 'clamp(0.85rem, 2vw, 1.75rem)',
-              maxWidth: '1280px',
-              margin: '0 auto',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(155px, 22vw, 270px), 1fr))',
+              gap: 'clamp(1.25rem, 2.5vw, 2.25rem)',
             }}
           >
-            {filteredReleases.map((release) => (
+            {filteredReleases.map((release, idx) => (
               <div
                 key={release.id}
                 onClick={() => setSelectedRelease(release)}
+                className="editorial-release-card"
                 style={{
-                  background: 'var(--bg-glass)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid var(--border-line)',
-                  borderRadius: '16px',
-                  padding: '1rem',
                   cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-                  e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(217, 70, 239, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'var(--border-line)';
-                  e.currentTarget.style.boxShadow = 'none';
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
-                <ReleaseCover release={release} size="100%" />
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '0.66rem',
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--text-dim)',
+                    paddingBottom: '0.45rem',
+                    marginBottom: '0.6rem',
+                    borderBottom: '1px solid var(--border-line)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.12em',
+                  }}
+                >
+                  <span style={{ color: 'var(--electric-blue)' }}>
+                    {release.type === 'album'
+                      ? t.latest.album
+                      : release.type === 'ep'
+                      ? t.latest.ep
+                      : t.latest.single}
+                  </span>
+                  <span>{formatReleaseDate(release.releaseDate, lang)}</span>
+                </div>
 
-                <div style={{ marginTop: '0.9rem' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      fontSize: '0.68rem',
-                      fontFamily: "'JetBrains Mono', monospace",
-                      color: 'var(--electric-blue)',
-                      marginBottom: '0.25rem',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    <span>
-                      {release.type === 'album'
-                        ? t.latest.album
-                        : release.type === 'ep'
-                        ? t.latest.ep
-                        : t.latest.single}
-                    </span>
-                    <span style={{ color: 'var(--text-dim)' }}>{release.year}</span>
+                <RevealImage direction="up" delay={(idx % 4) * 0.04} parallax={0}>
+                  <ReleaseCover release={release} size="100%" />
+                </RevealImage>
+
+                <div
+                  style={{
+                    marginTop: '0.85rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <h4
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(0.95rem, 1.4vw, 1.2rem)',
+                        fontWeight: 800,
+                        color: '#ffffff',
+                        letterSpacing: '-0.02em',
+                        textTransform: 'uppercase',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        marginBottom: '0.2rem',
+                      }}
+                    >
+                      {release.title}
+                    </h4>
+
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-main)',
+                        fontSize: '0.78rem',
+                        color: 'var(--text-muted)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        margin: 0,
+                      }}
+                    >
+                      {release.artist}
+                      {release.featuring && ` ft. ${release.featuring.join(', ')}`}
+                    </p>
                   </div>
 
-                  <h4
+                  <span
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '1.05rem',
-                      fontWeight: 700,
-                      color: '#ffffff',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      marginBottom: '0.2rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.64rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.12em',
+                      color: 'var(--neon-magenta)',
+                      textTransform: 'uppercase',
+                      flexShrink: 0,
+                      paddingTop: '0.15rem',
                     }}
                   >
-                    {release.title}
-                  </h4>
-
-                  <p
-                    style={{
-                      fontFamily: "'Manrope', sans-serif",
-                      fontSize: '0.8rem',
-                      color: 'var(--text-muted)',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {release.artist}
-                    {release.featuring && ` ft. ${release.featuring.join(', ')}`}
-                  </p>
+                    {t.hero.listen} →
+                  </span>
                 </div>
               </div>
             ))}

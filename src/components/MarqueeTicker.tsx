@@ -1,145 +1,137 @@
 import React from 'react';
 
+interface MarqueeToken {
+  text: string;
+  style: 'solid' | 'accent' | 'outline';
+}
+
 /**
- * ROW 1 Items (Large bold display typography)
+ * ROW 1 — Monumental Kinetic Band (Moves Left)
+ * NARVENT // CINEMATIC SYNTHWAVE // DARK ELECTRONIC // WAVE PHONK // 2021—2026
  */
-const row1Items = [
-  'NARVENT',
-  'SYNTHWAVE',
-  'WAVE PHONK',
-  'DARK ELECTRONIC',
-  'MEMORY REBOOT',
-  'ELECTRONIC MUSIC',
-  'НОЧНОЙ ГОРОД',
-  '夜のドライブ',
+const row1Tokens: MarqueeToken[] = [
+  { text: 'NARVENT', style: 'solid' },
+  { text: 'CINEMATIC SYNTHWAVE', style: 'outline' },
+  { text: 'DARK ELECTRONIC', style: 'accent' },
+  { text: 'WAVE PHONK', style: 'solid' },
+  { text: '2021—2026', style: 'outline' },
+  { text: 'НОЧНОЙ ГОРОД', style: 'accent' },
 ];
 
 /**
- * ROW 2 Items (Bold typography with vivid red accents)
+ * ROW 2 — Monumental Counter-Kinetic Band (Moves Right)
+ * NO FIXED FREQUENCY // MEMORY REBOOT // INSOMNIA // FAINTED // DIGITAL UNIVERSE
  */
-const row2Items = [
-  { text: '2023—2026', highlight: true },
-  { text: 'DIGITAL UNIVERSE', highlight: false },
-  { text: 'NO FIXED FREQUENCY', highlight: true },
-  { text: 'NIGHT DRIVE', highlight: false },
-  { text: 'SOUND ARCHIVE', highlight: true },
-  { text: 'NARVENT', highlight: false },
-  { text: 'ЭЛЕКТРОННАЯ МУЗЫКА', highlight: true },
-  { text: '電子音楽', highlight: false },
+const row2Tokens: MarqueeToken[] = [
+  { text: 'NO FIXED FREQUENCY', style: 'outline' },
+  { text: 'MEMORY REBOOT', style: 'solid' },
+  { text: 'INSOMNIA', style: 'accent' },
+  { text: 'FAINTED', style: 'outline' },
+  { text: 'DIGITAL UNIVERSE', style: 'solid' },
+  { text: 'ЗВУКОВАЯ ВСЕЛЕННАЯ', style: 'outline' },
 ];
 
-/**
- * ROW 3 Items (Technical monospace telemetry)
- */
-const row3Items = [
-  'ARTIST ARCHIVE',
-  'SOUND FREQUENCY // 432 HZ',
-  'ELECTRONIC CULTURE',
-  'NARVENT // OFFICIAL BROADCAST',
-  'MUSIC TRANSMISSION',
-  'ЗВУКОВАЯ ВСЕЛЕННАЯ',
-  'RIAA GOLD CERTIFIED',
-  'BILLBOARD #13 US',
-];
+function getTokenTypography(style: MarqueeToken['style']): React.CSSProperties {
+  if (style === 'accent') {
+    return {
+      color: 'var(--neon-magenta)',
+      textShadow: '0 0 28px rgba(217, 70, 239, 0.35)',
+    };
+  }
+  if (style === 'outline') {
+    return {
+      color: 'transparent',
+      WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.48)',
+    };
+  }
+  return {
+    color: '#ffffff',
+  };
+}
 
 /**
- * MarqueeTicker — 3-Row Futuristic Electronic Music Editorial System
+ * HeroMarquee — Dual-row oversized architectural kinetic typography band
  */
 export function HeroMarquee() {
   return (
     <div className="marquee-container hero-variant" aria-hidden="true">
-      {/* ROW 1: Large Bold White Typography */}
-      <div className="marquee-row" style={{ padding: '0.4rem 0' }}>
+      {/* ROW 1 */}
+      <div className="marquee-row" style={{ padding: '0.35rem 0' }}>
         <div className="marquee-track slide-left-fast">
-          {[...row1Items, ...row1Items].map((item, idx) => (
+          {[...row1Tokens, ...row1Tokens].map((item, idx) => (
             <div
               key={`r1-${idx}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'clamp(1.5rem, 3vw, 2.5rem)',
-                paddingRight: 'clamp(1.5rem, 3vw, 2.5rem)',
+                gap: 'clamp(1.25rem, 2.8vw, 2.5rem)',
+                paddingRight: 'clamp(1.25rem, 2.8vw, 2.5rem)',
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.6rem, 3.8vw, 2.85rem)',
-                fontWeight: 800,
-                color: '#ffffff',
-                letterSpacing: '-0.02em',
+                fontSize: 'clamp(1.65rem, 4.4vw, 3.6rem)',
+                fontWeight: 900,
+                letterSpacing: '-0.03em',
                 textTransform: 'uppercase',
-                lineHeight: 1.1,
+                lineHeight: 1.05,
+                ...getTokenTypography(item.style),
               }}
             >
-              <span>{item}</span>
+              <span>{item.text}</span>
               <span
                 style={{
-                  color: 'var(--border-line)',
-                  fontSize: '0.65em',
-                  opacity: 0.7,
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.45em',
+                  color: 'rgba(255, 255, 255, 0.28)',
+                  WebkitTextStroke: '0px',
+                  fontWeight: 500,
+                  letterSpacing: '0.05em',
                 }}
               >
-                ✦
+                //
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ROW 2: Bold Typography with Alternating Vivid Red Accents */}
+      {/* ROW 2 */}
       <div
         className="marquee-row"
         style={{
           padding: '0.35rem 0',
-          borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.06)',
         }}
       >
         <div className="marquee-track slide-right">
-          {[...row2Items, ...row2Items].map((item, idx) => (
+          {[...row2Tokens, ...row2Tokens].map((item, idx) => (
             <div
               key={`r2-${idx}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'clamp(1.25rem, 2.5vw, 2rem)',
-                paddingRight: 'clamp(1.25rem, 2.5vw, 2rem)',
-                fontFamily: 'var(--font-ui)',
-                fontSize: 'clamp(0.95rem, 2vw, 1.35rem)',
-                fontWeight: 700,
-                color: item.highlight ? 'var(--vivid-red)' : '#f8fafc',
-                textShadow: item.highlight ? '0 0 15px rgba(255, 42, 75, 0.4)' : 'none',
-                letterSpacing: '0.04em',
+                gap: 'clamp(1.25rem, 2.8vw, 2.5rem)',
+                paddingRight: 'clamp(1.25rem, 2.8vw, 2.5rem)',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.5rem, 3.8vw, 3.1rem)',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
                 textTransform: 'uppercase',
-                lineHeight: 1.2,
+                lineHeight: 1.05,
+                ...getTokenTypography(item.style),
               }}
             >
               <span>{item.text}</span>
-              <span style={{ color: 'rgba(255, 255, 255, 0.25)', fontSize: '0.85em' }}>•</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ROW 3: Monospaced Technical Typography */}
-      <div className="marquee-row" style={{ padding: '0.35rem 0' }}>
-        <div className="marquee-track slide-left-slow">
-          {[...row3Items, ...row3Items].map((item, idx) => (
-            <div
-              key={`r3-${idx}`}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'clamp(1rem, 2vw, 1.75rem)',
-                paddingRight: 'clamp(1rem, 2vw, 1.75rem)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: 'clamp(0.68rem, 1.1vw, 0.82rem)',
-                fontWeight: 500,
-                color: 'var(--text-dim)',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                lineHeight: 1.2,
-              }}
-            >
-              <span>{item}</span>
-              <span style={{ color: 'var(--vivid-red)', opacity: 0.7 }}>//</span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.45em',
+                  color: 'rgba(217, 70, 239, 0.45)',
+                  WebkitTextStroke: '0px',
+                  fontWeight: 500,
+                  letterSpacing: '0.05em',
+                }}
+              >
+                //
+              </span>
             </div>
           ))}
         </div>
@@ -149,50 +141,62 @@ export function HeroMarquee() {
 }
 
 /**
- * TransitionMarquee — Streamlined single-row ticker for section transitions
+ * TransitionMarquee — Single oversized kinetic band between Popular Hits & 3D Discography
  */
-export function TransitionMarquee({ text = 'SOUND ARCHIVE // SPOTIFY 3D EXPERIENCE // NO FIXED FREQUENCY // ЭЛЕКТРОННАЯ МУЗЫКА // 432 HZ' }: { text?: string }) {
-  const parts = [
-    'SOUND ARCHIVE',
-    'SPOTIFY 3D EXPERIENCE',
-    'NO FIXED FREQUENCY',
-    'ЭЛЕКТРОННАЯ МУЗЫКА',
-    'NARVENT // 2026',
-    '432 HZ TRANSMISSION',
-    'SPACE DISCOGRAPHY',
+export function TransitionMarquee() {
+  const items: MarqueeToken[] = [
+    { text: 'NO FIXED FREQUENCY', style: 'solid' },
+    { text: 'MEMORY REBOOT', style: 'outline' },
+    { text: 'INSOMNIA', style: 'accent' },
+    { text: 'FAINTED', style: 'solid' },
+    { text: 'DIGITAL UNIVERSE', style: 'outline' },
+    { text: 'ЭЛЕКТРОННАЯ МУЗЫКА', style: 'accent' },
   ];
 
   return (
     <div
       className="marquee-container"
       style={{
-        padding: '0.75rem 0',
-        background: 'rgba(4, 5, 14, 0.9)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+        padding: 'clamp(0.9rem, 2vh, 1.4rem) 0',
+        background: 'rgba(4, 5, 14, 0.65)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
       }}
       aria-hidden="true"
     >
       <div className="marquee-row">
         <div className="marquee-track slide-left">
-          {[...parts, ...parts].map((item, idx) => (
+          {[...items, ...items].map((item, idx) => (
             <div
               key={`tm-${idx}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '1.75rem',
-                paddingRight: '1.75rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.74rem',
-                fontWeight: 600,
-                color: idx % 3 === 0 ? 'var(--vivid-red)' : 'var(--text-muted)',
-                letterSpacing: '0.12em',
+                gap: 'clamp(1.25rem, 2.5vw, 2.25rem)',
+                paddingRight: 'clamp(1.25rem, 2.5vw, 2.25rem)',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.45rem, 3.6vw, 2.85rem)',
+                fontWeight: 900,
+                letterSpacing: '-0.03em',
                 textTransform: 'uppercase',
+                lineHeight: 1.05,
+                ...getTokenTypography(item.style),
               }}
             >
-              <span>{item}</span>
-              <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>✦</span>
+              <span>{item.text}</span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.45em',
+                  color: 'rgba(56, 189, 248, 0.45)',
+                  WebkitTextStroke: '0px',
+                  fontWeight: 500,
+                }}
+              >
+                //
+              </span>
             </div>
           ))}
         </div>
@@ -201,56 +205,6 @@ export function TransitionMarquee({ text = 'SOUND ARCHIVE // SPOTIFY 3D EXPERIEN
   );
 }
 
-/**
- * FooterMarquee — Subtle technical transmission ticker above footer
- */
 export function FooterMarquee() {
-  const items = [
-    'NARVENT // 2016—2026',
-    'ALL RIGHTS RESERVED',
-    'SPOTIFY VERIFIED ARTIST',
-    'WHITE ROSES ERA',
-    'MEMORY REBOOT // RIAA GOLD',
-    'CINEMATIC SYNTHWAVE',
-    'НОЧНОЙ ГОРОД',
-    'ЗВУКОВАЯ ВСЕЛЕННАЯ',
-  ];
-
-  return (
-    <div
-      className="marquee-container"
-      style={{
-        padding: '0.55rem 0',
-        background: '#020206',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-      }}
-      aria-hidden="true"
-    >
-      <div className="marquee-row">
-        <div className="marquee-track slide-right">
-          {[...items, ...items].map((item, idx) => (
-            <div
-              key={`fm-${idx}`}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '1.5rem',
-                paddingRight: '1.5rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.68rem',
-                fontWeight: 500,
-                color: 'var(--text-dim)',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}
-            >
-              <span>{item}</span>
-              <span style={{ color: 'var(--vivid-red)', opacity: 0.6 }}>✦</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  return null;
 }
