@@ -245,7 +245,7 @@ export default function Archive3DScene({
       // Outer Neon Glass Glow Wireframe
       const outlineGeo = new THREE.EdgesGeometry(boxGeometry);
       const isPopular = rel.popular || rel.id === 'memory-reboot';
-      const isLatest = rel.latest || rel.id === 'genesis';
+      const isLatest = index === 0;
       const outlineColor = isPopular ? 0xf59e0b : isLatest ? 0xd946ef : 0x38bdf8;
 
       const outlineMat = new THREE.LineBasicMaterial({
@@ -340,7 +340,7 @@ export default function Archive3DScene({
         }
       },
       focusLatest: () => {
-        const latest = cardMeshes.find((c) => c.release.id === 'genesis' || c.release.latest);
+        const latest = cardMeshes[0];
         if (latest) {
           targetRotation.y = latest.angle;
           targetRotation.x = 0;
@@ -828,7 +828,7 @@ export default function Archive3DScene({
                 }}
               >
                 <img
-                  src={activeRelease.coverImage || `/covers/${activeRelease.id}.jpg`}
+                  src={activeRelease.coverImage}
                   alt={activeRelease.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

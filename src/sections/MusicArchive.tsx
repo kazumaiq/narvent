@@ -309,7 +309,13 @@ export default function MusicArchive() {
                       textTransform: 'uppercase',
                     }}
                   >
-                    <span>{release.type === 'album' ? 'АЛЬБОМ' : release.type === 'ep' ? 'EP' : 'СИНГЛ'}</span>
+                    <span>
+                      {release.type === 'album'
+                        ? t.latest.album
+                        : release.type === 'ep'
+                        ? t.latest.ep
+                        : t.latest.single}
+                    </span>
                     <span style={{ color: 'var(--text-dim)' }}>{release.year}</span>
                   </div>
 

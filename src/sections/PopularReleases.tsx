@@ -65,16 +65,18 @@ export default function PopularReleases() {
               </p>
             </div>
 
-            <div
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.75rem',
-                color: 'var(--text-dim)',
-                letterSpacing: '0.08em',
-              }}
-            >
-              {t.popular.sortBadge}
-            </div>
+            {t.popular.sortBadge ? (
+              <div
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.75rem',
+                  color: 'var(--text-dim)',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                {t.popular.sortBadge}
+              </div>
+            ) : null}
           </div>
         </motion.div>
 

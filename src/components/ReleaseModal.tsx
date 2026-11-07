@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Calendar, Music, Sparkles } from 'lucide-react';
-import { Release } from '../data/releases';
+import { X, ExternalLink, Calendar, Music } from 'lucide-react';
+import { Release, getSpotifyEmbedUrl, formatReleaseDate } from '../data/releases';
 import ReleaseCover from './ReleaseCover';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -152,33 +152,23 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
 
               {/* Детали релиза */}
               <div>
-                {/* Бейдж типа */}
+                {/* Тип релиза */}
                 <div
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.35rem 0.85rem',
-                    borderRadius: '100px',
-                    background: 'rgba(217, 70, 239, 0.15)',
-                    border: '1px solid rgba(217, 70, 239, 0.4)',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: 'var(--font-ui)',
                     fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: 'var(--neon-magenta)',
-                    letterSpacing: '0.08em',
+                    fontWeight: 600,
+                    color: 'var(--text-dim)',
+                    letterSpacing: '0.14em',
                     textTransform: 'uppercase',
-                    marginBottom: '1rem',
+                    marginBottom: '0.75rem',
                   }}
                 >
-                  <Sparkles size={11} />
-                  <span>
-                    {release.type === 'album'
-                      ? t.modal.album
-                      : release.type === 'ep'
-                      ? t.modal.ep
-                      : t.modal.single}
-                  </span>
+                  {release.type === 'album'
+                    ? t.modal.album
+                    : release.type === 'ep'
+                    ? t.modal.ep
+                    : t.modal.single}
                 </div>
 
                 {/* Название релиза */}
@@ -210,7 +200,7 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                 >
                   <Calendar size={13} color="var(--electric-blue)" />
                   <span>
-                    {t.modal.released}: {release.releaseDate} ({release.year})
+                    {t.modal.released}: {formatReleaseDate(release.releaseDate, lang)}
                   </span>
                 </div>
 
@@ -291,45 +281,22 @@ export default function ReleaseModal({ release, onClose }: ReleaseModalProps) {
                   </div>
                 )}
 
-                {/* Интерактивный плеер Spotify API */}
-                <div style={{ marginTop: '1.25rem', marginBottom: '1.25rem' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.45rem',
-                      marginBottom: '0.65rem',
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.68rem',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      color: '#1ed760',
-                      fontWeight: 700,
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: '6px',
-                        height: '6px',
-                        borderRadius: '50%',
-                        background: '#1ed760',
-                        boxShadow: '0 0 8px #1ed760',
-                      }}
+                {/* Плеер Spotify (тип embed соответствует сущности: альбом или трек) */}
+                {getSpotifyEmbedUrl(release) && (
+                  <div style={{ marginTop: '1.25rem', marginBottom: '1.25rem' }}>
+                    <iframe
+                      key={release.id}
+                      style={{ borderRadius: '12px', display: 'block' }}
+                      src={getSpotifyEmbedUrl(release)!}
+                      width="100%"
+                      height="152"
+                      frameBorder="0"
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                      loading="lazy"
+                      title={`Spotify — ${release.title}`}
                     />
-                    <span>SPOTIFY API // {lang === 'ru' ? 'ПЛЕЕР РЕЛИЗА' : 'RELEASE PLAYER'}</span>
                   </div>
-
-                  <iframe
-                    style={{ borderRadius: '12px' }}
-                    src={`https://open.spotify.com/embed/track/${release.spotifyId || '1Q68oodivzKjIDnPTXFy83'}?utm_source=generator&theme=0`}
-                    width="100%"
-                    height="152"
-                    frameBorder="0"
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    title={`Spotify Player - ${release.title}`}
-                  />
-                </div>
+                )}
 
                 {/* Кнопки стриминга: Официальный Spotify */}
                 <div>

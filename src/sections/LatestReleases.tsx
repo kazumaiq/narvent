@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Sparkles, Disc3, ChevronRight, ChevronLeft, Calendar, Music } from 'lucide-react';
-import { getLatestReleases, Release } from '../data/releases';
+import { getLatestReleases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
@@ -167,7 +167,7 @@ export default function LatestReleases() {
                     color: 'var(--text-dim)',
                   }}
                 >
-                  {featured.releaseDate}
+                  {formatReleaseDate(featured.releaseDate, lang)}
                 </span>
               </div>
 
@@ -425,7 +425,7 @@ export default function LatestReleases() {
                       fontWeight: 600,
                     }}
                   >
-                    {release.type === 'album' ? 'АЛЬБОМ' : release.type === 'ep' ? 'EP' : 'СИНГЛ'}
+                    {release.type === 'album' ? t.latest.album : release.type === 'ep' ? t.latest.ep : t.latest.single}
                   </span>
                   <span
                     style={{
@@ -434,7 +434,7 @@ export default function LatestReleases() {
                       color: 'var(--text-dim)',
                     }}
                   >
-                    {release.releaseDate}
+                    {formatReleaseDate(release.releaseDate, lang)}
                   </span>
                 </div>
 
@@ -485,9 +485,9 @@ export default function LatestReleases() {
                     color: 'var(--text-dim)',
                   }}
                 >
-                  <span>{release.trackCount ? `${release.trackCount} треков` : 'Сингл'}</span>
+                  <span>{release.trackCount ? `${release.trackCount} ${t.latest.tracksSuffix}` : (lang === 'ru' ? 'Сингл' : 'Single')}</span>
                   <span style={{ color: 'var(--neon-magenta)', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                    Подробнее <ExternalLink size={10} />
+                    {lang === 'ru' ? 'Слушать' : 'Listen'} <ExternalLink size={10} />
                   </span>
                 </div>
               </motion.div>

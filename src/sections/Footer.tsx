@@ -29,32 +29,47 @@ export default function Footer() {
             marginBottom: '3rem',
           }}
         >
-          {/* Логотип и описание */}
-          <div>
-            <div
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '1.9rem',
-                fontWeight: 800,
-                letterSpacing: '-0.03em',
-                color: '#ffffff',
-                marginBottom: '0.4rem',
-              }}
-            >
-              NARVENT
-            </div>
-            <p
-              style={{
-                fontFamily: "'Manrope', sans-serif",
-                fontSize: '0.88rem',
-                color: 'var(--text-muted)',
-                maxWidth: '460px',
-                lineHeight: 1.6,
-              }}
-            >
-              {t.footer.tagline}
-            </p>
-          </div>
+          {/* Навигационные ссылки вместо дублирующего блока текста */}
+          <nav
+            aria-label="Footer Navigation"
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'clamp(1rem, 2vw, 1.75rem)',
+              alignItems: 'center',
+            }}
+          >
+            {[
+              { label: t.nav.home, href: '#home' },
+              { label: t.nav.latest, href: '#latest' },
+              { label: t.nav.popular, href: '#popular' },
+              { label: t.nav.archive, href: '#archive' },
+              { label: t.nav.about, href: '#about' },
+              { label: t.nav.socials, href: '#socials' },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                style={{
+                  fontFamily: "var(--font-ui, 'Space Grotesk', sans-serif)",
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.06em',
+                  color: 'var(--text-muted)',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-muted)';
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
           {/* Кнопка наверх */}
           <button

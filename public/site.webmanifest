@@ -1,0 +1,17 @@
+{
+  "name": "NARVENT — Official Digital Experience",
+  "short_name": "NARVENT",
+  "description": "Official interactive discography and music experience of Narvent (Farhod Musulmonov).",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020206",
+  "theme_color": "#020206",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

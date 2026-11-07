@@ -143,20 +143,6 @@ export default function Hero() {
               {t.hero.subtitle}
             </h2>
 
-            <p
-              style={{
-                fontFamily: "var(--font-main)",
-                fontSize: 'clamp(0.88rem, 1.3vw, 1.02rem)',
-                color: 'var(--text-muted)',
-                lineHeight: 1.6,
-                maxWidth: '540px',
-                marginBottom: '1.25rem',
-                fontWeight: 400,
-              }}
-            >
-              {t.hero.bio}
-            </p>
-
             {/* Mobile 3D Artifact Centerpiece */}
             <div
               className="mobile-only"
@@ -204,8 +190,10 @@ export default function Hero() {
                   }}
                 >
                   <img
-                    src={latestRelease.coverImage || '/covers/genesis.jpg'}
+                    src={latestRelease.coverImage}
                     alt={latestRelease.title}
+                    width={56}
+                    height={56}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                   <div
@@ -235,18 +223,22 @@ export default function Hero() {
                         textTransform: 'uppercase',
                       }}
                     >
-                      {t.hero.latestReleaseTag}
+                      {t.hero.latestReleaseTag} {latestRelease.year}
                     </span>
-                    <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.7rem' }}>•</span>
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: '0.68rem',
-                        color: 'var(--text-dim)',
-                      }}
-                    >
-                      {latestRelease.trackCount || 17} {t.hero.tracksCount}
-                    </span>
+                    {latestRelease.trackCount && latestRelease.trackCount > 1 && (
+                      <>
+                        <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.7rem' }}>•</span>
+                        <span
+                          style={{
+                            fontFamily: "'JetBrains Mono', monospace",
+                            fontSize: '0.68rem',
+                            color: 'var(--text-dim)',
+                          }}
+                        >
+                          {latestRelease.trackCount} {t.hero.tracksCount}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div
                     style={{
@@ -394,57 +386,6 @@ export default function Hero() {
                 <ExternalLink size={13} />
               </a>
             </div>
-
-            {/* Достижения артиста — Золото RIAA и #13 Billboard */}
-            <div className="hero-stats-grid">
-              {[
-                { label: t.hero.riaaLabel, sub: t.hero.riaaSub, badge: lang === 'ru' ? 'Официально' : 'Official' },
-                { label: t.hero.billboardLabel, sub: t.hero.billboardSub, badge: lang === 'ru' ? 'Чарт США' : 'US Chart' },
-              ].map((stat, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    padding: '0.85rem 1.15rem',
-                    borderRadius: '12px',
-                    background: 'rgba(10, 12, 22, 0.65)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    backdropFilter: 'blur(12px)',
-                    transform: `translate3d(${mousePos.x * (idx + 1) * 3}px, ${mousePos.y * (idx + 1) * 3}px, 0)`,
-                    transition: 'transform 0.3s ease-out, border-color 0.2s',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 'clamp(1rem, 1.6vw, 1.25rem)',
-                      fontWeight: 800,
-                      color: idx === 0 ? '#ffd166' : 'var(--electric-blue)',
-                      letterSpacing: '-0.02em',
-                      lineHeight: 1.1,
-                      marginBottom: '2px',
-                    }}
-                  >
-                    {stat.label}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.68rem',
-                      color: 'var(--text-dim)',
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {stat.sub}
-                  </div>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
           {/* Right Column: 3D Квантовый Резонатор (Desktop) */}
@@ -462,45 +403,6 @@ export default function Hero() {
             }}
           >
             <CosmicResonator3D />
-
-            {/* Плавающие телеметрические маркеры */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '12%',
-                right: '4%',
-                padding: '0.45rem 0.85rem',
-                borderRadius: '8px',
-                background: 'rgba(5, 7, 16, 0.75)',
-                border: '1px solid rgba(56, 189, 248, 0.3)',
-                backdropFilter: 'blur(10px)',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.68rem',
-                color: 'var(--electric-blue)',
-                pointerEvents: 'none',
-              }}
-            >
-              {t.hero.telemetryFreq}
-            </div>
-
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '12%',
-                left: '6%',
-                padding: '0.45rem 0.85rem',
-                borderRadius: '8px',
-                background: 'rgba(5, 7, 16, 0.75)',
-                border: '1px solid rgba(217, 70, 239, 0.3)',
-                backdropFilter: 'blur(10px)',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.68rem',
-                color: 'var(--neon-magenta)',
-                pointerEvents: 'none',
-              }}
-            >
-              {t.hero.telemetryLoc}
-            </div>
           </div>
         </div>
       </motion.div>
