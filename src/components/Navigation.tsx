@@ -82,7 +82,7 @@ export default function Navigation() {
           >
             <span
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontSize: '1.15rem',
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
@@ -91,15 +91,6 @@ export default function Navigation() {
             >
               NARVENT
             </span>
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: 'var(--neon-magenta)',
-                boxShadow: '0 0 10px var(--neon-magenta)',
-              }}
-            />
           </button>
 
           {/* Desktop Links */}

@@ -84,20 +84,30 @@ export default function BackgroundScene() {
     const points = new THREE.Points(geometry, material);
     scene.add(points);
 
-    // Scroll & Mouse parallax tracking
+    // Scroll & Mouse parallax tracking with smooth lerp
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-    let scrollY = 0;
+    let targetScrollY = 0;
+    let currentScrollY = 0;
 
     const onMouseMove = (e: MouseEvent) => {
       mouse.tx = (e.clientX / window.innerWidth - 0.5) * 2;
       mouse.ty = -(e.clientY / window.innerHeight - 0.5) * 2;
     };
 
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        mouse.tx = (touch.clientX / window.innerWidth - 0.5) * 2.5;
+        mouse.ty = -(touch.clientY / window.innerHeight - 0.5) * 2.5;
+      }
+    };
+
     const onScroll = () => {
-      scrollY = window.scrollY;
+      targetScrollY = window.scrollY;
     };
 
     window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
 
     const onResize = () => {
@@ -115,14 +125,16 @@ export default function BackgroundScene() {
       animId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
+      // Liquid smooth interpolation
       mouse.x += (mouse.tx - mouse.x) * 0.05;
       mouse.y += (mouse.ty - mouse.y) * 0.05;
+      currentScrollY += (targetScrollY - currentScrollY) * 0.08;
 
       camera.position.x = mouse.x * 6;
-      camera.position.y = mouse.y * 4 - (scrollY * 0.035);
+      camera.position.y = mouse.y * 4 - (currentScrollY * 0.038);
 
-      points.rotation.y = elapsed * 0.012 + mouse.x * 0.02;
-      points.rotation.x = elapsed * 0.006 + mouse.y * 0.01;
+      points.rotation.y = elapsed * 0.012 + mouse.x * 0.025;
+      points.rotation.x = elapsed * 0.006 + mouse.y * 0.015;
 
       renderer.render(scene, camera);
     };
@@ -132,6 +144,7 @@ export default function BackgroundScene() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       if (container && renderer.domElement) {
