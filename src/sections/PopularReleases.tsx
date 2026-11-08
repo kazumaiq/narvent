@@ -48,16 +48,15 @@ export default function PopularReleases() {
           zIndex: 3,
         }}
       >
-        <span>+ ×</span>
         <span>{t.popular.badge} // TOP 05</span>
       </div>
 
       <div className="container">
-        {/* Martin Garrix Split Header */}
+        {/* Split Header */}
         <div className="mg-section-header">
           <div>
             <div className="editorial-kicker magenta">
-              <span>+× // 03 — {t.popular.badge}</span>
+              <span>03 // {t.popular.badge}</span>
             </div>
             <h2 className="editorial-title">
               <RevealText text={t.popular.title} />

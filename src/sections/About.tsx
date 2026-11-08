@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import { coverManifest } from '../data/coverManifest';
-import { RevealText, RevealImage, ParallaxWatermark, PlusCrossMatrix } from '../components/CinematicReveal';
+import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
 
 export default function About() {
   const { t } = useLanguage();
@@ -45,23 +45,20 @@ export default function About() {
           zIndex: 3,
         }}
       >
-        <span>+ ×</span>
         <span>{t.about.badge} // NARVENT</span>
       </div>
 
       <div className="container">
-        {/* Martin Garrix Split Header */}
+        {/* Split Header */}
         <div className="mg-section-header">
           <div>
             <div className="editorial-kicker magenta">
-              <span>+× // 05 — {t.about.badge}</span>
+              <span>05 // {t.about.badge}</span>
             </div>
             <h2 className="editorial-title">
               <RevealText text={t.about.title} />
             </h2>
           </div>
-
-          <PlusCrossMatrix rows={2} cols={6} />
         </div>
 
         {/* Asymmetric Two-Column Editorial Spread */}

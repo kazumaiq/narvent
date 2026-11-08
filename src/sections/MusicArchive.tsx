@@ -59,11 +59,11 @@ export default function MusicArchive() {
       <ParallaxWatermark text="DISCOGRAPHY // 2019—2026" top="5%" speed={-100} opacity={0.03} />
 
       <div className="container-wide">
-        {/* Martin Garrix Split Header */}
+        {/* Split Header */}
         <div className="mg-section-header">
           <div>
             <div className="editorial-kicker">
-              <span>+× // 04 — {t.archive.badge}</span>
+              <span>04 // {t.archive.badge}</span>
             </div>
             <h2 className="editorial-title">
               <RevealText text={t.archive.title} />

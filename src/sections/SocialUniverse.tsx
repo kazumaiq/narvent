@@ -77,11 +77,11 @@ export default function SocialUniverse() {
       <ParallaxWatermark text="PLATFORMS // STREAMING" top="12%" speed={-85} opacity={0.028} />
 
       <div className="container">
-        {/* Martin Garrix Split Header */}
+        {/* Split Header */}
         <div className="mg-section-header">
           <div>
             <div className="editorial-kicker">
-              <span>+× // 06 — {t.socials.badge}</span>
+              <span>06 // {t.socials.badge}</span>
             </div>
             <h2 className="editorial-title">
               <RevealText text={t.socials.title} />

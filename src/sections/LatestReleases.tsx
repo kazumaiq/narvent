@@ -4,7 +4,7 @@ import { getLatestReleases, Release, formatReleaseDate } from '../data/releases'
 import { useLanguage } from '../context/LanguageContext';
 import ReleaseCover from '../components/ReleaseCover';
 import ReleaseModal from '../components/ReleaseModal';
-import { RevealText, RevealImage, ParallaxWatermark, PlusCrossMatrix } from '../components/CinematicReveal';
+import { RevealText, RevealImage, ParallaxWatermark } from '../components/CinematicReveal';
 
 export default function LatestReleases() {
   const { t, lang } = useLanguage();
@@ -162,16 +162,15 @@ export default function LatestReleases() {
           zIndex: 3,
         }}
       >
-        <span>+ ×</span>
         <span>{t.latest.badge} // 2025—2026</span>
       </div>
 
       <div className="container">
-        {/* Martin Garrix Split Header: Giant Pure Grotesque Title Left + Subtitle Right */}
+        {/* Split Header: Giant Pure Grotesque Title Left + Subtitle Right */}
         <div className="mg-section-header">
           <div>
             <div className="editorial-kicker">
-              <span>+× // 02 — {t.latest.badge}</span>
+              <span>02 // {t.latest.badge}</span>
             </div>
             <h2 className="editorial-title">
               <RevealText text={t.latest.title} />
@@ -183,38 +182,16 @@ export default function LatestReleases() {
           </p>
         </div>
 
-        {/* Martin Garrix 2-Column Asymmetric Staggered Gallery with Central Vertical Crosshair Line */}
+        {/* 2-Column Asymmetric Staggered Gallery with Central Vertical Line */}
         <div className="mg-gallery-wrapper">
           {/* Left Column (01, 03, 05) */}
           <div className="mg-gallery-col-left">
             {leftColReleases.map((rel, i) => renderGalleryCard(rel, i * 2, false))}
           </div>
 
-          {/* Center Vertical Hairline with Crosshairs */}
+          {/* Center Vertical Hairline */}
           <div className="mg-gallery-divider" aria-hidden="true">
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.9rem',
-                fontWeight: 900,
-                color: 'var(--neon-magenta)',
-                marginBottom: '0.75rem',
-              }}
-            >
-              ×
-            </span>
             <div className="mg-gallery-divider-line" />
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.9rem',
-                fontWeight: 900,
-                color: 'var(--electric-blue)',
-                marginTop: '0.75rem',
-              }}
-            >
-              +
-            </span>
           </div>
 
           {/* Right Column Staggered Down (02, 04, 06) */}
@@ -223,7 +200,7 @@ export default function LatestReleases() {
           </div>
         </div>
 
-        {/* Bottom Centered CTA Bar + "+ ×" Matrix */}
+        {/* Bottom Centered CTA Bar */}
         <div
           style={{
             marginTop: 'clamp(3.5rem, 7vh, 5.5rem)',
@@ -239,8 +216,6 @@ export default function LatestReleases() {
               <ArrowRight size={15} />
             </span>
           </a>
-
-          <PlusCrossMatrix rows={1} cols={11} style={{ opacity: 0.7 }} />
         </div>
       </div>
 

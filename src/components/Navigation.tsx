@@ -62,44 +62,29 @@ export default function Navigation() {
             gap: '1rem',
           }}
         >
-          {/* Left Corner: Geometric +× Emblem & NARVENT Brand */}
+          {/* Left Brand Wordmark: Standalone NARVENT Logo */}
           <button
             onClick={() => scrollToSection('#home')}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.75rem',
+              justifyContent: 'center',
               cursor: 'pointer',
               background: 'none',
               border: 'none',
-              padding: 0,
+              padding: '0.2rem 0',
+              lineHeight: 1,
             }}
           >
             <span
-              aria-hidden="true"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '2px',
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.2rem, 2vw, 1.55rem)',
-                fontWeight: 900,
-                color: '#ffffff',
-                lineHeight: 1,
-                letterSpacing: '-0.05em',
-              }}
-            >
-              <span>+</span>
-              <span style={{ color: 'var(--neon-magenta)' }}>×</span>
-            </span>
-
-            <span
               style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(0.95rem, 1.5vw, 1.2rem)',
+                fontSize: 'clamp(0.98rem, 1.5vw, 1.2rem)',
                 fontWeight: 900,
                 letterSpacing: '-0.03em',
+                lineHeight: 1,
                 color: '#ffffff',
+                display: 'block',
               }}
             >
               NARVENT
@@ -351,7 +336,7 @@ export default function Navigation() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  +× // INTERACTIVE EXPERIENCE
+                  04 // INTERACTIVE EXPERIENCE
                 </div>
 
                 <div

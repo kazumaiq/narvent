@@ -3,7 +3,6 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Play, ArrowRight, Disc3, ArrowUpRight } from 'lucide-react';
 import CosmicResonator3D from '../scenes/CosmicResonator3D';
 import ReleaseModal from '../components/ReleaseModal';
-import { PlusCrossMatrix } from '../components/CinematicReveal';
 import { releases, Release, formatReleaseDate } from '../data/releases';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -60,20 +59,7 @@ export default function Hero() {
         zIndex: 2,
       }}
     >
-      {/* Decorative Bottom-Left "+ ×" Geometric Cross-Grid Matrix */}
-      <div
-        className="desktop-only"
-        style={{
-          position: 'absolute',
-          bottom: '5.5rem',
-          left: 'clamp(1rem, 3vw, 2.5rem)',
-          zIndex: 1,
-        }}
-      >
-        <PlusCrossMatrix rows={5} cols={6} />
-      </div>
-
-      {/* Main Centered Martin Garrix Style Art Installation Stage */}
+      {/* Main Centered Art Installation Stage */}
       <div
         className="container-wide"
         style={{
@@ -94,7 +80,8 @@ export default function Hero() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.75rem',
+            justifyContent: 'center',
+            gap: '0.65rem',
             fontFamily: 'var(--font-mono)',
             fontSize: 'clamp(0.6rem, 1vw, 0.72rem)',
             fontWeight: 600,
@@ -102,9 +89,9 @@ export default function Hero() {
             textTransform: 'uppercase',
             color: 'rgba(255, 255, 255, 0.6)',
             marginBottom: '0.45rem',
+            textAlign: 'center',
           }}
         >
-          <span style={{ color: '#ffffff' }}>+×</span>
           <span>{t.hero.badge}</span>
           <span style={{ color: 'var(--text-dim)' }}>// 2026</span>
         </motion.div>
@@ -191,7 +178,6 @@ export default function Hero() {
               <span>
                 0{activeIndex + 1} / 0{showcaseReleases.length} // {formatReleaseDate(activeRelease.releaseDate, lang)}
               </span>
-              <span style={{ color: 'rgba(255, 255, 255, 0.4)' }}>+ ×</span>
             </div>
 
             {/* Center Uncropped 1:1 Cover + Play Trigger + Title */}
@@ -407,7 +393,7 @@ export default function Hero() {
               <CosmicResonator3D accentColor={activeAccent} />
             </div>
 
-            {/* Bottom Corner Crosshairs & Interaction Hint */}
+            {/* Bottom Interaction Hint */}
             <div
               style={{
                 position: 'absolute',
@@ -415,7 +401,7 @@ export default function Hero() {
                 left: 'clamp(1rem, 2.2vw, 1.65rem)',
                 right: 'clamp(1rem, 2.2vw, 1.65rem)',
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
                 alignItems: 'center',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.6rem',
@@ -426,7 +412,6 @@ export default function Hero() {
                 zIndex: 3,
               }}
             >
-              <span>+ ×</span>
               <span>{lang === 'ru' ? 'ИНТЕРАКТИВНАЯ ОРБИТА' : 'DRAG TO ORBIT'}</span>
             </div>
           </div>
