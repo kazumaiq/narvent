@@ -66,7 +66,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (lang === 'ru') {
       const title = 'NARVENT — Официальный сайт артиста | Official Artist Website';
       const desc =
-        'Официальный сайт музыкального артиста Narvent (Фарход Мусулмонов / Farhod Musulmonov) — narventmusic.com. Автор мировых хитов «Memory Reboot» (Золото RIAA, #13 Billboard) и «Fainted». Кинематографичный синтвейв, новые релизы и интерактивная 3D-дискография.';
+        'Официальный сайт музыкального артиста Narvent (Фарход Мусулмонов / Farkhod Musulmonov) — narventmusic.com. Автор мировых хитов «Memory Reboot» (Золото RIAA, #13 Billboard) и «Fainted». Кинематографичный синтвейв, новые релизы и интерактивная 3D-дискография.';
       document.title = title;
       document.querySelector('meta[name="description"]')?.setAttribute('content', desc);
       document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
@@ -74,7 +74,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } else {
       const title = 'NARVENT — Official Artist Website & 3D Discography';
       const desc =
-        'Official website of electronic music artist Narvent (Farhod Musulmonov) — narventmusic.com. Creator of viral global hits "Memory Reboot" (RIAA Gold, #13 Billboard) and "Fainted". Cinematic synthwave and spatial 3D discography.';
+        'Official website of electronic music artist Narvent (Farkhod Musulmonov) — narventmusic.com. Creator of viral global hits "Memory Reboot" (RIAA Gold, #13 Billboard) and "Fainted". Cinematic synthwave and spatial 3D discography.';
       document.title = title;
       document.querySelector('meta[name="description"]')?.setAttribute('content', desc);
       document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);

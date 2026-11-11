@@ -54,7 +54,7 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        paddingTop: 'clamp(5.6rem, 11vh, 7.5rem)',
+        paddingTop: 'clamp(4.75rem, 8.5vh, 6.25rem)',
         paddingBottom: 'clamp(4.5rem, 8vh, 5.5rem)',
         zIndex: 2,
       }}
@@ -96,7 +96,7 @@ export default function Hero() {
           <span style={{ color: 'var(--text-dim)' }}>// 2026</span>
         </motion.div>
 
-        {/* MONUMENTAL OVERLAPPING DISPLAY TITLE */}
+        {/* MONUMENTAL DISPLAY TITLE */}
         <motion.h1
           style={{
             y: titleY,
@@ -104,14 +104,14 @@ export default function Hero() {
             fontSize: 'clamp(2.35rem, 9.4vw, 8.4rem)',
             fontWeight: 900,
             letterSpacing: '-0.045em',
-            lineHeight: 0.86,
+            lineHeight: 0.92,
             color: '#ffffff',
             textTransform: 'uppercase',
             textAlign: 'center',
             margin: 0,
             position: 'relative',
             zIndex: 6,
-            marginBottom: 'clamp(-0.75rem, -1.8vw, -1.75rem)',
+            marginBottom: 'clamp(1.25rem, 2.6vh, 2.1rem)',
             mixBlendMode: 'difference',
             userSelect: 'none',
             pointerEvents: 'none',

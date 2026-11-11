@@ -2,7 +2,7 @@
 
 **Official Website:** [https://www.narventmusic.com/](https://www.narventmusic.com/)
 
-Official interactive digital platform and spatial 3D discography of electronic music producer and cinematic synthwave artist **Narvent** (**Farhod Musulmonov** / **Фарход Мусулмонов**), creator of the RIAA Gold-certified global hit **"Memory Reboot"** (#13 *Billboard Hot Dance/Electronic Songs*) and **"Fainted"**.
+Official interactive digital platform and spatial 3D discography of electronic music producer and cinematic synthwave artist **Narvent** (**Farkhod Musulmonov** / **Фарход Мусулмонов**), creator of the RIAA Gold-certified global hit **"Memory Reboot"** (#13 *Billboard Hot Dance/Electronic Songs*) and **"Fainted"**.
 
 ---
 
@@ -42,4 +42,4 @@ Official interactive digital platform and spatial 3D discography of electronic m
 
 ---
 
-© NARVENT (Farhod Musulmonov / Фарход Мусулмонов) • [https://www.narventmusic.com/](https://www.narventmusic.com/) • Distributed via Believe Digital / Utopia.
+© NARVENT (Farkhod Musulmonov / Фарход Мусулмонов) • [https://www.narventmusic.com/](https://www.narventmusic.com/) • Distributed via Believe Digital / Utopia.

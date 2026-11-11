@@ -318,7 +318,7 @@ export const translations: Record<Language, Translations> = {
     hero: {
       badge: 'OFFICIAL ARTIST PLATFORM',
       subtitle: 'Cinematic synthwave and electronic music.',
-      bio: 'Farhod Musulmonov (better known as Narvent) — creator of viral global hits "Memory Reboot" and "Fainted". The aesthetics of night highways, endless speed, and memories dissolving in neon fog.',
+      bio: 'Farkhod Musulmonov (better known as Narvent) — creator of viral global hits "Memory Reboot" and "Fainted". The aesthetics of night highways, endless speed, and memories dissolving in neon fog.',
       latestReleaseTag: 'NEW RELEASE 2026',
       tracksCount: 'TRACKS',
       listen: 'LISTEN',
@@ -393,10 +393,10 @@ export const translations: Record<Language, Translations> = {
     about: {
       badge: 'ABOUT ARTIST',
       title: 'Architect of Nocturnal Sound',
-      lead: 'Farhod Musulmonov (Narvent) — creator of global hits "Memory Reboot" and "Fainted", architect of cinematic synthwave.',
+      lead: 'Farkhod Musulmonov (Narvent) — creator of global hits "Memory Reboot" and "Fainted", architect of cinematic synthwave.',
       bio: `Cinematic synthwave and atmospheric electronic music: the aesthetics of night highways, endless speed, and memories dissolving in neon fog. Conceptual studio albums "Insomnia" and "Genesis" have connected millions of listeners worldwide.`,
       quote: '"Music of night roads, infinite speed, and memories dissolving in the neon fog."',
-      quoteAuthor: '— NARVENT (FARHOD MUSULMONOV)',
+      quoteAuthor: '— NARVENT (FARKHOD MUSULMONOV)',
       dawTitle: 'DAW & PRODUCTION ROOTS',
       dawValue: 'FL Studio (since ~2016)',
       distroTitle: 'DISTRIBUTION',
@@ -459,7 +459,7 @@ export const translations: Record<Language, Translations> = {
     footer: {
       tagline: 'Atmospheric soundscapes immersing listeners into the aesthetics of night highways, infinite speed, and cinematic synthwave.',
       backToTop: 'BACK TO TOP',
-      copyright: `© ${new Date().getFullYear()} NARVENT (Farhod Musulmonov) • narventmusic.com — Official Artist Website.`,
+      copyright: `© ${new Date().getFullYear()} NARVENT (Farkhod Musulmonov) • narventmusic.com — Official Artist Website.`,
       distribution: 'Distributed via Believe Digital • Utopia Universe',
     },
     modal: {
