@@ -72,30 +72,6 @@ export default function Hero() {
           width: '100%',
         }}
       >
-        {/* Top Kicker Above Giant Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.65rem',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'clamp(0.6rem, 1vw, 0.72rem)',
-            fontWeight: 600,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: 'rgba(255, 255, 255, 0.6)',
-            marginBottom: '0.45rem',
-            textAlign: 'center',
-          }}
-        >
-          <span>{t.hero.badge}</span>
-          <span style={{ color: 'var(--text-dim)' }}>// 2026</span>
-        </motion.div>
-
         {/* MONUMENTAL DISPLAY TITLE */}
         <motion.h1
           style={{
